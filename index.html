@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hola Mundo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Launcher</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1 class="demotext">Hola Mundo</h1>
-    <div class="glow-text">Edit this text</div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Recursos</a></li>
+                <li><a href="#">Comunidad</a></li>
+                <li><a href="#">Cambios</a></li>
+                <li><a href="#">Dedciclopedia</a></li>
+                <li><a href="#">Tickets</a></li>
+                <li><a href="#">Información</a></li>
+                <li><a href="#" class="credits-link">Creditos</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="background">
+            <img src="background.jpg" alt="Minecraft Background">
+            <div class="overlay">
+                <img src="minecraft_logo.png" alt="Minecraft Logo" class="logo">
+                <button class="play-button">JUGAR</button>
+                <p class="game-pass">Incluido con <span>PC GAME PASS</span></p>
+            </div>
+        </div>
+
+        <!-- Overlay oscuro -->
+        <div class="overlay-dark"></div>
+
+        <!-- Contenedor del pop-up de créditos -->
+        <div class="credits-popup">
+            <h1>Créditos</h1>
+            <p>Codigo del Launcher: <a href="https://discord.gg/XgTcsTgCwD" class="nameAng">AngeldFire2</a></p>
+            <p>Diseño y Programación del server: <a href="https://www.youtube.com/@Rex84" class="nameRex">Rex</a></p>
+            <p>Dueño del servidor y idea original: <a href="https://discord.gg/XgTcsTgCwD" class="nameAle">Alex</a></p>
+            <p>ayuda del servidor: <a href="https://discord.gg/XgTcsTgCwD" class="nameSnt">Santi</a></p>
+            <h1>Estudios en colaboracion:</h1>
+            <p>-<a href="https://discord.gg/XgTcsTgCwD" class="nameNgs">Niggames</a></p>
+            <p>muchas gracias a todos por jugar</p>
+            <a href="#" class="close-btn">Cerrar</a>
+        </div>
+        
+    </main>
+    <script src="script.js"></script>
 </body>
 </html>
