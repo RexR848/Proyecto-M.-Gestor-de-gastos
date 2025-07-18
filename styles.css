@@ -88,14 +88,14 @@ body {
 }
 
 #ihaoy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  width: 100%;
-  position: static; /* Eliminas el "fixed" que lo pone flotando arriba */
-  margin: 0 auto;
-  padding: 20px 0;
-  display: block;
+  margin: 0;
+  padding: 0;
+  height: 62px;
 }
-
 
 #ixwaa {
   font-weight: 400;
