@@ -19,9 +19,22 @@
 
   <main class="card">
     <h2 class="title">Crear cuenta</h2>
+    <form action="/registro" method="POST" class="form-registro">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
+
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required />
+
+      <button type="submit" class="btn">Siguiente</button>
+    </form>
+
     <p class="paragraph">
       ¿Ya estás registrado?<br />
-      <a href="#">👉 Iniciar sesión</a>
+      <a href="/login">👉 Iniciar sesión</a>
     </p>
   </main>
 </body>

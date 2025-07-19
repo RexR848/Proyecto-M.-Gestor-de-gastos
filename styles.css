@@ -8,7 +8,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
 .header {
   background-color: #0092ff;
   padding: 20px;
@@ -30,7 +29,6 @@ body {
   margin: 0;
   text-align: center;
 }
-
 
 .divider {
   height: 3px;
@@ -72,6 +70,51 @@ body {
   text-decoration: underline;
 }
 
+/* Estilos para el formulario */
+.form-registro {
+  text-align: left;
+  margin-top: 30px;
+}
+
+.form-registro label {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0 5px;
+  color: #333;
+}
+
+.form-registro input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.form-registro input:focus {
+  border-color: #0092ff;
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  background-color: #0092ff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 25px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #007acc;
+}
+
 @media (max-width: 600px) {
   .header {
     padding: 15px;
@@ -92,5 +135,13 @@ body {
 
   .logo {
     max-width: 60px;
+  }
+
+  .form-registro input {
+    font-size: 14px;
+  }
+
+  .btn {
+    font-size: 15px;
   }
 }
