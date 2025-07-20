@@ -24,8 +24,8 @@ client.connect().then(() => {
 
 //------------------Login------------------//
 app.post('/login', async (req, res) => {
-  const { usuario, contraseña } = req.body;
-  const user = await db.collection('usuarios').findOne({ usuario, contraseña });
+  const { email, password } = req.body;
+  const user = await db.collection('usuarios').findOne({ email, password });
 
   if (user) {
     res.json({ ok: true, mensaje: "Login exitoso" });

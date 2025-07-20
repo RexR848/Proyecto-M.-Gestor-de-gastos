@@ -3,24 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gestor de Gastos - Registro</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="robots" content="index,follow" />
+  <title>Iniciar sesión – Gestor de Gastos</title>
+  <link rel="stylesheet" href="/public/ISStyles.css" />
 </head>
 <body>
   <header class="header">
-    <img src="resources\Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+    <img src="https://media-public.canva.com/dOz7Q/MAF9UkdOz7Q/1/t.png" alt="Logo" class="logo" />
     <h1 class="site-title">Gestor de gastos</h1>
   </header>
 
   <div class="divider"></div>
 
   <main class="card">
-    <h2 class="title">Crear cuenta</h2>
-    <form id="formRegistro" class="form-registro-horizontal">
-      <div class="form-field">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
-      </div>
+    <h2 class="title">Iniciar sesión</h2>
+    <form action="/login" method="POST" class="form-registro-horizontal">
       <div class="form-field">
         <label for="email">Correo electrónico:</label>
         <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
@@ -30,16 +27,14 @@
         <input type="password" id="password" name="password" placeholder="••••••••" required />
       </div>
       <div class="form-field">
-        <button type="submit" class="btn">Crear cuenta</button>
+        <button type="submit" class="btn">Siguiente</button>
       </div>
     </form>
 
     <p class="paragraph">
-      ¿Ya estás registrado?<br />
-      <a href="/public/IniciarSesion.html">👉 Iniciar sesión.</a>
+      ¿Olvidaste tu contraseña?<br />
+      <a href="/recuperar">👉 Recuperar acceso</a>
     </p>
   </main>
-
-  <script src="registro.js"></script>
 </body>
 </html>
