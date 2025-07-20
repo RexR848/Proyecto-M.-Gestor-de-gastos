@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index,follow" />
-  <title>Gestor de Gastos</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <title>Gestor de Gastos - Registro</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
   <header class="header">
     <img src="https://media-public.canva.com/dOz7Q/MAF9UkdOz7Q/1/t.png" alt="Logo" class="logo" />
@@ -19,31 +16,30 @@
 
   <main class="card">
     <h2 class="title">Crear cuenta</h2>
-    <form action="/registro" method="POST" class="form-registro-horizontal">
-  <div class="form-field">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
-  </div>
-  <div class="form-field">
-    <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
-  </div>
-  <div class="form-field">
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" placeholder="••••••••" required />
-  </div>
-  <div> 
-  </div>
-  <div class="form-field">
-    <button type="submit" class="btn">Siguiente</button>
-  </div>
-</form>
+    <form id="formRegistro" class="form-registro-horizontal">
+      <div class="form-field">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+      </div>
+      <div class="form-field">
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
+      </div>
+      <div class="form-field">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required />
+      </div>
+      <div class="form-field">
+        <button type="submit" class="btn">Crear cuenta</button>
+      </div>
+    </form>
 
     <p class="paragraph">
       ¿Ya estás registrado?<br />
-      <a href="/login">👉 Iniciar sesión</a>
+      <a href="/login.html">👉 Iniciar sesión</a>
     </p>
   </main>
-</body>
 
+  <script src="registro.js"></script>
+</body>
 </html>

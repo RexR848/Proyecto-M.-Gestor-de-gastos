@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("✅ Cuenta creada correctamente: " + data.mensaje);
+        alert("🎉🎉🎉🎉🎉Cuenta creada correctamente: " + data.mensaje);
         window.location.href = "/login.html";
       } else {
-        alert("❌ Error: " + (data.error || data.mensaje));
+        alert("✖️✖️✖️Error: " + (data.error || data.mensaje));
       }
     } catch (error) {
-      alert("❌ Error de red: " + error.message);
+      alert("Error de red: " + error.message);
     }
   });
 });
