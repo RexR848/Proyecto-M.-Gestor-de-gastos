@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("🎉🎉🎉🎉🎉Cuenta creada correctamente: " + data.mensaje);
+        alert("Cuenta creada correctamente: " + data.mensaje);
         window.location.href = "/IniciarSesion.html";
       } else {
         alert("✖️✖️✖️Error: " + (data.error || data.mensaje));
