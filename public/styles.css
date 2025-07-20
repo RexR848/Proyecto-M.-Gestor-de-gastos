@@ -19,8 +19,12 @@ body {
 }
 
 .logo {
-  max-width: 80px;
-  margin-bottom: 10px;
+  width: 100px; 
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover; 
+  border: 2px solid #278259;  
+  display: block;
 }
 
 .site-title {
