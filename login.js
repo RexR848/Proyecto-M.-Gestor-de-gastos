@@ -13,14 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }) // <-- CORREGIDO AQUÍ
       });
 
       const datos = await respuesta.json();
 
       if (datos.ok) {
         alert('✅ Inicio de sesión exitoso');
-        //mandar al dashboard que ni tenemos, ponerlo aqui en esta linea
+        // Redireccionar al dashboard
+        // window.location.href = "/dashboard.html";
       } else {
         alert('❌ ' + datos.mensaje);
       }
