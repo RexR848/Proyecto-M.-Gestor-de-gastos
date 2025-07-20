@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.ok) {
         alert("🎉🎉🎉🎉🎉Cuenta creada correctamente: " + data.mensaje);
-        window.location.href = "/IniciarSecion.html";
+        window.location.href = "/IniciarSesion.html";
       } else {
         alert("✖️✖️✖️Error: " + (data.error || data.mensaje));
       }
