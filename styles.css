@@ -90,9 +90,9 @@ body {
 
 .form-registro input {
   width: 100%;
-  padding: 12px;
+  padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 50px; /* Ovalado */
   font-size: 15px;
   background-color: #f9f9f9;
   transition: border-color 0.3s;
@@ -112,7 +112,7 @@ body {
   padding: 12px;
   font-size: 16px;
   margin-top: 25px;
-  border-radius: 10px;
+  border-radius: 50px; /* Ovalado */
   cursor: pointer;
 }
 
@@ -150,6 +150,8 @@ body {
     font-size: 15px;
   }
 }
+
+/* Acomoda los campos en fila horizontal */
 .form-registro-horizontal {
   display: flex;
   flex-wrap: wrap;
@@ -158,6 +160,7 @@ body {
   justify-content: center;
 }
 
+/* Cada campo con su etiqueta */
 .form-field {
   display: flex;
   flex-direction: column;
