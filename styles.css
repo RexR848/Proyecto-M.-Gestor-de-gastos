@@ -55,7 +55,7 @@ body {
 }
 
 .title {
-  color:#004a99;
+  color: 	#004a99;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -76,29 +76,31 @@ body {
 }
 
 /* Estilos para el formulario */
-.form-registro {
-  text-align: left;
-  margin-top: 30px;
+.form-registro-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.form-registro label {
-  display: block;
-  font-weight: bold;
-  margin: 15px 0 5px;
-  color: #333;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  flex-grow: 1;
 }
 
-.form-registro input {
-  width: 100%;
+.form-field input {
   padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 50px; /* Ovalado */
+  border-radius: 25px; 
   font-size: 15px;
   background-color: #f9f9f9;
   transition: border-color 0.3s;
 }
 
-.form-registro input:focus {
+.form-field input:focus {
   border-color: #0092ff;
   outline: none;
 }
@@ -112,7 +114,7 @@ body {
   padding: 12px;
   font-size: 16px;
   margin-top: 25px;
-  border-radius: 50px; /* Ovalado */
+  border-radius: 25px;
   cursor: pointer;
 }
 
@@ -142,28 +144,11 @@ body {
     max-width: 60px;
   }
 
-  .form-registro input {
+  .form-field input {
     font-size: 14px;
   }
 
   .btn {
     font-size: 15px;
   }
-}
-
-/* Acomoda los campos en fila horizontal */
-.form-registro-horizontal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-/* Cada campo con su etiqueta */
-.form-field {
-  display: flex;
-  flex-direction: column;
-  min-width: 150px;
-  flex-grow: 1;
 }
