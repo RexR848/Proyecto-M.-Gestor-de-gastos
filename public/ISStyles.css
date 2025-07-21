@@ -74,44 +74,38 @@ body {
   text-decoration: underline;
 }
 
-/* Estilos para el formulario */
-.form-registro {
-  text-align: left;
-  margin-top: 30px;
-}
-
-/* Cambié esta clase para que sea vertical, si usas esta clase en el form */
-.form-registro-horizontal {
-  display: block; /* Quitar flex para vertical */
-  gap: 15px;
+/* Formulario vertical con espacio entre campos */
+.form-registro-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch; /* que los inputs ocupen todo el ancho */
 }
 
 .form-field {
   display: flex;
-  flex-direction: column; 
-  min-width: 150px;
-  flex-grow: 1;
-  margin-bottom: 16px; 
+  flex-direction: column;
+  width: 100%;
 }
 
-.form-registro label {
-  display: block;
+.form-field label {
   font-weight: bold;
-  margin: 15px 0 5px;
+  margin-bottom: 6px;
   color: #333;
 }
 
-.form-registro input {
-  width: 100%;
+.form-field input {
   padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 50px; /* Ovalado */
+  border-radius: 25px; /* ovalado */
   font-size: 15px;
   background-color: #f9f9f9;
   transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.form-registro input:focus {
+.form-field input:focus {
   border-color: #0092ff;
   outline: none;
 }
@@ -124,9 +118,9 @@ body {
   border: none;
   padding: 12px;
   font-size: 16px;
-  margin-top: 25px;
-  border-radius: 50px; /* Ovalado */
+  border-radius: 25px; /* ovalado */
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .btn:hover {
@@ -155,7 +149,7 @@ body {
     max-width: 60px;
   }
 
-  .form-registro input {
+  .form-field input {
     font-size: 14px;
   }
 
