@@ -55,7 +55,7 @@ body {
 }
 
 .title {
-  color: 	#004a99;
+  color: #004a99;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -78,26 +78,27 @@ body {
 /* Estilos para el formulario */
 .form-registro-horizontal {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* Vertical, nada de filas */
   gap: 15px;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
   min-width: 150px;
-  flex-grow: 1;
+  width: 100%; /* Ocupa todo el ancho disponible */
 }
 
 .form-field input {
   padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 25px; 
+  border-radius: 25px; /* Ovalado */
   font-size: 15px;
   background-color: #f9f9f9;
   transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-field input:focus {
@@ -114,7 +115,7 @@ body {
   padding: 12px;
   font-size: 16px;
   margin-top: 25px;
-  border-radius: 25px;
+  border-radius: 25px; /* Ovalado */
   cursor: pointer;
 }
 

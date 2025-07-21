@@ -54,7 +54,7 @@ body {
 }
 
 .title {
-  color: 	#004a99;
+  color: #004a99;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -80,6 +80,20 @@ body {
   margin-top: 30px;
 }
 
+/* Cambié esta clase para que sea vertical, si usas esta clase en el form */
+.form-registro-horizontal {
+  display: block; /* Quitar flex para vertical */
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column; 
+  min-width: 150px;
+  flex-grow: 1;
+  margin-bottom: 16px; 
+}
+
 .form-registro label {
   display: block;
   font-weight: bold;
@@ -89,9 +103,9 @@ body {
 
 .form-registro input {
   width: 100%;
-  padding: 12px;
+  padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 50px; /* Ovalado */
   font-size: 15px;
   background-color: #f9f9f9;
   transition: border-color 0.3s;
@@ -111,7 +125,7 @@ body {
   padding: 12px;
   font-size: 16px;
   margin-top: 25px;
-  border-radius: 10px;
+  border-radius: 50px; /* Ovalado */
   cursor: pointer;
 }
 
@@ -148,19 +162,4 @@ body {
   .btn {
     font-size: 15px;
   }
-}
-.form-registro-horizontal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.form-field {
-  display: flex;
-  flex-direction: row;
-  min-width: 150px;
-  flex-grow: 1;
-  margin-bottom: 16px; 
 }
