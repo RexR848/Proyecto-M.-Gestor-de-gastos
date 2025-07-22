@@ -19,13 +19,14 @@ body {
 }
 
 .logo {
-  width: 100px; 
-  height: 100px;
+  width: 100px;
+  aspect-ratio: 1 / 1; 
   border-radius: 50%;
-  object-fit: cover; 
-  border: 2px solid #278259;  
+  object-fit: cover;
+  border: 2px solid #278259;
   display: block;
 }
+
 
 .site-title {
   font-size: 26px;
@@ -146,7 +147,8 @@ body {
   }
 
   .logo {
-    max-width: 60px;
+    width: 60px;
+    aspect-ratio: 1 / 1;
   }
 
   .form-field input {
