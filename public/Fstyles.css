@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #e7e7e7;
+  font-family: Arial, sans-serif;
+}
+
+
+.header {
+  background-color: #0092ff;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #278259;
+}
+
+.site-title {
+  font-size: 26px;
+  color: #fff;
+  margin: 10px 0 0 0;
+}
+
+
+.divider {
+  height: 3px;
+  width: 100%;
+  margin: 10px 0;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+.card {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.title {
+  font-size: 24px;
+  color: #004a99;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+.form-registro-horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-field input {
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  background-color: #f9f9f9;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.form-field input:focus {
+  border-color: #0092ff;
+  outline: none;
+}
+
+
+.btn {
+  background-color: #0092ff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #007acc;
+}
+
+
+.gasto-box {
+  background-color: #222;
+  color: #fff;
+  border-radius: 15px;
+  padding: 25px 20px;
+  margin: 25px 0;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.gasto-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+@media (max-width: 600px) {
+  .header {
+    padding: 15px;
+  }
+
+  .site-title {
+    font-size: 22px;
+  }
+
+  .logo {
+    width: 60px;
+  }
+
+  .card {
+    margin: 20px 10px;
+    padding: 30px 15px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 15px;
+  }
+
+  .gasto-header {
+    font-size: 16px;
+  }
+}

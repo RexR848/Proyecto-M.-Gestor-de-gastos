@@ -16,6 +16,7 @@
 
   <main class="card">
     <h2 class="title">Tu información financiera</h2>
+
     <form id="formFinanzas" class="form-registro-horizontal">
       
       <div class="form-field">
@@ -23,29 +24,17 @@
         <input type="number" id="ingreso" name="ingreso" placeholder="$0.00" required />
       </div>
 
-      <h3>📌 Gastos fijos prioritarios</h3>
-      <div class="form-field">
-        <label for="renta">🏠 Renta:</label>
-        <input type="number" id="renta" name="renta" placeholder="$0.00" />
-      </div>
-      <div class="form-field">
-        <label for="luz">💡 Luz:</label>
-        <input type="number" id="luz" name="luz" placeholder="$0.00" />
-      </div>
-      <div class="form-field">
-        <label for="agua">🚿 Agua:</label>
-        <input type="number" id="agua" name="agua" placeholder="$0.00" />
-      </div>
+     
+      <section class="gasto-box">
+        <div class="gasto-header">📌 Gastos fijos prioritarios</div>
+        <button type="button" class="btn">Modificar</button>
+      </section>
 
-      <h3>🎧 Gastos opcionales</h3>
-      <div class="form-field">
-        <label for="netflix">📺 Netflix:</label>
-        <input type="number" id="netflix" name="netflix" placeholder="$0.00" />
-      </div>
-      <div class="form-field">
-        <label for="spotify">🎵 Spotify:</label>
-        <input type="number" id="spotify" name="spotify" placeholder="$0.00" />
-      </div>
+      
+      <section class="gasto-box">
+        <div class="gasto-header">🎧 Gastos opcionales</div>
+        <button type="button" class="btn">Modificar</button>
+      </section>
 
       <div class="form-field full-width">
         <button type="submit" class="btn">Guardar información</button>
