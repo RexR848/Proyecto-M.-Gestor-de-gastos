@@ -25,14 +25,32 @@ client.connect().then(() => {
 //------------------Login------------------//
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  const user = await db.collection('usuarios').findOne({ email, password });
 
-  if (user) {
-    res.json({ ok: true, mensaje: "Login exitoso" });
-  } else {
-    res.status(401).json({ ok: false, mensaje: "Usuario o contraseña incorrectos" });
+  console.log('🟡 Intentando login con:', { email, password });
+
+  try {
+    const posibles = await db.collection('usuarios').find({ email }).toArray();
+    console.log('🔍 Usuarios encontrados con ese email:', posibles);
+
+    const user = await db.collection('usuarios').findOne({ email, password });
+    console.log('✅ Resultado final del findOne:', user);
+
+    if (user) {
+      res.json({ ok: true, mensaje: "Login exitoso" });
+    } else {
+      res.status(401).json({
+        ok: false,
+        mensaje: "Usuario o contraseña incorrectos",
+        enviado: { email, password },
+        encontrados: posibles
+      });
+    }
+  } catch (err) {
+    console.error('❌ Error durante el login:', err);
+    res.status(500).json({ ok: false, mensaje: "Error interno del servidor" });
   }
 });
+
 
 //------------------Registro------------------//
 app.post('/registro', async (req, res) => {
