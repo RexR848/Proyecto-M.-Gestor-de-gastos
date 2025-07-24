@@ -5,10 +5,11 @@ const bodyParser = require('body-parser');
 const path = require('path');
 // coso para los cookies ohellyea, npm i cookie-parser
 const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cookieParser());
 
 const uri = 'mongodb+srv://alpeur23:f8HJfn67PgqRdlTP@gestordegastos.bqfqqza.mongodb.net/?retryWrites=true&w=majority&appName=GestordeGastos';
 const client = new MongoClient(uri);
