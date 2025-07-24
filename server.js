@@ -24,7 +24,7 @@ client.connect().then(() => {
 
 //------------------Login------------------//
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, contraseña } = req.body;
 
   console.log('🟡 Intentando login con:', { email, password });
 
@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
     const posibles = await db.collection('usuarios').find({ email }).toArray();
     console.log('🔍 Usuarios encontrados con ese email:', posibles);
 
-    const user = await db.collection('usuarios').findOne({ email, password });
+    const user = await db.collection('usuarios').findOne({ email, contraseña });
     console.log('✅ Resultado final del findOne:', user);
 
     if (user) {
