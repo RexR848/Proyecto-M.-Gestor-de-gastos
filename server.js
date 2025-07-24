@@ -128,3 +128,20 @@ app.get('/datos', async (req, res) => {
   const datos = await db.collection('datos').findOne({ email });
   res.json({ ok: true, datos: datos || {} });
 });
+
+app.post('/guardar-datos', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) return res.status(401).json({ ok: false, mensaje: "No autenticado" });
+
+  const { ingreso, gastosFijos, gastosOpcionales } = req.body;
+
+  await db.collection('datos').updateOne(
+    { email },
+    {
+      $set: { ingreso, gastosFijos, gastosOpcionales }
+    },
+    { upsert: true }
+  );
+
+  res.json({ ok: true, mensaje: 'Datos guardados con éxito' });
+});
