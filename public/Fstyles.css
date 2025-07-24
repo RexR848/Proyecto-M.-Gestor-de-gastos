@@ -1,3 +1,4 @@
+/* Estilos base */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -37,7 +38,7 @@ body {
 
 /* Contenedor principal */
 .card {
-  max-width: 600px;
+  max-width: 700px;
   margin: 40px auto;
   padding: 30px 20px;
   background-color: #1e1e1e;
@@ -95,7 +96,7 @@ input:focus {
   outline: none;
 }
 
-/* Botón */
+/* Botón general */
 .btn {
   padding: 12px 24px;
   font-size: 16px;
@@ -112,11 +113,11 @@ input:focus {
   background-color: #3779cc;
 }
 
-/* Secciones de gastos */
+/* Sección de gastos */
 .gasto-box {
   width: 100%;
-  max-width: 300px;
-  margin: 20px 0;
+  max-width: 500px;
+  margin: 30px 0;
   padding: 20px;
   background-color: #2b2b2b;
   border-radius: 12px;
@@ -125,8 +126,60 @@ input:focus {
 
 .gasto-header {
   font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 15px;
   color: #ffffff;
+}
+
+/* Contenedor de tarjetas */
+#gastos-fijos-container,
+#gastos-opcionales-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Tarjeta de gasto individual */
+.gasto-tarjeta {
+  background-color: #1f1f1f;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gasto-tarjeta input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #2a2a2a;
+  color: #fff;
+  min-width: 120px;
+  text-align: center;
+}
+
+.gasto-tarjeta input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+.btn-eliminar {
+  background-color: #ff4d4d;
+  padding: 10px 14px;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+  background-color: #cc3939;
 }
 
 /* Botón final centrado */
