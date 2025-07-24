@@ -5,12 +5,13 @@
 
 body {
   margin: 0;
-  background-color: #e7e7e7;
+  background-color: #121212;
+  color: #f0f0f0;
   font-family: Arial, sans-serif;
 }
 
 .header {
-  background-color: #0092ff;
+  background-color: #1f1f1f;
   padding: 20px;
   text-align: center;
   position: relative;
@@ -28,10 +29,9 @@ body {
   display: block;
 }
 
-
 .site-title {
   font-size: 26px;
-  color: #fff;
+  color: #ffffff;
   margin: 0;
   text-align: center;
 }
@@ -40,23 +40,23 @@ body {
   height: 3px;
   width: 100%;
   margin: 10px 0;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card {
   max-width: 600px;
   margin: 40px auto;
   padding: 40px 20px;
-  background-color: #fff;
+  background-color: #1e1e1e;
   border-radius: 15px;
-  color: #333;
+  color: #f0f0f0;
   font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
 
 .title {
-  color: #004a99;
+  color: #62a9ff;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -67,7 +67,7 @@ body {
 }
 
 .paragraph a {
-  color: #0092ff;
+  color: #4aa3ff;
   text-decoration: none;
   font-weight: bold;
 }
@@ -93,23 +93,24 @@ body {
 
 .form-field input {
   padding: 12px 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #555;
   border-radius: 25px; /* Ovalado */
   font-size: 15px;
-  background-color: #f9f9f9;
+  background-color: #2b2b2b;
+  color: #ffffff;
   transition: border-color 0.3s;
   width: 100%;
   box-sizing: border-box;
 }
 
 .form-field input:focus {
-  border-color: #0092ff;
+  border-color: #4aa3ff;
   outline: none;
 }
 
 .btn {
   width: 100%;
-  background-color: #0092ff;
+  background-color: #4aa3ff;
   color: white;
   font-weight: bold;
   border: none;
@@ -121,7 +122,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #007acc;
+  background-color: #3779cc;
 }
 
 @media (max-width: 600px) {
@@ -146,7 +147,6 @@ body {
     width: 60px;
     aspect-ratio: 1 / 1;
   }
-
 
   .form-field input {
     font-size: 14px;

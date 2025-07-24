@@ -1,161 +1,111 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
-  background-color: #e7e7e7;
   font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
 .header {
-  background-color: #0092ff;
+  background-color: #1f1f1f;
   padding: 20px;
   text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .logo {
   width: 100px;
-  aspect-ratio: 1 / 1; 
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #278259;
   display: block;
+  margin: 0 auto 10px;
 }
-
 
 .site-title {
   font-size: 26px;
-  color: #fff;
   margin: 0;
-  text-align: center;
+  color: #ffffff;
 }
 
 .divider {
   height: 3px;
   width: 100%;
   margin: 10px 0;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card {
-  max-width: 600px;
+  max-width: 500px;
   margin: 40px auto;
-  padding: 40px 20px;
-  background-color: #fff;
+  padding: 30px 20px;
+  background-color: #1e1e1e;
   border-radius: 15px;
-  color: #333;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .title {
-  color: #004a99;
+  color: #62a9ff;
   font-size: 24px;
-  font-weight: bold;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-registro-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+  color: #ccc;
+}
+
+.form-field input {
+  padding: 12px 15px;
+  border: 1px solid #555;
+  border-radius: 20px;
+  font-size: 16px;
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+
+.form-field input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+.btn {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #4aa3ff;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #3779cc;
 }
 
 .paragraph {
-  line-height: 1.5;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
 }
 
 .paragraph a {
-  color: #0092ff;
+  color: #4aa3ff;
   text-decoration: none;
   font-weight: bold;
 }
 
 .paragraph a:hover {
   text-decoration: underline;
-}
-
-/* Formulario vertical con espacio entre campos */
-.form-registro-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: stretch; /* que los inputs ocupen todo el ancho */
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.form-field label {
-  font-weight: bold;
-  margin-bottom: 6px;
-  color: #333;
-}
-
-.form-field input {
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 25px; /* ovalado */
-  font-size: 15px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.form-field input:focus {
-  border-color: #0092ff;
-  outline: none;
-}
-
-.btn {
-  width: 100%;
-  background-color: #0092ff;
-  color: white;
-  font-weight: bold;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 25px; /* ovalado */
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn:hover {
-  background-color: #007acc;
-}
-
-@media (max-width: 600px) {
-  .header {
-    padding: 15px;
-  }
-
-  .site-title {
-    font-size: 22px;
-  }
-
-  .card {
-    margin: 20px 10px;
-    padding: 30px 15px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .logo {
-    width: 60px;
-    aspect-ratio: 1 / 1;
-  }
-
-  .form-field input {
-    font-size: 14px;
-  }
-
-  .btn {
-    font-size: 15px;
-  }
 }
