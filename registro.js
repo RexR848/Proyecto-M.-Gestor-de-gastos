@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Verificar si ya hay sesión activa
+  fetch('/verificar-sesion', {
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        window.location.href = 'public/Finanzas.html';
+      }
+    });
+    
   const form = document.getElementById("formRegistro");
 
   if (!form) return;
