@@ -1,4 +1,4 @@
-/* Estilos base */
+/* Estilo base */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -36,9 +36,9 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Contenedor principal */
+/* Tarjeta principal */
 .card {
-  max-width: 700px;
+  max-width: 600px;
   margin: 40px auto;
   padding: 30px 20px;
   background-color: #1e1e1e;
@@ -47,8 +47,8 @@ body {
   text-align: center;
 }
 
-/* Título */
-h2.title {
+/* Título principal */
+.title {
   color: #62a9ff;
   margin-bottom: 20px;
 }
@@ -60,7 +60,7 @@ h2.title {
   align-items: center;
 }
 
-/* Campo de formulario */
+/* Campos del formulario */
 .form-field {
   margin: 20px 0;
   display: flex;
@@ -69,25 +69,21 @@ h2.title {
 }
 
 label {
-  display: block;
   margin-bottom: 8px;
   font-weight: bold;
-  text-align: center;
+  color: #ffffff;
 }
 
 input[type="number"],
-input[type="email"],
-input[type="password"],
 input[type="text"] {
   width: 100%;
   max-width: 300px;
   padding: 12px 18px;
   font-size: 16px;
-  border-radius: 15px;
-  border: 1px solid #555;
+  border-radius: 12px;
+  border: 1px solid #444;
   background-color: #2b2b2b;
-  color: #ffffff;
-  box-sizing: border-box;
+  color: #fff;
   text-align: center;
 }
 
@@ -96,7 +92,7 @@ input:focus {
   outline: none;
 }
 
-/* Botón general */
+/* Botones */
 .btn {
   padding: 12px 24px;
   font-size: 16px;
@@ -105,7 +101,7 @@ input:focus {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 15px;
   transition: background-color 0.3s;
 }
 
@@ -113,14 +109,15 @@ input:focus {
   background-color: #3779cc;
 }
 
-/* Sección de gastos */
+/* Tarjetas de gastos */
 .gasto-box {
   width: 100%;
-  max-width: 500px;
-  margin: 30px 0;
+  max-width: 400px;
+  margin: 20px auto;
   padding: 20px;
   background-color: #2b2b2b;
-  border-radius: 12px;
+  border-radius: 15px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
   text-align: center;
 }
 
@@ -129,57 +126,6 @@ input:focus {
   font-size: 18px;
   margin-bottom: 15px;
   color: #ffffff;
-}
-
-/* Contenedor de tarjetas */
-#gastos-fijos-container,
-#gastos-opcionales-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* Tarjeta de gasto individual */
-.gasto-tarjeta {
-  background-color: #1f1f1f;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #444;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.gasto-tarjeta input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #2a2a2a;
-  color: #fff;
-  min-width: 120px;
-  text-align: center;
-}
-
-.gasto-tarjeta input:focus {
-  border-color: #4aa3ff;
-  outline: none;
-}
-
-.btn-eliminar {
-  background-color: #ff4d4d;
-  padding: 10px 14px;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-eliminar:hover {
-  background-color: #cc3939;
 }
 
 /* Botón final centrado */
