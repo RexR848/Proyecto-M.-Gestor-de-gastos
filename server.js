@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 // coso para los cookies ohellyea, npm i cookie-parser
 const cookieParser = require('cookie-parser');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -144,4 +147,62 @@ app.post('/guardar-datos', async (req, res) => {
   );
 
   res.json({ ok: true, mensaje: 'Datos guardados con éxito' });
+});
+
+//----------------------recuperar contraseña-------------//
+app.post('/recuperar', async (req, res) => {
+  const { email } = req.body;
+  const user = await db.collection('usuarios').findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ ok: false, mensaje: 'Correo no encontrado' });
+  }
+
+  const token = crypto.randomBytes(20).toString('hex');
+  const expira = new Date(Date.now() + 1000 * 60 * 15); // 15 minutos
+
+  await db.collection('usuarios').updateOne({ email }, {
+    $set: {
+      resetToken: token,
+      resetExpira: expira
+    }
+  });
+
+  const resetURL = `https://tusitio.com/restablecer.html?token=${token}`;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'informesgestordegastos@gmail.com',
+      pass: 'GestorDeGatos' 
+    }
+  });
+
+  await transporter.sendMail({
+    to: email,
+    subject: 'Recuperar contraseña - Gestor de Gastos',
+    html: `<p>Haz clic para cambiar tu contraseña:</p><a href="${resetURL}">${resetURL}</a>`
+  });
+
+  res.json({ ok: true, mensaje: 'Correo enviado con instrucciones' });
+});
+//-----------------------------restablecer contraseña--------------------//
+app.post('/restablecer', async (req, res) => {
+  const { token, nueva } = req.body;
+
+  const user = await db.collection('usuarios').findOne({
+    resetToken: token,
+    resetExpira: { $gt: new Date() }
+  });
+
+  if (!user) {
+    return res.status(400).json({ ok: false, mensaje: 'Token inválido o expirado' });
+  }
+
+  await db.collection('usuarios').updateOne({ resetToken: token }, {
+    $set: { password: nueva },
+    $unset: { resetToken: "", resetExpira: "" }
+  });
+
+  res.json({ ok: true, mensaje: 'Contraseña actualizada correctamente' });
 });
