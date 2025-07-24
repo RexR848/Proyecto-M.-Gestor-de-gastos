@@ -51,13 +51,16 @@ h2 {
 
 .form-field {
   margin: 20px 0;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
+  text-align: center;
 }
 
 input[type="number"],
@@ -65,6 +68,7 @@ input[type="email"],
 input[type="password"],
 input[type="text"] {
   width: 100%;
+  max-width: 300px; /* Limita el ancho */
   padding: 12px 18px;
   font-size: 16px;
   border-radius: 15px;
