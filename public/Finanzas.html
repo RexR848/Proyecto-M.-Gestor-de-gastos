@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gestor de Gastos - Finanzas</title>
+  <title>Gestor de Gastos - Vista</title>
   <link rel="stylesheet" href="Fstyles.css" />
 </head>
 <body>
@@ -14,34 +14,56 @@
 
   <div class="divider"></div>
 
-  <main class="card">
-    <h2 class="title">Tu información financiera</h2>
+  <main class="container">
+    <h2>Tu información financiera</h2>
 
-    <form id="formFinanzas" class="form-registro-horizontal">
-      
-      <div class="form-field">
-        <label for="ingreso">💰 Ingreso mensual:</label>
-        <input type="number" id="ingreso" name="ingreso" placeholder="$0.00" required />
+    <!-- Ingreso mensual -->
+    <section class="info-block">
+      <h3>💰 Ingreso mensual</h3>
+      <p id="ingreso-mensual" class="dato-numero">$5,000.00</p> <!-- Aquí irá el dato dinámico -->
+    </section>
+
+    <!-- Gastos fijos prioritarios -->
+    <section class="info-block">
+      <h3>📌 Gastos fijos prioritarios</h3>
+      <div class="gasto-lista">
+        <!-- Ejemplo de tarjeta -->
+        <div class="gasto-item">
+          <span class="gasto-nombre">Renta</span>
+          <span class="gasto-cantidad">$2,000.00</span>
+        </div>
+        <div class="gasto-item">
+          <span class="gasto-nombre">Luz</span>
+          <span class="gasto-cantidad">$300.00</span>
+        </div>
+        <!-- Aquí se agregarán más gastos dinámicamente -->
       </div>
+    </section>
 
-     
-      <section class="gasto-box">
-        <div class="gasto-header">📌 Gastos fijos prioritarios</div>
-        <button type="button" class="btn">Modificar</button>
-      </section>
-
-      
-      <section class="gasto-box">
-        <div class="gasto-header">🎧 Gastos opcionales</div>
-        <button type="button" class="btn">Modificar</button>
-      </section>
-
-      <div class="form-field full-width">
-        <button type="submit" class="btn">Guardar información</button>
+    <!-- Gastos opcionales -->
+    <section class="info-block">
+      <h3>🎧 Gastos opcionales</h3>
+      <div class="gasto-lista">
+        <div class="gasto-item">
+          <span class="gasto-nombre">Netflix</span>
+          <span class="gasto-cantidad">$200.00</span>
+        </div>
+        <div class="gasto-item">
+          <span class="gasto-nombre">Comida rápida</span>
+          <span class="gasto-cantidad">$500.00</span>
+        </div>
+        <!-- Aquí se agregarán más gastos dinámicamente -->
       </div>
-    </form>
+    </section>
+
+    <!-- Botón para editar -->
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="finanzas-editar.html" class="btn">Editar información</a>
+    </div>
   </main>
 
-  <script src="finanzas.js"></script>
+  <script>
+    // Aquí puedes luego cargar los datos desde localStorage, base de datos o API.
+  </script>
 </body>
 </html>

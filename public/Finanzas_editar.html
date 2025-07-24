@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestor de Gastos - Editar Finanzas</title>
+  <link rel="stylesheet" href="Fstyles.css" />
+</head>
+<body>
+  <header class="header">
+    <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+    <h1 class="site-title">Gestor de gastos</h1>
+  </header>
+
+  <div class="divider"></div>
+
+  <main class="card">
+    <h2 class="title">Editar información financiera</h2>
+
+    <form id="formFinanzas" class="form-registro-horizontal">
+      <!-- Ingreso mensual -->
+      <div class="form-field">
+        <label for="ingreso">💰 Ingreso mensual:</label>
+        <input type="number" id="ingreso" name="ingreso" placeholder="$0.00" required />
+      </div>
+
+      <!-- Gastos fijos prioritarios -->
+      <section class="gasto-box">
+        <div class="gasto-header">📌 Gastos fijos prioritarios</div>
+        <div id="gastos-fijos-container"></div>
+        <button type="button" class="btn" onclick="agregarGasto('fijo')">+ Agregar gasto fijo</button>
+      </section>
+
+      <!-- Gastos opcionales -->
+      <section class="gasto-box">
+        <div class="gasto-header">🎧 Gastos opcionales</div>
+        <div id="gastos-opcionales-container"></div>
+        <button type="button" class="btn" onclick="agregarGasto('opcional')">+ Agregar gasto opcional</button>
+      </section>
+
+      <div class="form-field full-width">
+        <button type="submit" class="btn">Guardar información</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="finanzas.js"></script>
+</body>
+</html>
