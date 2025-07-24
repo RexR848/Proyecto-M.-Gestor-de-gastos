@@ -20,8 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (datos.ok) {
         alert('✅ Inicio de sesión exitoso');
-        // Redireccionar al dashboard
-        // window.location.href = "/dashboard.html";
+        window.location.href = "public\Finanzas.html";
       } else {
         alert('❌ ' + datos.mensaje);
       }
