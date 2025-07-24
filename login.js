@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('loginForm');
+    // Verificar si ya hay sesión activa
+  fetch('/verificar-sesion', {
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        window.location.href = '/finanzas.html';
+      }
+    });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -13,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password }) // <-- CORREGIDO AQUÍ
+        credentials: 'include',
+        body: JSON.stringify({ email, password })
       });
 
       const datos = await respuesta.json();

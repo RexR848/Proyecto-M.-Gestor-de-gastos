@@ -3,6 +3,9 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+// coso para los cookies ohellyea, npm i cookie-parser
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,8 +38,15 @@ app.post('/login', async (req, res) => {
     console.log('✅ Resultado final del findOne:', user);
 
     if (user) {
+      //las cuki
+      res.cookie('sesion', user.email, {
+        httpOnly: true,
+        sameSite: 'Lax',
+        maxAge: 1000 * 60 * 60 * 24 * 7
+      });
       res.json({ ok: true, mensaje: "Login exitoso" });
-    } else {
+    }
+    else {
       res.status(401).json({
         ok: false,
         mensaje: "Usuario o contraseña incorrectos",
@@ -86,4 +96,34 @@ app.get('/login', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+});
+
+//-------------------Ya había iniciado?----------------------//
+app.get('/verificar-sesion', (req, res) => {
+  const email = req.cookies?.sesion;
+  if (email) {
+    res.json({ ok: true, email });
+  } else {
+    res.json({ ok: false });
+  }
+});
+
+
+//--------------cerrar sesión---------------------------//
+
+app.post('/logout', (req, res) => {
+  res.clearCookie('sesion');
+  res.json({ ok: true, mensaje: 'Sesión cerrada' });
+});
+
+
+
+//---------------datos de usuario (gestion)--------------//
+
+app.get('/datos', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) return res.status(401).json({ ok: false, mensaje: 'No autenticado' });
+
+  const datos = await db.collection('datos').findOne({ email });
+  res.json({ ok: true, datos: datos || {} });
 });
