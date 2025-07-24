@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nombre = document.getElementById("nombre").value;
     const email = document.getElementById("email").value;
-    const contraseña = document.getElementById("password").value;
+    const password = document.getElementById("password").value;
 
     try {
       const res = await fetch("https://proyecto-m-gestor-de-gastos.onrender.com/registro", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, contraseña }),
+        body: JSON.stringify({ nombre, email, password }),
       });
 
       const data = await res.json();

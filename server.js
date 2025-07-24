@@ -13,7 +13,6 @@ const client = new MongoClient(uri);
 app.use(cors());
 app.use(bodyParser.json());
 
-// Servir archivos estáticos desde la raíz (porque el HTML está ahí)
 app.use(express.static(path.join(__dirname, '/')));
 
 let db;
@@ -24,7 +23,7 @@ client.connect().then(() => {
 
 //------------------Login------------------//
 app.post('/login', async (req, res) => {
-  const { email, contraseña } = req.body;
+  const { email, password } = req.body;
 
   console.log('🟡 Intentando login con:', { email, password });
 
@@ -32,7 +31,7 @@ app.post('/login', async (req, res) => {
     const posibles = await db.collection('usuarios').find({ email }).toArray();
     console.log('🔍 Usuarios encontrados con ese email:', posibles);
 
-    const user = await db.collection('usuarios').findOne({ email, contraseña });
+    const user = await db.collection('usuarios').findOne({ email, password });
     console.log('✅ Resultado final del findOne:', user);
 
     if (user) {
@@ -51,7 +50,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
 //------------------Registro------------------//
 app.post('/registro', async (req, res) => {
   const { nombre, email, password } = req.body;
@@ -69,18 +67,23 @@ app.post('/registro', async (req, res) => {
   await db.collection('usuarios').insertOne({
     usuario: nombre,
     email,
-    contraseña: password,
+    password,
     creado: new Date()
   });
 
   res.json({ ok: true, mensaje: "Cuenta creada con éxito 🎉" });
 });
 
-//------------------Ruta principal------------------//
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+
+app.get('/login', (req, res) => {
+  res.status(405).send('🚫 Método no permitido. Usa POST para iniciar sesión.');
+});
+
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
