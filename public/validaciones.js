@@ -68,3 +68,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Restringir caracteres no válidos en inputs numéricos y evitar ceros
+document.addEventListener("input", (e) => {
+  if (e.target.matches('input[type="number"]')) {
+    // Eliminar letras, e, +, - y otros caracteres no válidos
+    e.target.value = e.target.value.replace(/[^0-9.]/g, "");
+
+    // Quitar ceros al inicio (ej: 00012 -> 12)
+    if (/^0[0-9]+/.test(e.target.value)) {
+      e.target.value = e.target.value.replace(/^0+/, '');
+    }
+
+    // Si solo es 0 o 0.0, lo elimina
+    if (/^0(\.0+)?$/.test(e.target.value)) {
+      e.target.value = "";
+    }
+  }
+});
