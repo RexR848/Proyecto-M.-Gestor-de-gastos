@@ -13,5 +13,5 @@ document.getElementById("formReset").addEventListener("submit", async (e) => {
 
   const data = await res.json();
   alert(data.mensaje);
-  if (data.ok) location.href = '/IniciarSesion.html';
+  if (data.ok) location.href = 'public/IniciarSesion.html';
 });

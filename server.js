@@ -181,9 +181,23 @@ app.post('/recuperar', async (req, res) => {
 
     await transporter.sendMail({
       to: email,
-      subject: 'Recuperar contraseña - Gestor de Gastos',
-      html: `<p>Haz clic para cambiar tu contraseña:</p><a href="${resetURL}">${resetURL}</a>`
+      subject: 'Recuperar contraseña – Gestor de Gastos',
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+          <h2 style="color: #4CAF50;">Recuperar tu contraseña</h2>
+          <p>Hola,</p>
+          <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong>Gestor de Gastos</strong>.</p>
+          <p>Haz clic en el siguiente botón para establecer una nueva contraseña. Este enlace expirará en 15 minutos.</p>
+          <p style="text-align: center; margin: 30px 0;">
+            <a href="${resetURL}" style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Cambiar contraseña</a>
+          </p>
+          <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
+          <hr style="margin: 30px 0;">
+          <p style="font-size: 0.9em;">Este correo fue enviado automáticamente. No respondas a este mensaje.</p>
+        </div>
+      `
     });
+
 
     res.json({ ok: true, mensaje: 'Correo enviado con instrucciones' });
   } catch (error) {
