@@ -3,11 +3,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.querySelector("#modalErrores");
   const listaErrores = document.querySelector("#listaErrores");
 
+  const ingresoInput = document.querySelector("#ingreso");
+  const contFijos = document.querySelector("#gastos-fijos-container");
+  const contOpcionales = document.querySelector("#gastos-opcionales-container");
+
+  // Cargar datos guardados localmente
+  const datosGuardados = JSON.parse(localStorage.getItem("datosFinanzas"));
+  if (datosGuardados) {
+    ingresoInput.value = datosGuardados.ingreso || "";
+    datosGuardados.gastosFijos?.forEach(gasto => agregarGasto("fijo", gasto));
+    datosGuardados.gastosOpcionales?.forEach(gasto => agregarGasto("opcional", gasto));
+  }
+
   formulario.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Evita que recargue
+    e.preventDefault();
 
     const errores = [];
-    const ingresoInput = document.querySelector("#ingreso");
     const ingreso = ingresoInput.value.trim();
 
     if (!ingreso) {
@@ -18,8 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
       errores.push("💰 El ingreso mensual debe ser mayor a 0.");
     }
 
-    const gastosFijos = document.querySelectorAll("#gastos-fijos-container .gasto-item");
-    const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
+    const gastosFijos = contFijos.querySelectorAll(".gasto-item");
+    const gastosOpcionales = contOpcionales.querySelectorAll(".gasto-item");
 
     validarGastos(gastosFijos, errores, "fijos");
     validarGastos(gastosOpcionales, errores, "opcionales");
@@ -34,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
       gastosFijos: obtenerGastos(gastosFijos),
       gastosOpcionales: obtenerGastos(gastosOpcionales),
     };
+
+    // Guarda también en localStorage para mantener info
+    localStorage.setItem("datosFinanzas", JSON.stringify(data));
 
     try {
       const res = await fetch("/guardar-datos", {
@@ -52,6 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarErrores(["❌ Error de red: " + err.message]);
     }
   });
+
+  window.agregarGasto = function (tipo, valores = {}) {
+    const container = tipo === "fijo" ? contFijos : contOpcionales;
+    const gastoItem = document.createElement("div");
+    gastoItem.className = "gasto-item";
+    gastoItem.innerHTML = `
+      <input type="text" placeholder="Nombre" value="${valores.nombre || ""}" required />
+      <input type="number" step="0.01" placeholder="$0.00" value="${valores.monto || ""}" required />
+      <button type="button" onclick="this.parentElement.remove()">🗑</button>
+    `;
+    container.appendChild(gastoItem);
+  };
 
   function validarGastos(lista, errores, tipo) {
     const nombres = [];
@@ -100,17 +126,4 @@ document.addEventListener("DOMContentLoaded", () => {
   window.cerrarModal = function () {
     modal.style.display = "none";
   };
-
-  // Validación para input decimal
-  document.addEventListener("input", (e) => {
-    if (e.target.matches('input[type="number"]')) {
-      let valor = e.target.value;
-      valor = valor.replace(/[^\d.]/g, '');
-      const partes = valor.split('.');
-      if (partes.length > 2) valor = partes[0] + '.' + partes[1];
-      if (/^0\d+/.test(valor)) valor = valor.replace(/^0+/, '');
-      if (valor === "0.") return;
-      e.target.value = valor;
-    }
-  });
 });
