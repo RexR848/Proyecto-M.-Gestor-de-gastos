@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
+      // Validar nombre vacío
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
+      // Validar monto vacío o inválido
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
@@ -61,16 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ Validación dinámica: bloquear caracteres inválidos y permitir ceros y decimales
   document.querySelectorAll('input[type="number"]').forEach((input) => {
-    input.addEventListener("input", (e) => {
-      const cursorPos = input.selectionStart;
-      const original = input.value;
-      
-      let sanitized = original
-        .replace(/[^0-9.]/g, '')           // solo números y punto
-        .replace(/^0+(?!\.)/, '')          // elimina ceros al inicio (excepto si es decimal como 0.5)
+    input.addEventListener('input', (e) => {
+      const { value, selectionStart } = input;
 
-      // Si hay más de un punto decimal, elimina los extra
-      const parts = sanitized.split(".");
+      // Eliminar letras no válidas: e, E, +, - y letras
+      let sanitized = value.replace(/[^0-9.]/g, "");
+
+      // Evitar más de un punto decimal
+      const parts = sanitized.split('.');
       if (parts.length > 2) {
         input.value = parts[0] + '.' + parts[1];
         input.setSelectionRange(selectionStart - 1, selectionStart - 1);
@@ -89,12 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       input.value = sanitized;
-
-      // Restaurar posición del cursor si se alteró
-      const diff = original.length - sanitized.length;
-      if (diff > 0) {
-        input.setSelectionRange(cursorPos - diff, cursorPos - diff);
-      }
     });
   });
 });
