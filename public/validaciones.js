@@ -1,12 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
   const ingresoInput = document.querySelector("#ingreso");
-  const contenedorErrores = document.querySelector("#errores");
 
   formulario.addEventListener("submit", (e) => {
     const errores = [];
 
-    // Validar ingreso mensual
     const ingreso = ingresoInput.value.trim();
     if (!ingreso) {
       errores.push("💰 El ingreso mensual no puede estar vacío.");
@@ -16,23 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
       errores.push("💰 El ingreso mensual debe ser mayor a 0.");
     }
 
-    // Validar gastos fijos
     const gastosFijos = document.querySelectorAll("#gastos-fijos-container .gasto-item");
     validarGastos(gastosFijos, errores, "fijos");
 
-    // Validar gastos opcionales
     const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
     validarGastos(gastosOpcionales, errores, "opcionales");
 
-    // Mostrar errores si existen
     if (errores.length > 0) {
       e.preventDefault();
-      contenedorErrores.innerHTML =
-        "⚠️ Por favor corrige los siguientes errores:<ul>" +
-        errores.map(error => `<li>${error}</li>`).join('') +
-        "</ul>";
-    } else {
-      contenedorErrores.innerHTML = ""; // Limpiar errores
+      mostrarErroresEmergentes(errores);
     }
   });
 
@@ -47,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const monto = montoInput?.value.trim();
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
-      // Validar nombre
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -56,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
-      // Validar monto
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
@@ -67,29 +55,50 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✨ Validación en tiempo real de inputs numéricos (evita letras, múltiples puntos y ceros incorrectos)
+  // ✅ Corrige el input para permitir números con decimales correctamente
   document.addEventListener("input", (e) => {
     if (e.target.matches('input[type="number"]')) {
       let valor = e.target.value;
 
-      // Solo números y un punto decimal permitido
+      // Permitir solo dígitos y punto decimal
       valor = valor.replace(/[^\d.]/g, '');
 
-      // Evitar más de un punto
+      // Evitar múltiples puntos decimales
       const partes = valor.split('.');
       if (partes.length > 2) {
         valor = partes[0] + '.' + partes[1];
       }
 
-      // Quitar ceros innecesarios al inicio
-      if (/^0\d+/.test(valor)) {
+      // Evitar ceros innecesarios como "00", pero permitir "0." y ".5"
+      if (valor.startsWith('0') && !valor.startsWith('0.') && valor.length > 1) {
         valor = valor.replace(/^0+/, '');
       }
-
-      // Evitar que quede "0." sin nada más
-      if (valor === "0.") return;
 
       e.target.value = valor;
     }
   });
+
+  // 🧱 Mostrar errores en un cuadro emergente flotante
+  function mostrarErroresEmergentes(errores) {
+    let modal = document.querySelector(".modal-errores");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.className = "modal-errores";
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="modal-contenido">
+        <h3>⚠️ Por favor corrige los siguientes errores:</h3>
+        <ul>${errores.map(error => `<li>${error}</li>`).join('')}</ul>
+        <button id="cerrarModal">Cerrar</button>
+      </div>
+    `;
+
+    modal.style.display = "flex";
+
+    document.querySelector("#cerrarModal").onclick = () => {
+      modal.style.display = "none";
+    };
+  }
 });
