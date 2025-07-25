@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Validación dinámica: punto decimal, sin letras ni ceros inválidos
+  // ✅ Validación dinámica: bloquear caracteres inválidos y permitir ceros y decimales
   document.querySelectorAll('input[type="number"]').forEach((input) => {
     input.addEventListener("input", (e) => {
       const cursorPos = input.selectionStart;
@@ -72,7 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
       // Si hay más de un punto decimal, elimina los extra
       const parts = sanitized.split(".");
       if (parts.length > 2) {
-        sanitized = parts[0] + "." + parts[1]; // solo deja el primer punto
+        input.value = parts[0] + '.' + parts[1];
+        input.setSelectionRange(selectionStart - 1, selectionStart - 1);
+        return;
+      }
+
+      //Eliminar ceros innecesarios al inicio (excepto "0." y "0")
+      if (/^0[0-9]/.test(sanitized)) {
+        sanitized = sanitized.replace(/^0+/, '0');
+      }
+
+      //Permitir "0" y decimales como "0.5 no eliminar
+      if (sanitized === "") {
+        input.value = "";
+        return;
       }
 
       input.value = sanitized;
