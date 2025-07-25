@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
-  const ingresoInput = document.querySelector("#ingreso");
 
   formulario.addEventListener("submit", (e) => {
+    e.preventDefault(); // 👈 evitar recarga desde el inicio
+
     const errores = [];
 
+    // Validar ingreso mensual
+    const ingresoInput = document.querySelector("#ingreso");
     const ingreso = ingresoInput.value.trim();
     if (!ingreso) {
       errores.push("💰 El ingreso mensual no puede estar vacío.");
@@ -14,15 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
       errores.push("💰 El ingreso mensual debe ser mayor a 0.");
     }
 
+    // Validar gastos
     const gastosFijos = document.querySelectorAll("#gastos-fijos-container .gasto-item");
-    validarGastos(gastosFijos, errores, "fijos");
-
     const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
+    validarGastos(gastosFijos, errores, "fijos");
     validarGastos(gastosOpcionales, errores, "opcionales");
 
     if (errores.length > 0) {
-      e.preventDefault();
       mostrarErroresEmergentes(errores);
+    } else {
+      guardarDatos(); // 👈 Llama a la función global definida en editar.js
     }
   });
 
@@ -55,50 +59,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Corrige el input para permitir números con decimales correctamente
+  function mostrarErroresEmergentes(errores) {
+    const mensaje = "⚠️ Corrige los siguientes errores:\n\n" + errores.map(e => "- " + e).join("\n");
+    alert(mensaje);
+  }
+
+  // Validación en tiempo real para input numérico
   document.addEventListener("input", (e) => {
     if (e.target.matches('input[type="number"]')) {
       let valor = e.target.value;
 
-      // Permitir solo dígitos y punto decimal
+      // Solo números y un punto decimal
       valor = valor.replace(/[^\d.]/g, '');
 
-      // Evitar múltiples puntos decimales
+      // Evitar más de un punto
       const partes = valor.split('.');
       if (partes.length > 2) {
         valor = partes[0] + '.' + partes[1];
       }
 
-      // Evitar ceros innecesarios como "00", pero permitir "0." y ".5"
-      if (valor.startsWith('0') && !valor.startsWith('0.') && valor.length > 1) {
+      // Quitar ceros innecesarios al inicio
+      if (/^0\d+/.test(valor)) {
         valor = valor.replace(/^0+/, '');
       }
+
+      // No dejar "0." solo
+      if (valor === "0.") return;
 
       e.target.value = valor;
     }
   });
-
-  // 🧱 Mostrar errores en un cuadro emergente flotante
-  function mostrarErroresEmergentes(errores) {
-    let modal = document.querySelector(".modal-errores");
-    if (!modal) {
-      modal = document.createElement("div");
-      modal.className = "modal-errores";
-      document.body.appendChild(modal);
-    }
-
-    modal.innerHTML = `
-      <div class="modal-contenido">
-        <h3>⚠️ Por favor corrige los siguientes errores:</h3>
-        <ul>${errores.map(error => `<li>${error}</li>`).join('')}</ul>
-        <button id="cerrarModal">Cerrar</button>
-      </div>
-    `;
-
-    modal.style.display = "flex";
-
-    document.querySelector("#cerrarModal").onclick = () => {
-      modal.style.display = "none";
-    };
-  }
 });
