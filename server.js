@@ -168,13 +168,13 @@ app.post('/recuperar', async (req, res) => {
     }
   });
 
-  const resetURL = `https://tusitio.com/restablecer.html?token=${token}`;
+  const resetURL = `https://proyecto-m-gestor-de-gastos.onrender.com/restablecer.html?token=${token}`;
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'informesgestordegastos@gmail.com',
-      pass: 'GestorDeGatos' 
+      user: 'Informes',
+      pass: 'ffmh nxwb msvt wfyl' 
     }
   });
 
