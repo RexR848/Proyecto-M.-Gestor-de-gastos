@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
+  const ingresoInput = document.querySelector("#ingreso");
 
   formulario.addEventListener("submit", (e) => {
-    e.preventDefault(); // 👈 evitar recarga desde el inicio
-
     const errores = [];
 
     // Validar ingreso mensual
-    const ingresoInput = document.querySelector("#ingreso");
     const ingreso = ingresoInput.value.trim();
     if (!ingreso) {
       errores.push("💰 El ingreso mensual no puede estar vacío.");
@@ -17,16 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
       errores.push("💰 El ingreso mensual debe ser mayor a 0.");
     }
 
-    // Validar gastos
+    // Validar gastos fijos
     const gastosFijos = document.querySelectorAll("#gastos-fijos-container .gasto-item");
-    const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
     validarGastos(gastosFijos, errores, "fijos");
+
+    // Validar gastos opcionales
+    const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
     validarGastos(gastosOpcionales, errores, "opcionales");
 
     if (errores.length > 0) {
-      mostrarErroresEmergentes(errores);
-    } else {
-      guardarDatos(); // 👈 Llama a la función global definida en editar.js
+      e.preventDefault();
+      alert("⚠️ Por favor corrige los siguientes errores:\n\n" + errores.join("\n"));
     }
   });
 
@@ -39,8 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nombre = nombreInput?.value.trim();
       const monto = montoInput?.value.trim();
+
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
+      // Validar nombre vacío
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
+      // Validar monto vacío o inválido
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
@@ -59,34 +61,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function mostrarErroresEmergentes(errores) {
-    const mensaje = "⚠️ Corrige los siguientes errores:\n\n" + errores.map(e => "- " + e).join("\n");
-    alert(mensaje);
-  }
+  // ✅ Validación dinámica: bloquear caracteres inválidos y permitir ceros y decimales
+  document.querySelectorAll('input[type="number"]').forEach((input) => {
+    input.addEventListener('input', (e) => {
+      const { value, selectionStart } = input;
 
-  // Validación en tiempo real para input numérico
-  document.addEventListener("input", (e) => {
-    if (e.target.matches('input[type="number"]')) {
-      let valor = e.target.value;
+      // Eliminar letras no válidas: e, E, +, - y letras
+      let sanitized = value.replace(/[^0-9.]/g, "");
 
-      // Solo números y un punto decimal
-      valor = valor.replace(/[^\d.]/g, '');
-
-      // Evitar más de un punto
-      const partes = valor.split('.');
-      if (partes.length > 2) {
-        valor = partes[0] + '.' + partes[1];
+      // Evitar más de un punto decimal
+      const parts = sanitized.split('.');
+      if (parts.length > 2) {
+        input.value = parts[0] + '.' + parts[1];
+        input.setSelectionRange(selectionStart - 1, selectionStart - 1);
+        return;
       }
 
-      // Quitar ceros innecesarios al inicio
-      if (/^0\d+/.test(valor)) {
-        valor = valor.replace(/^0+/, '');
+      //Eliminar ceros innecesarios al inicio (excepto "0." y "0")
+      if (/^0[0-9]/.test(sanitized)) {
+        sanitized = sanitized.replace(/^0+/, '0');
       }
 
-      // No dejar "0." solo
-      if (valor === "0.") return;
+      //Permitir "0" y decimales como "0.5 no eliminar
+      if (sanitized === "") {
+        input.value = "";
+        return;
+      }
 
-      e.target.value = valor;
-    }
+      input.value = sanitized;
+    });
   });
 });
