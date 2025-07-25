@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
-      // Validar nombre vacío
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -50,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
-      // Validar monto vacío o inválido
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
@@ -61,34 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Validación dinámica: bloquear caracteres inválidos y evitar ceros
+  // ✅ Validación dinámica: punto decimal, sin letras ni ceros inválidos
   document.querySelectorAll('input[type="number"]').forEach((input) => {
-    input.addEventListener('input', (e) => {
-      const { value, selectionStart } = input;
+    input.addEventListener("input", (e) => {
+      const cursorPos = input.selectionStart;
+      const original = input.value;
+      
+      let sanitized = original
+        .replace(/[^0-9.]/g, '')           // solo números y punto
+        .replace(/^0+(?!\.)/, '')          // elimina ceros al inicio (excepto si es decimal como 0.5)
 
-      // Eliminar letras no válidas: e, E, +, - y letras
-      let sanitized = value.replace(/[^0-9.]/g, "");
-
-      // Evitar más de un punto decimal
-      const parts = sanitized.split('.');
+      // Si hay más de un punto decimal, elimina los extra
+      const parts = sanitized.split(".");
       if (parts.length > 2) {
-        input.value = parts[0] + '.' + parts[1];
-        input.setSelectionRange(selectionStart - 1, selectionStart - 1);
-        return;
-      }
-
-      // Eliminar ceros innecesarios al inicio (excepto "0.")
-      if (/^0[0-9]/.test(sanitized)) {
-        sanitized = sanitized.replace(/^0+/, '');
-      }
-
-      // Si es solo 0 o 0.0 → eliminar
-      if (/^0(\.0*)?$/.test(sanitized)) {
-        input.value = "";
-        return;
+        sanitized = parts[0] + "." + parts[1]; // solo deja el primer punto
       }
 
       input.value = sanitized;
+
+      // Restaurar posición del cursor si se alteró
+      const diff = original.length - sanitized.length;
+      if (diff > 0) {
+        input.setSelectionRange(cursorPos - diff, cursorPos - diff);
+      }
     });
   });
 });
