@@ -26,7 +26,7 @@ function guardarDatos() {
     .then(respuesta => {
       if (respuesta.ok) {
         alert("✅ Datos guardados correctamente");
-        window.location.href = "finanzas.html";
+        window.location.href = "Finanzas.html";
       } else {
         alert("❌ Error al guardar los datos");
       }
