@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
   const ingresoInput = document.querySelector("#ingreso");
+  const contenedorErrores = document.querySelector("#errores");
 
   formulario.addEventListener("submit", (e) => {
     const errores = [];
@@ -23,9 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
     validarGastos(gastosOpcionales, errores, "opcionales");
 
+    // Mostrar errores si existen
     if (errores.length > 0) {
       e.preventDefault();
-      alert("⚠️ Por favor corrige los siguientes errores:\n\n" + errores.join("\n"));
+      contenedorErrores.innerHTML =
+        "⚠️ Por favor corrige los siguientes errores:<br><ul>" +
+        errores.map(error => `<li>${error}</li>`).join('') +
+        "</ul>";
+    } else {
+      contenedorErrores.innerHTML = ""; // Limpiar errores si no hay
     }
   });
 
@@ -38,10 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nombre = nombreInput?.value.trim();
       const monto = montoInput?.value.trim();
-
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
-      // Validar nombre vacío
+      // Validar nombre
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -50,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
-      // Validar monto vacío o inválido
+      // Validar monto
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
@@ -61,34 +67,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Validación dinámica: bloquear caracteres inválidos y permitir ceros y decimales
-  document.querySelectorAll('input[type="number"]').forEach((input) => {
-    input.addEventListener('input', (e) => {
-      const { value, selectionStart } = input;
+  // ✨ Validación dinámica del campo ingreso
+  ingresoInput.addEventListener('input', () => {
+    let value = ingresoInput.value;
 
-      // Eliminar letras no válidas: e, E, +, - y letras
-      let sanitized = value.replace(/[^0-9.]/g, "");
+    // Permitir solo dígitos y un solo punto decimal
+    if (!/^\d*\.?\d*$/.test(value)) {
+      ingresoInput.value = value.slice(0, -1);
+      return;
+    }
 
-      // Evitar más de un punto decimal
-      const parts = sanitized.split('.');
-      if (parts.length > 2) {
-        input.value = parts[0] + '.' + parts[1];
-        input.setSelectionRange(selectionStart - 1, selectionStart - 1);
-        return;
-      }
-
-      //Eliminar ceros innecesarios al inicio (excepto "0." y "0")
-      if (/^0[0-9]/.test(sanitized)) {
-        sanitized = sanitized.replace(/^0+/, '0');
-      }
-
-      //Permitir "0" y decimales como "0.5 no eliminar
-      if (sanitized === "") {
-        input.value = "";
-        return;
-      }
-
-      input.value = sanitized;
-    });
+    // Evitar ceros innecesarios (excepto 0, 0.x)
+    if (/^0\d/.test(value)) {
+      ingresoInput.value = value.replace(/^0+/, '0');
+    }
   });
 });
