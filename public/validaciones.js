@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Validación dinámica: bloquear caracteres inválidos y evitar ceros
+  // ✅ Validación dinámica: bloquear caracteres inválidos y permitir ceros y decimales
   document.querySelectorAll('input[type="number"]').forEach((input) => {
     input.addEventListener('input', (e) => {
       const { value, selectionStart } = input;
@@ -77,13 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Eliminar ceros innecesarios al inicio (excepto "0.")
+      //Eliminar ceros innecesarios al inicio (excepto "0." y "0")
       if (/^0[0-9]/.test(sanitized)) {
-        sanitized = sanitized.replace(/^0+/, '');
+        sanitized = sanitized.replace(/^0+/, '0');
       }
 
-      // Si es solo 0 o 0.0 → eliminar
-      if (/^0(\.0*)?$/.test(sanitized)) {
+      //Permitir "0" y decimales como "0.5 no eliminar
+      if (sanitized === "") {
         input.value = "";
         return;
       }
