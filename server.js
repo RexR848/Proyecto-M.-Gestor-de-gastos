@@ -152,39 +152,44 @@ app.post('/guardar-datos', async (req, res) => {
 //----------------------recuperar contraseña-------------//
 app.post('/recuperar', async (req, res) => {
   const { email } = req.body;
-  const user = await db.collection('usuarios').findOne({ email });
+  try {
+    const user = await db.collection('usuarios').findOne({ email });
 
-  if (!user) {
-    return res.status(404).json({ ok: false, mensaje: 'Correo no encontrado' });
+    if (!user) {
+      return res.status(404).json({ ok: false, mensaje: 'Correo no encontrado' });
+    }
+
+    const token = crypto.randomBytes(20).toString('hex');
+    const expira = new Date(Date.now() + 1000 * 60 * 15); // 15 minutos
+
+    await db.collection('usuarios').updateOne({ email }, {
+      $set: {
+        resetToken: token,
+        resetExpira: expira
+      }
+    });
+
+    const resetURL = `https://proyecto-m-gestor-de-gastos.onrender.com/restablecer.html?token=${token}`;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'informesgestordegastos@gmail.com',  
+        pass: 'ffmh nxwb msvt wfyl'   
+      }
+    });
+
+    await transporter.sendMail({
+      to: email,
+      subject: 'Recuperar contraseña - Gestor de Gastos',
+      html: `<p>Haz clic para cambiar tu contraseña:</p><a href="${resetURL}">${resetURL}</a>`
+    });
+
+    res.json({ ok: true, mensaje: 'Correo enviado con instrucciones' });
+  } catch (error) {
+    console.error('Error al enviar correo:', error);
+    res.status(500).json({ error: 'Hubo un error al enviar el correo' });
   }
-
-  const token = crypto.randomBytes(20).toString('hex');
-  const expira = new Date(Date.now() + 1000 * 60 * 15); // 15 minutos
-
-  await db.collection('usuarios').updateOne({ email }, {
-    $set: {
-      resetToken: token,
-      resetExpira: expira
-    }
-  });
-
-  const resetURL = `https://proyecto-m-gestor-de-gastos.onrender.com/restablecer.html?token=${token}`;
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'Informes',
-      pass: 'ffmh nxwb msvt wfyl' 
-    }
-  });
-
-  await transporter.sendMail({
-    to: email,
-    subject: 'Recuperar contraseña - Gestor de Gastos',
-    html: `<p>Haz clic para cambiar tu contraseña:</p><a href="${resetURL}">${resetURL}</a>`
-  });
-
-  res.json({ ok: true, mensaje: 'Correo enviado con instrucciones' });
 });
 //-----------------------------restablecer contraseña--------------------//
 app.post('/restablecer', async (req, res) => {

@@ -9,6 +9,12 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
     body: JSON.stringify({ email })
   });
 
+  if (!res.ok) {
+    const text = await res.text();
+    alert("Error en la respuesta del servidor: " + text);
+    return;
+  }
+
   const data = await res.json();
   alert(data.mensaje);
 });
