@@ -134,3 +134,49 @@ input:focus {
   justify-content: center;
   margin-top: 30px;
 }
+
+/* 🎨 Estilo para cada etiqueta de gasto editable */
+.gasto-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  background-color: #2b2b2b;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+/* ✏️ Input de nombre y monto dentro de gasto */
+.gasto-item input[type="text"],
+.gasto-item input[type="number"] {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+
+.gasto-item input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+/* 🗑 Botón eliminar */
+.gasto-item button {
+  background-color: #ff4a4a;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gasto-item button:hover {
+  background-color: #cc3a3a;
+}
