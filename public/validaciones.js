@@ -61,28 +61,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Impedir letras, e, +, - en campos numéricos
-  document.addEventListener("input", (e) => {
-    if (e.target.matches('input[type="number"]')) {
-      e.target.value = e.target.value.replace(/[^0-9.]/g, "");
-    }
+  // ✅ Validación dinámica: bloquear caracteres inválidos y evitar ceros
+  document.querySelectorAll('input[type="number"]').forEach((input) => {
+    input.addEventListener('input', (e) => {
+      const { value, selectionStart } = input;
+
+      // Eliminar letras no válidas: e, E, +, - y letras
+      let sanitized = value.replace(/[^0-9.]/g, "");
+
+      // Evitar más de un punto decimal
+      const parts = sanitized.split('.');
+      if (parts.length > 2) {
+        input.value = parts[0] + '.' + parts[1];
+        input.setSelectionRange(selectionStart - 1, selectionStart - 1);
+        return;
+      }
+
+      // Eliminar ceros innecesarios al inicio (excepto "0.")
+      if (/^0[0-9]/.test(sanitized)) {
+        sanitized = sanitized.replace(/^0+/, '');
+      }
+
+      // Si es solo 0 o 0.0 → eliminar
+      if (/^0(\.0*)?$/.test(sanitized)) {
+        input.value = "";
+        return;
+      }
+
+      input.value = sanitized;
+    });
   });
-});
-
-// Restringir caracteres no válidos en inputs numéricos y evitar ceros
-document.addEventListener("input", (e) => {
-  if (e.target.matches('input[type="number"]')) {
-    // Eliminar letras, e, +, - y otros caracteres no válidos
-    e.target.value = e.target.value.replace(/[^0-9.]/g, "");
-
-    // Quitar ceros al inicio (ej: 00012 -> 12)
-    if (/^0[0-9]+/.test(e.target.value)) {
-      e.target.value = e.target.value.replace(/^0+/, '');
-    }
-
-    // Si solo es 0 o 0.0, lo elimina
-    if (/^0(\.0+)?$/.test(e.target.value)) {
-      e.target.value = "";
-    }
-  }
 });
