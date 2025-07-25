@@ -28,11 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (errores.length > 0) {
       e.preventDefault();
       contenedorErrores.innerHTML =
-        "⚠️ Por favor corrige los siguientes errores:<br><ul>" +
+        "⚠️ Por favor corrige los siguientes errores:<ul>" +
         errores.map(error => `<li>${error}</li>`).join('') +
         "</ul>";
     } else {
-      contenedorErrores.innerHTML = ""; // Limpiar errores si no hay
+      contenedorErrores.innerHTML = ""; // Limpiar errores
     }
   });
 
@@ -67,19 +67,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✨ Validación dinámica del campo ingreso
-  ingresoInput.addEventListener('input', () => {
-    let value = ingresoInput.value;
+  // ✨ Validación en tiempo real de inputs numéricos (evita letras, múltiples puntos y ceros incorrectos)
+  document.addEventListener("input", (e) => {
+    if (e.target.matches('input[type="number"]')) {
+      let valor = e.target.value;
 
-    // Permitir solo dígitos y un solo punto decimal
-    if (!/^\d*\.?\d*$/.test(value)) {
-      ingresoInput.value = value.slice(0, -1);
-      return;
-    }
+      // Solo números y un punto decimal permitido
+      valor = valor.replace(/[^\d.]/g, '');
 
-    // Evitar ceros innecesarios (excepto 0, 0.x)
-    if (/^0\d/.test(value)) {
-      ingresoInput.value = value.replace(/^0+/, '0');
+      // Evitar más de un punto
+      const partes = valor.split('.');
+      if (partes.length > 2) {
+        valor = partes[0] + '.' + partes[1];
+      }
+
+      // Quitar ceros innecesarios al inicio
+      if (/^0\d+/.test(valor)) {
+        valor = valor.replace(/^0+/, '');
+      }
+
+      // Evitar que quede "0." sin nada más
+      if (valor === "0.") return;
+
+      e.target.value = valor;
     }
   });
 });
