@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
     validarGastos(gastosOpcionales, errores, "opcionales");
 
-    // Mostrar errores si hay
     if (errores.length > 0) {
       e.preventDefault();
       alert("⚠️ Por favor corrige los siguientes errores:\n\n" + errores.join("\n"));
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nombreLabel = nombre || `Gasto ${index + 1}`;
 
-      // Validar nombre
+      // Validar nombre vacío
       if (!nombre) {
         errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
       } else if (nombres.includes(nombre.toLowerCase())) {
@@ -51,14 +50,21 @@ document.addEventListener("DOMContentLoaded", () => {
         nombres.push(nombre.toLowerCase());
       }
 
-      // Validar monto
+      // Validar monto vacío o inválido
       if (!monto) {
         errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
       } else if (isNaN(monto)) {
-        errores.push(`💵 El monto de "${nombreLabel}" debe ser un número.`);
+        errores.push(`💵 El monto de "${nombreLabel}" debe ser un número válido.`);
       } else if (parseFloat(monto) <= 0) {
         errores.push(`💵 El monto de "${nombreLabel}" debe ser mayor a 0.`);
       }
     });
   }
+
+  // ✅ Impedir letras, e, +, - en campos numéricos
+  document.addEventListener("input", (e) => {
+    if (e.target.matches('input[type="number"]')) {
+      e.target.value = e.target.value.replace(/[^0-9.]/g, "");
+    }
+  });
 });
