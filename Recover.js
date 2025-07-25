@@ -11,7 +11,11 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
 
   if (!res.ok) {
     const text = await res.text();
-    alert("Error en la respuesta del servidor: " + text);
+    if (text === '{"ok":false,"mensaje":"Correo no encontrado"}') {
+      alert("Error en la respuesta del servidor: Correo no encontrado.\nIngrese uno ya registrado");
+    } else {
+      alert("Error en la respuesta del servidor: " + text);
+    }
     return;
   }
 
