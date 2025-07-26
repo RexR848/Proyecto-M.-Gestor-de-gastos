@@ -41,68 +41,15 @@
     </form>
   </main>
 
-  <!-- Modal de errores -->
-  <div id="modalErrores" class="modal-errores">
+  <!-- Modal NetBeans para errores -->
+  <div id="modalNetbeans" class="modal-netbeans">
     <div class="modal-contenido">
+      <span id="cerrarNetbeans" class="cerrar" title="Cerrar">&times;</span>
       <h3>⚠️ Se encontraron errores:</h3>
-      <ul id="listaErrores"></ul>
-      <button onclick="cerrarModal()">Cerrar</button>
+      <ul id="listaErroresNetbeans"></ul>
     </div>
   </div>
 
   <script src="editar.js"></script>
-  <!-- Modal de error -->
-<div id="modal-error" class="modal" style="display:none;">
-  <div class="modal-contenido">
-    <span id="cerrar-modal" class="cerrar">&times;</span>
-    <p id="mensaje-error"></p>
-  </div>
-</div>
-<script>
-  // Función para mostrar errores en un modal emergente
-  function mostrarError(mensaje) {
-    const modal = document.getElementById("modal-error");
-    const mensajeError = document.getElementById("mensaje-error");
-    const cerrar = document.getElementById("cerrar-modal");
-
-    mensajeError.textContent = mensaje;
-    modal.style.display = "block";
-
-    cerrar.onclick = function () {
-      modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-  }
-
-  // 🛠️ Ejemplo de validación y uso
-  function validarFormulario() {
-    const ingresoMensual = document.getElementById("ingreso-mensual").value;
-
-    if (!ingresoMensual || parseFloat(ingresoMensual) <= 0) {
-      mostrarError("El ingreso mensual debe ser mayor a cero.");
-      return false;
-    }
-
-    // Aquí iría la validación de gastos, etc.
-
-    return true;
-  }
-
-  // Asignar validación al botón guardar (ejemplo)
-  const form = document.querySelector("form");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      if (!validarFormulario()) {
-        e.preventDefault(); // Cancela el envío
-      }
-    });
-  }
-</script>
-
 </body>
 </html>

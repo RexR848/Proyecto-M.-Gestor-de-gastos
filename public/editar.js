@@ -1,59 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
-  const modal = document.querySelector("#modalErrores");
-  const listaErrores = document.querySelector("#listaErrores");
+  const modal = document.getElementById("modalNetbeans");
+  const listaErrores = document.getElementById("listaErroresNetbeans");
+  const cerrar = document.getElementById("cerrarNetbeans");
 
-  // Función para agregar gasto (fijo u opcional)
-  window.agregarGasto = function(tipo, nombre = "", monto = "") {
-    const contenedorId = tipo === "fijo" ? "gastos-fijos-container" : "gastos-opcionales-container";
-    const contenedor = document.getElementById(contenedorId);
-
-    const gastoDiv = document.createElement("div");
-    gastoDiv.className = "gasto-item";
-
-    gastoDiv.innerHTML = `
-      <input type="text" placeholder="Nombre del gasto" value="${nombre}" required />
-      <input type="number" placeholder="Monto" step="0.01" min="0" value="${monto}" required />
-      <button type="button" title="Eliminar gasto">×</button>
-    `;
-
-    // Botón eliminar
-    gastoDiv.querySelector("button").addEventListener("click", () => {
-      gastoDiv.remove();
-    });
-
-    contenedor.appendChild(gastoDiv);
-  };
-
-  // Cargar datos guardados al inicio
-  async function cargarDatos() {
-    try {
-      const res = await fetch("/datos");
-      if (!res.ok) throw new Error("No se pudieron obtener los datos");
-
-      const data = await res.json();
-      if (!data.ok) throw new Error("Respuesta inválida del servidor");
-
-      // Ingreso
-      document.getElementById("ingreso").value = data.datos.ingreso || "";
-
-      // Gastos fijos
-      (data.datos.gastosFijos || []).forEach(g => {
-        agregarGasto("fijo", g.nombre, g.monto);
-      });
-
-      // Gastos opcionales
-      (data.datos.gastosOpcionales || []).forEach(g => {
-        agregarGasto("opcional", g.nombre, g.monto);
-      });
-    } catch (err) {
-      console.error("Error cargando datos:", err);
-    }
+  // Función para mostrar errores en modal NetBeans
+  function mostrarErroresNetbeans(errores) {
+    listaErrores.innerHTML = errores.map(err => `<li>${err}</li>`).join("");
+    modal.style.display = "block";
   }
 
-  cargarDatos();
+  // Cerrar modal al hacer click en X
+  cerrar.onclick = () => {
+    modal.style.display = "none";
+  };
 
-  // Validaciones
+  // Cerrar modal al hacer click fuera del contenido
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Función para validar gastos (nombre y monto)
   function validarGastos(lista, errores, tipo) {
     const nombres = [];
 
@@ -83,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Obtener gastos en formato para enviar
   function obtenerGastos(lista) {
     const gastos = [];
     lista.forEach(item => {
@@ -93,15 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return gastos;
   }
 
-  function mostrarErrores(errores) {
-    listaErrores.innerHTML = errores.map(err => `<li>${err}</li>`).join("");
-    modal.style.display = "flex";
-  }
-
-  window.cerrarModal = function () {
-    modal.style.display = "none";
-  };
-
+  // Evento submit del formulario
   formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -124,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     validarGastos(gastosOpcionales, errores, "opcionales");
 
     if (errores.length > 0) {
-      mostrarErrores(errores);
+      mostrarErroresNetbeans(errores);
       return;
     }
 
@@ -145,10 +107,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (res.ok && result.ok) {
         window.location.href = "Finanzas.html";
       } else {
-        mostrarErrores([result.error || "Error al guardar datos."]);
+        mostrarErroresNetbeans([result.error || "Error al guardar datos."]);
       }
     } catch (err) {
-      mostrarErrores(["❌ Error de red: " + err.message]);
+      mostrarErroresNetbeans(["❌ Error de red: " + err.message]);
     }
   });
 
@@ -156,8 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("ingreso").addEventListener("input", (e) => {
     let value = e.target.value;
     const cursorPos = e.target.selectionStart;
-    const beforeCursor = value.slice(0, cursorPos);
-    const afterCursor = value.slice(cursorPos);
 
     // Permitir solo números y un solo punto decimal
     let cleanValue = value.replace(/[^0-9.]/g, "");
@@ -173,5 +133,4 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.setSelectionRange(newPos, newPos);
     }
   });
-
 });
