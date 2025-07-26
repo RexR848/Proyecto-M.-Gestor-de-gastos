@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
 
-document.getElementById("formReset").addEventListener("submit", async (e) => {
+document.getElementById("formRestablecer").addEventListener("submit", async (e) => {
   e.preventDefault();
   const nueva = document.getElementById("nueva").value;
 
