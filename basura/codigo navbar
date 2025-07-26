@@ -1,0 +1,90 @@
+--------------html-----------
+<!-- Botón menú hamburguesa -->
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+<!-- Sidebar lateral -->
+<nav id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <ul class="nav-list">
+    <li><a href="vista.html">🏠 Inicio</a></li>
+    <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+    <li><a href="#">📊 Reportes</a></li>
+    <li><a href="#">⚙️ Ajustes</a></li>
+    <li><a href="acerca.html">🗣️ Acerca de</a></li>
+    <li><a href="#">🚪 Cerrar sesión</a></li>
+  </ul>
+</nav>
+------------------css---------------------
+/* Botón menú (☰) */
+.menu-btn {
+  font-size: 24px;
+  background-color: #278259;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+/* Sidebar lateral izquierda */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background-color: #1a1a1a;
+  padding-top: 60px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 10px;
+  display: block;
+  transition: background 0.2s;
+}
+
+.nav-list a:hover {
+  background-color: #278259;
+  border-radius: 8px;
+}
+
+---------js-------------
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
+}
