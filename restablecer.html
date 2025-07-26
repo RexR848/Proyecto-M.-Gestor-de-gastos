@@ -4,22 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Restablecer contraseña – Gestor de Gastos</title>
-  <link rel="stylesheet" href="/public/ISStyles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
-    <h1>Gestor de Gastos</h1>
+    <img src="resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+    <h1 class="site-title">Gestor de gastos</h1>
   </header>
 
-  <main>
-    <section class="form-container">
-      <h2>Restablecer contraseña</h2>
-      <form id="formReset">
+  <div class="divider"></div>
+
+  <main class="card">
+    <h2 class="title">Restablecer contraseña</h2>
+    <form id="formRestablecer" class="form-registro-horizontal">
+      <div class="form-field">
         <label for="nueva">Nueva contraseña:</label>
-        <input type="password" id="nueva" name="nueva" required>
-        <button type="submit">Guardar nueva contraseña</button>
-      </form>
-    </section>
+        <input type="password" id="nueva" name="nueva" placeholder="••••••••" required />
+      </div>
+      <div class="form-field full-width">
+        <button type="submit" class="btn">Guardar nueva contraseña</button>
+      </div>
+    </form>
+
+    <p class="paragraph">
+      ¿Ya tienes tu cuenta?<br />
+      <a href="public/IniciarSesion.html">👉 Iniciar sesión.</a>
+    </p>
   </main>
 
   <script src="/reset.js"></script>
