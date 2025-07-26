@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarDatos();
 
-  // Funciones para mostrar y quitar mensajes de error debajo de inputs
-  function mostrarError(input, mensaje) {
-    quitarError(input);
+  // Función para mostrar error debajo del input (solo ingreso mensual)
+  function mostrarErrorIngreso(input, mensaje) {
+    quitarErrorIngreso(input);
     if (!mensaje) return;
     const error = document.createElement("div");
     error.className = "error-msg";
@@ -74,10 +74,21 @@ document.addEventListener("DOMContentLoaded", () => {
     error.textContent = mensaje;
     input.insertAdjacentElement("afterend", error);
   }
-  function quitarError(input) {
+  function quitarErrorIngreso(input) {
     const next = input.nextElementSibling;
     if (next && next.classList.contains("error-msg")) {
       next.remove();
+    }
+  }
+
+  // Mostrar errores agrupados en un contenedor de errores (para gastos)
+  function mostrarErroresAgrupados(contenedorId, errores) {
+    const contenedor = document.getElementById(contenedorId);
+    if (errores.length === 0) {
+      contenedor.innerHTML = "";
+    } else {
+      contenedor.innerHTML =
+        errores.map(err => `<div style="color:#ff4a4a; font-size:13px; margin-top:4px;">${err}</div>`).join("");
     }
   }
 
@@ -85,65 +96,65 @@ document.addEventListener("DOMContentLoaded", () => {
   function validarTodo() {
     let esValido = true;
 
-    // Validar ingreso
+    // Validar ingreso mensual (mensaje debajo input)
     const ingresoVal = ingresoInput.value.trim();
-    quitarError(ingresoInput);
+    quitarErrorIngreso(ingresoInput);
     if (!ingresoVal) {
-      mostrarError(ingresoInput, "💰 El ingreso mensual no puede estar vacío.");
+      mostrarErrorIngreso(ingresoInput, "💰 El ingreso mensual no puede estar vacío.");
       esValido = false;
     } else if (isNaN(ingresoVal)) {
-      mostrarError(ingresoInput, "💰 El ingreso mensual debe ser un número válido.");
+      mostrarErrorIngreso(ingresoInput, "💰 El ingreso mensual debe ser un número válido.");
       esValido = false;
     } else if (parseFloat(ingresoVal) === 0) {
-      mostrarError(ingresoInput, "💰 El ingreso mensual NO puede ser 0.");
+      mostrarErrorIngreso(ingresoInput, "💰 El ingreso mensual NO puede ser 0.");
       esValido = false;
     } else if (parseFloat(ingresoVal) < 0) {
-      mostrarError(ingresoInput, "💰 El ingreso mensual debe ser mayor a 0.");
+      mostrarErrorIngreso(ingresoInput, "💰 El ingreso mensual debe ser mayor a 0.");
       esValido = false;
     }
 
-    // Validar gastos
-    function validarGastos(contenedorId, tipo) {
+    // Validar gastos fijos y opcionales, errores agrupados
+    function validarGastosAgrupados(contenedorId, tipo, contErroresId) {
       const nombres = [];
+      const errores = [];
       const gastos = document.querySelectorAll(`#${contenedorId} .gasto-item`);
       gastos.forEach((gasto, i) => {
         const nombreInput = gasto.querySelector('input[type="text"]');
         const montoInput = gasto.querySelector('input[type="number"]');
 
-        quitarError(nombreInput);
-        quitarError(montoInput);
-
         const nombre = nombreInput.value.trim();
         const monto = montoInput.value.trim();
 
         if (!nombre) {
-          mostrarError(nombreInput, `📝 El nombre del gasto ${tipo} #${i + 1} no puede estar vacío.`);
+          errores.push(`📝 El nombre del gasto ${tipo} #${i + 1} no puede estar vacío.`);
           esValido = false;
         } else if (nombres.includes(nombre.toLowerCase())) {
-          mostrarError(nombreInput, `📝 El nombre "${nombre}" está duplicado en gastos ${tipo}.`);
+          errores.push(`📝 El nombre "${nombre}" está duplicado en gastos ${tipo}.`);
           esValido = false;
         } else {
           nombres.push(nombre.toLowerCase());
         }
 
         if (monto === "") {
-          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} no puede estar vacío.`);
+          errores.push(`💵 El monto del gasto ${tipo} #${i + 1} no puede estar vacío.`);
           esValido = false;
         } else if (isNaN(monto)) {
-          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} debe ser un número válido.`);
+          errores.push(`💵 El monto del gasto ${tipo} #${i + 1} debe ser un número válido.`);
           esValido = false;
         } else if (parseFloat(monto) === 0) {
-          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} NO puede ser 0.`);
+          errores.push(`💵 El monto del gasto ${tipo} #${i + 1} NO puede ser 0.`);
           esValido = false;
         } else if (parseFloat(monto) < 0) {
-          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} debe ser mayor a 0.`);
+          errores.push(`💵 El monto del gasto ${tipo} #${i + 1} debe ser mayor a 0.`);
           esValido = false;
         }
       });
+
+      mostrarErroresAgrupados(contErroresId, errores);
     }
 
-    validarGastos("gastos-fijos-container", "fijos");
-    validarGastos("gastos-opcionales-container", "opcionales");
+    validarGastosAgrupados("gastos-fijos-container", "fijos", "errores-fijos");
+    validarGastosAgrupados("gastos-opcionales-container", "opcionales", "errores-opcionales");
 
     return esValido;
   }
@@ -163,11 +174,12 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     // Limpiar errores previos
-    document.querySelectorAll(".error-msg").forEach(e => e.remove());
+    quitarErrorIngreso(ingresoInput);
+    document.getElementById("errores-fijos").innerHTML = "";
+    document.getElementById("errores-opcionales").innerHTML = "";
 
     if (!validarTodo()) {
-      // No continuar si hay errores
-      return;
+      return; // no enviar si hay errores
     }
 
     const data = {
