@@ -184,93 +184,41 @@ input:focus {
 /* 📱 Responsive */
 @media (max-width: 600px) {
   .card {
-    margin: 20px 10px;
     padding: 20px 10px;
-  }
-
-  .form-field,
-  .gasto-box {
-    width: 100%;
-    max-width: 100%;
+    margin: 0 auto;
   }
 
   .gasto-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .gasto-datos {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
-    padding: 12px;
+    align-items: flex-start;
+    text-align: left;
+    flex: 1;
   }
 
-  .gasto-item input {
-    width: 100%;
-    margin: 6px 0;
+  .gasto-nombre {
+    font-size: 16px;
   }
 
-  .gasto-item button {
-    width: auto;
-    align-self: flex-end;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 10px;
-    margin-top: 6px;
+  .gasto-monto {
+    font-size: 15px;
   }
 
-  .btn {
-    width: 100%;
+  .btn-eliminar {
+    align-self: center;
+    margin-left: 10px;
   }
 
-  .logo {
-    width: 80px;
+  .modal-contenido {
+    width: 90%;
+    padding: 15px;
   }
-
-  .site-title {
-    font-size: 20px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-}
-
-.modal-errores {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(18, 18, 18, 0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-contenido {
-  background-color: #1f1f1f;
-  border: 1px solid #ff5252;
-  padding: 20px;
-  border-radius: 10px;
-  color: #fff;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 10px #ff5252;
-}
-
-.modal-contenido h3 {
-  margin-top: 0;
-  color: #ff5252;
-}
-
-.modal-contenido ul {
-  margin: 10px 0;
-  padding-left: 20px;
-}
-
-.modal-contenido button {
-  background-color: #ff5252;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  margin-top: 10px;
-  border-radius: 6px;
-  cursor: pointer;
 }
