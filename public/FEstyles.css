@@ -284,3 +284,9 @@ input:focus {
 .modal-netbeans .cerrar:hover {
   color: #82c1ff;
 }
+
+.error-msg {
+  color: #ff4a4a;
+  font-size: 13px;
+  margin-top: 4px;
+}

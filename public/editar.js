@@ -1,7 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
-  const modal = document.querySelector("#modalErrores");
-  const listaErrores = document.querySelector("#listaErrores");
+  const ingresoInput = document.querySelector("#ingreso");
+
+  // Función para mostrar o quitar mensaje de error debajo de un input
+  function mostrarError(input, mensaje) {
+    quitarError(input);
+    if (!mensaje) return;
+    const error = document.createElement("div");
+    error.className = "error-msg";
+    error.style.color = "#ff4a4a";
+    error.style.fontSize = "13px";
+    error.style.marginTop = "4px";
+    error.textContent = mensaje;
+    input.insertAdjacentElement("afterend", error);
+  }
+  function quitarError(input) {
+    const next = input.nextElementSibling;
+    if (next && next.classList.contains("error-msg")) {
+      next.remove();
+    }
+  }
 
   // Función para agregar gasto (fijo u opcional)
   window.agregarGasto = function(tipo, nombre = "", monto = "") {
@@ -20,7 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Botón eliminar
     gastoDiv.querySelector("button").addEventListener("click", () => {
       gastoDiv.remove();
+      validarTodo();
     });
+
+    // Validación en tiempo real para los inputs de gasto
+    const [nombreInput, montoInput] = gastoDiv.querySelectorAll("input");
+    nombreInput.addEventListener("input", validarTodo);
+    montoInput.addEventListener("input", validarTodo);
 
     contenedor.appendChild(gastoDiv);
   };
@@ -32,32 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("No se pudieron obtener los datos");
 
       const data = await res.json();
-
-      // Soporta ambos formatos:
-      // 1) { ok: true, datos: { ingreso, gastosFijos, gastosOpcionales } }
-      // 2) { ingreso, gastosFijos, gastosOpcionales }
       const datos = data.ok && data.datos ? data.datos : data;
 
-      // INGRESO - asignarlo sin borrarlo al volver a editar
+      // Asignar ingreso sin borrar gastos
       if (datos.ingreso !== undefined && datos.ingreso !== null) {
-        document.getElementById("ingreso").value = datos.ingreso;
+        ingresoInput.value = datos.ingreso;
       }
 
-      // Limpiar contenedores antes de agregar para evitar duplicados al recargar
-      const contFijos = document.getElementById("gastos-fijos-container");
-      const contOpcionales = document.getElementById("gastos-opcionales-container");
-      contFijos.innerHTML = "";
-      contOpcionales.innerHTML = "";
+      // Limpiar contenedores para evitar duplicados
+      document.getElementById("gastos-fijos-container").innerHTML = "";
+      document.getElementById("gastos-opcionales-container").innerHTML = "";
 
-      // Gastos fijos
-      (datos.gastosFijos || []).forEach(g => {
-        agregarGasto("fijo", g.nombre, g.monto);
-      });
+      (datos.gastosFijos || []).forEach(g => agregarGasto("fijo", g.nombre, g.monto));
+      (datos.gastosOpcionales || []).forEach(g => agregarGasto("opcional", g.nombre, g.monto));
 
-      // Gastos opcionales
-      (datos.gastosOpcionales || []).forEach(g => {
-        agregarGasto("opcional", g.nombre, g.monto);
-      });
+      validarTodo();
 
     } catch (err) {
       console.error("Error cargando datos:", err);
@@ -66,88 +79,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarDatos();
 
-  // Validaciones (igual que antes)
-  function validarGastos(lista, errores, tipo) {
-    const nombres = [];
+  // Validar todo el formulario y mostrar errores inline
+  function validarTodo() {
+    let esValido = true;
 
-    lista.forEach((item, index) => {
-      const nombreInput = item.querySelector('input[type="text"]');
-      const montoInput = item.querySelector('input[type="number"]');
+    // Validar ingreso
+    const ingresoVal = ingresoInput.value.trim();
+    quitarError(ingresoInput);
+    if (!ingresoVal) {
+      mostrarError(ingresoInput, "💰 El ingreso mensual no puede estar vacío.");
+      esValido = false;
+    } else if (isNaN(ingresoVal)) {
+      mostrarError(ingresoInput, "💰 El ingreso mensual debe ser un número válido.");
+      esValido = false;
+    } else if (parseFloat(ingresoVal) <= 0) {
+      mostrarError(ingresoInput, "💰 El ingreso mensual debe ser mayor a 0.");
+      esValido = false;
+    }
 
-      const nombre = nombreInput?.value.trim();
-      const monto = montoInput?.value.trim();
-      const nombreLabel = nombre || `Gasto ${index + 1}`;
+    // Función para validar gastos
+    function validarGastos(contenedorId, tipo) {
+      const nombres = [];
+      const gastos = document.querySelectorAll(`#${contenedorId} .gasto-item`);
+      gastos.forEach((gasto, i) => {
+        const nombreInput = gasto.querySelector('input[type="text"]');
+        const montoInput = gasto.querySelector('input[type="number"]');
 
-      if (!nombre) {
-        errores.push(`📝 El nombre del gasto ${tipo} #${index + 1} no puede estar vacío.`);
-      } else if (nombres.includes(nombre.toLowerCase())) {
-        errores.push(`📝 El nombre "${nombre}" está duplicado en los gastos ${tipo}.`);
-      } else {
-        nombres.push(nombre.toLowerCase());
-      }
+        quitarError(nombreInput);
+        quitarError(montoInput);
 
-      if (!monto) {
-        errores.push(`💵 El monto de "${nombreLabel}" está vacío.`);
-      } else if (isNaN(monto)) {
-        errores.push(`💵 El monto de "${nombreLabel}" debe ser un número válido.`);
-      } else if (parseFloat(monto) <= 0) {
-        errores.push(`💵 El monto de "${nombreLabel}" debe ser mayor a 0.`);
-      }
-    });
+        const nombre = nombreInput.value.trim();
+        const monto = montoInput.value.trim();
+
+        if (!nombre) {
+          mostrarError(nombreInput, `📝 El nombre del gasto ${tipo} #${i + 1} no puede estar vacío.`);
+          esValido = false;
+        } else if (nombres.includes(nombre.toLowerCase())) {
+          mostrarError(nombreInput, `📝 El nombre "${nombre}" está duplicado en gastos ${tipo}.`);
+          esValido = false;
+        } else {
+          nombres.push(nombre.toLowerCase());
+        }
+
+        if (!monto) {
+          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} no puede estar vacío.`);
+          esValido = false;
+        } else if (isNaN(monto)) {
+          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} debe ser un número válido.`);
+          esValido = false;
+        } else if (parseFloat(monto) <= 0) {
+          mostrarError(montoInput, `💵 El monto del gasto ${tipo} #${i + 1} debe ser mayor a 0.`);
+          esValido = false;
+        }
+      });
+    }
+
+    validarGastos("gastos-fijos-container", "fijos");
+    validarGastos("gastos-opcionales-container", "opcionales");
+
+    return esValido;
   }
 
-  function obtenerGastos(lista) {
-    const gastos = [];
-    lista.forEach(item => {
-      const nombre = item.querySelector('input[type="text"]').value.trim();
-      const monto = parseFloat(item.querySelector('input[type="number"]').value.trim());
-      gastos.push({ nombre, monto });
-    });
-    return gastos;
-  }
-
-  // Mostrar errores en tu modal original
-  function mostrarErrores(errores) {
-    listaErrores.innerHTML = errores.map(err => `<li>${err}</li>`).join("");
-    modal.style.display = "flex";
-  }
-
-  // Función para cerrar modal llamada desde HTML (ejemplo en un botón X)
-  window.cerrarModal = function () {
-    modal.style.display = "none";
-  };
+  // Validación en tiempo real para ingreso
+  ingresoInput.addEventListener("input", () => {
+    // Solo permitir números y un punto decimal
+    let val = ingresoInput.value;
+    val = val.replace(/[^0-9.]/g, "");
+    const partes = val.split(".");
+    if (partes.length > 2) {
+      val = partes[0] + "." + partes[1];
+    }
+    ingresoInput.value = val;
+    validarTodo();
+  });
 
   formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!validarTodo()) return;
 
-    const errores = [];
-    const ingresoInput = document.querySelector("#ingreso");
-    const ingreso = ingresoInput.value.trim();
+    const ingreso = parseFloat(ingresoInput.value.trim());
+    const gastosFijos = [];
+    const gastosOpcionales = [];
 
-    if (!ingreso) {
-      errores.push("💰 El ingreso mensual no puede estar vacío.");
-    } else if (isNaN(ingreso)) {
-      errores.push("💰 El ingreso mensual debe ser un número válido.");
-    } else if (parseFloat(ingreso) <= 0) {
-      errores.push("💰 El ingreso mensual debe ser mayor a 0.");
-    }
+    document.querySelectorAll("#gastos-fijos-container .gasto-item").forEach(div => {
+      gastosFijos.push({
+        nombre: div.querySelector('input[type="text"]').value.trim(),
+        monto: parseFloat(div.querySelector('input[type="number"]').value.trim())
+      });
+    });
 
-    const gastosFijos = document.querySelectorAll("#gastos-fijos-container .gasto-item");
-    const gastosOpcionales = document.querySelectorAll("#gastos-opcionales-container .gasto-item");
+    document.querySelectorAll("#gastos-opcionales-container .gasto-item").forEach(div => {
+      gastosOpcionales.push({
+        nombre: div.querySelector('input[type="text"]').value.trim(),
+        monto: parseFloat(div.querySelector('input[type="number"]').value.trim())
+      });
+    });
 
-    validarGastos(gastosFijos, errores, "fijos");
-    validarGastos(gastosOpcionales, errores, "opcionales");
-
-    if (errores.length > 0) {
-      mostrarErrores(errores);
-      return;
-    }
-
-    const data = {
-      ingreso: parseFloat(ingreso),
-      gastosFijos: obtenerGastos(gastosFijos),
-      gastosOpcionales: obtenerGastos(gastosOpcionales),
-    };
+    const data = { ingreso, gastosFijos, gastosOpcionales };
 
     try {
       const res = await fetch("/guardar-datos", {
@@ -155,35 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-
       const result = await res.json();
       if (res.ok && result.ok) {
         window.location.href = "Finanzas.html";
       } else {
-        mostrarErrores([result.error || "Error al guardar datos."]);
+        alert(result.error || "Error al guardar datos.");
       }
     } catch (err) {
-      mostrarErrores(["❌ Error de red: " + err.message]);
-    }
-  });
-
-  // Listener para que el cursor en el input de ingreso funcione bien al escribir puntos
-  document.getElementById("ingreso").addEventListener("input", (e) => {
-    let value = e.target.value;
-    const cursorPos = e.target.selectionStart;
-
-    // Permitir solo números y un solo punto decimal
-    let cleanValue = value.replace(/[^0-9.]/g, "");
-    const parts = cleanValue.split(".");
-    if (parts.length > 2) {
-      cleanValue = parts[0] + "." + parts[1];
-    }
-
-    if (cleanValue !== value) {
-      e.target.value = cleanValue;
-      // Restaurar cursor al lugar correcto
-      const newPos = Math.min(cursorPos, cleanValue.length);
-      e.target.setSelectionRange(newPos, newPos);
+      alert("Error de red: " + err.message);
     }
   });
 
