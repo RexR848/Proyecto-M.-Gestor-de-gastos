@@ -1,4 +1,3 @@
-/* Estilo base */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -36,17 +35,10 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Contenedor principal centrado */
-.container {
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-}
-
 /* Tarjeta principal */
 .card {
   max-width: 700px;
-  width: 100%;
+  margin: 40px auto;
   padding: 30px 20px;
   background-color: #1e1e1e;
   border-radius: 15px;
@@ -61,56 +53,65 @@ body {
   margin-bottom: 30px;
 }
 
-/* Lista de gastos */
-.gasto-lista {
+/* Formulario */
+.form-registro-horizontal {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.gasto-item {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #2b2b2b;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
-  color: #fff;
 }
 
-/* Botón de eliminar */
-.btn-eliminar {
-  background-color: #ff5252;
-  color: white;
-  border: none;
-  padding: 12px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  height: fit-content;
-  align-self: center;
-}
-
-.gasto-datos {
+/* Campos individuales */
+.form-field {
+  margin: 20px 0;
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  text-align: right;
+  align-items: center;
 }
 
-.gasto-nombre {
-  font-size: 16px;
+label {
+  margin-bottom: 8px;
   font-weight: bold;
+  color: #ffffff;
 }
 
-.gasto-monto {
-  font-size: 14px;
-  color: #4aa3ff;
+input[type="number"] {
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  background-color: #2b2b2b;
+  color: #fff;
+  text-align: center;
 }
 
-/* Botón general */
+input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+/* Secciones de gastos */
+.gasto-box {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #2b2b2b;
+  border-radius: 15px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.gasto-header {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+/* Botones */
 .btn {
   padding: 12px 24px;
   font-size: 16px;
@@ -119,38 +120,157 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
   margin-top: 15px;
+  transition: background-color 0.3s;
 }
 
 .btn:hover {
   background-color: #3779cc;
 }
 
-/* Responsive */
+/* Botón final centrado */
+.form-field.full-width {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* 🎨 Estilo para cada etiqueta de gasto editable */
+.gasto-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  background-color: #2b2b2b;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+/* ✏️ Input de nombre y monto dentro de gasto */
+.gasto-item input[type="text"],
+.gasto-item input[type="number"] {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+
+.gasto-item input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+/* 🗑 Botón eliminar */
+.gasto-item button {
+  background-color: #ff4a4a;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gasto-item button:hover {
+  background-color: #cc3a3a;
+}
+
+/* 📱 Responsive */
 @media (max-width: 600px) {
   .card {
+    margin: 20px 10px;
     padding: 20px 10px;
   }
 
+  .form-field,
+  .gasto-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .gasto-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     padding: 12px;
   }
 
-  .gasto-datos {
-    align-items: flex-end;
+  .gasto-item input {
+    width: 100%;
+    margin: 6px 0;
   }
 
-  .gasto-nombre,
-  .gasto-monto {
+  .gasto-item button {
+    width: auto;
+    align-self: flex-end;
+    padding: 10px 12px;
     font-size: 14px;
+    border-radius: 10px;
+    margin-top: 6px;
   }
 
-  .btn-eliminar {
-    padding: 8px 12px;
-    font-size: 14px;
+  .btn {
+    width: 100%;
   }
+
+  .logo {
+    width: 80px;
+  }
+
+  .site-title {
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+.modal-errores {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 18, 18, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-contenido {
+  background-color: #1f1f1f;
+  border: 1px solid #ff5252;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 10px #ff5252;
+}
+
+.modal-contenido h3 {
+  margin-top: 0;
+  color: #ff5252;
+}
+
+.modal-contenido ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.modal-contenido button {
+  background-color: #ff5252;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
 }
