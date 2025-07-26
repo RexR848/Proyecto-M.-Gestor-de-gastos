@@ -285,8 +285,10 @@ input:focus {
   color: #82c1ff;
 }
 
+/* Estilo para mensajes de error debajo de inputs */
 .error-msg {
   color: #ff4a4a;
   font-size: 13px;
   margin-top: 4px;
+  user-select: none;
 }
