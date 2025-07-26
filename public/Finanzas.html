@@ -10,6 +10,7 @@
   <header class="header">
     <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
     <h1 class="site-title">Gestor de gastos</h1>
+      
   </header>
 
   <div class="divider"></div>
@@ -18,43 +19,38 @@
     <div class="card">
       <h2 class="title">Tu información financiera</h2>
 
-      <!-- Ingreso mensual -->
       <section class="info-block">
         <h3>💰 Ingreso mensual</h3>
         <p id="ingreso-mensual" class="dato-numero"></p>
       </section>
 
-      <!-- Gastos fijos prioritarios -->
       <section class="info-block">
         <h3>📌 Gastos fijos prioritarios</h3>
         <div class="gasto-lista" id="lista-fijos"></div>
       </section>
 
-      <!-- Gastos opcionales -->
       <section class="info-block">
-        <h3>🎧 Gastos opcionales</h3>
+        <h3>🎧 Gatos opcionales</h3>
           <div class="gasto-lista" id="lista-opcionales"></div>
       </section>
 
-      <!-- Botón para editar -->
       <div>
         <a href="Finanzas_editar.html" class="btn">Editar información</a>
       </div>
     </div>
   </main>
+  <nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="vista.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="#">📊 Reportes</a></li>
+      <li><a href="#">⚙️ Ajustes</a></li>
+      <li><a href="#">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
   <script src="finanzas.js"></script>
 </body>
-<nav id="sidebar" class="sidebar">
-  <button class="close-btn" onclick="toggleSidebar()">×</button>
-  <ul class="nav-list">
-    <li><a href="vista.html">🏠 Inicio</a></li>
-    <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
-    <li><a href="#">📊 Reportes</a></li>
-    <li><a href="#">⚙️ Ajustes</a></li>
-    <li><a href="#">🚪 Cerrar sesión</a></li>
-  </ul>
-</nav>
-
 <button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
 </html>
