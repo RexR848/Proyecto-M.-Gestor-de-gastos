@@ -1,28 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
-  const modal = document.getElementById("modalNetbeans");
-  const listaErrores = document.getElementById("listaErroresNetbeans");
-  const cerrar = document.getElementById("cerrarNetbeans");
+  const modal = document.querySelector("#modalErrores");
+  const listaErrores = document.querySelector("#listaErrores");
 
-  // Función para mostrar errores en modal NetBeans
-  function mostrarErroresNetbeans(errores) {
-    listaErrores.innerHTML = errores.map(err => `<li>${err}</li>`).join("");
-    modal.style.display = "block";
+  // Función para agregar gasto (fijo u opcional)
+  window.agregarGasto = function(tipo, nombre = "", monto = "") {
+    const contenedorId = tipo === "fijo" ? "gastos-fijos-container" : "gastos-opcionales-container";
+    const contenedor = document.getElementById(contenedorId);
+
+    const gastoDiv = document.createElement("div");
+    gastoDiv.className = "gasto-item";
+
+    gastoDiv.innerHTML = `
+      <input type="text" placeholder="Nombre del gasto" value="${nombre}" required />
+      <input type="number" placeholder="Monto" step="0.01" min="0" value="${monto}" required />
+      <button type="button" title="Eliminar gasto">×</button>
+    `;
+
+    // Botón eliminar
+    gastoDiv.querySelector("button").addEventListener("click", () => {
+      gastoDiv.remove();
+    });
+
+    contenedor.appendChild(gastoDiv);
+  };
+
+  // Cargar datos guardados al inicio
+  async function cargarDatos() {
+    try {
+      const res = await fetch("/datos");
+      if (!res.ok) throw new Error("No se pudieron obtener los datos");
+
+      const data = await res.json();
+      if (!data.ok) throw new Error("Respuesta inválida del servidor");
+
+      // INGRESO - asignarlo sin borrarlo al volver a editar
+      if (data.datos.ingreso !== undefined && data.datos.ingreso !== null) {
+        document.getElementById("ingreso").value = data.datos.ingreso;
+      }
+
+      // Limpiar contenedores antes de agregar para evitar duplicados al recargar
+      const contFijos = document.getElementById("gastos-fijos-container");
+      const contOpcionales = document.getElementById("gastos-opcionales-container");
+      contFijos.innerHTML = "";
+      contOpcionales.innerHTML = "";
+
+      // Gastos fijos
+      (data.datos.gastosFijos || []).forEach(g => {
+        agregarGasto("fijo", g.nombre, g.monto);
+      });
+
+      // Gastos opcionales
+      (data.datos.gastosOpcionales || []).forEach(g => {
+        agregarGasto("opcional", g.nombre, g.monto);
+      });
+
+    } catch (err) {
+      console.error("Error cargando datos:", err);
+    }
   }
 
-  // Cerrar modal al hacer click en X
-  cerrar.onclick = () => {
-    modal.style.display = "none";
-  };
+  cargarDatos();
 
-  // Cerrar modal al hacer click fuera del contenido
-  window.onclick = (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  };
-
-  // Función para validar gastos (nombre y monto)
+  // Validaciones (igual que antes)
   function validarGastos(lista, errores, tipo) {
     const nombres = [];
 
@@ -52,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Obtener gastos en formato para enviar
   function obtenerGastos(lista) {
     const gastos = [];
     lista.forEach(item => {
@@ -63,7 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return gastos;
   }
 
-  // Evento submit del formulario
+  // Mostrar errores en tu modal original
+  function mostrarErrores(errores) {
+    listaErrores.innerHTML = errores.map(err => `<li>${err}</li>`).join("");
+    modal.style.display = "flex";
+  }
+
+  // Función para cerrar modal llamada desde HTML (ejemplo en un botón X)
+  window.cerrarModal = function () {
+    modal.style.display = "none";
+  };
+
   formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -86,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     validarGastos(gastosOpcionales, errores, "opcionales");
 
     if (errores.length > 0) {
-      mostrarErroresNetbeans(errores);
+      mostrarErrores(errores);
       return;
     }
 
@@ -107,14 +156,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (res.ok && result.ok) {
         window.location.href = "Finanzas.html";
       } else {
-        mostrarErroresNetbeans([result.error || "Error al guardar datos."]);
+        mostrarErrores([result.error || "Error al guardar datos."]);
       }
     } catch (err) {
-      mostrarErroresNetbeans(["❌ Error de red: " + err.message]);
+      mostrarErrores(["❌ Error de red: " + err.message]);
     }
   });
 
-  // Corrección para input decimal que no mueve cursor al escribir punto
+  // Listener para que el cursor en el input de ingreso funcione bien al escribir puntos
   document.getElementById("ingreso").addEventListener("input", (e) => {
     let value = e.target.value;
     const cursorPos = e.target.selectionStart;
@@ -133,4 +182,5 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.setSelectionRange(newPos, newPos);
     }
   });
+
 });
