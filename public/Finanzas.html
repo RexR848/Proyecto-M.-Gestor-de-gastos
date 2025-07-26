@@ -7,11 +7,16 @@
   <link rel="stylesheet" href="Fstyles.css" />
 </head>
 <body>
+
+
   <header class="header">
-    <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
-    <h1 class="site-title">Gestor de gastos</h1>
-      
+    <div class="logo-title">
+      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+      <h1 class="site-title">Gestor de gastos</h1>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
   </header>
+
 
   <div class="divider"></div>
 
@@ -30,8 +35,8 @@
       </section>
 
       <section class="info-block">
-        <h3>🎧 Gatos opcionales</h3>
-          <div class="gasto-lista" id="lista-opcionales"></div>
+        <h3>🎧 Gastos opcionales</h3>
+        <div class="gasto-lista" id="lista-opcionales"></div>
       </section>
 
       <div>
@@ -39,6 +44,7 @@
       </div>
     </div>
   </main>
+
   <nav id="sidebar" class="sidebar">
     <button class="close-btn" onclick="toggleSidebar()">×</button>
     <ul class="nav-list">
@@ -49,8 +55,7 @@
       <li><a href="#">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
+
   <script src="finanzas.js"></script>
 </body>
-<button class="menu-btn" onclick="toggleSidebar()">☰</button>
-
 </html>

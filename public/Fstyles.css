@@ -8,26 +8,46 @@ body {
 
 /* Encabezado */
 .header {
-  background-color: #1f1f1f;
-  padding: 20px;
-  text-align: center;
+  background-color: #222222;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 4px solid #1e1e1e;
+  border-radius: 0 0 12px 12px;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logo {
-  width: 100px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #278259;
-  display: block;
-  margin: 0 auto 10px;
+  width: 60px;
+  height: auto;
 }
 
 .site-title {
-  font-size: 26px;
+  font-size: 1.8rem;
+  font-weight: bold;
   margin: 0;
-  color: #ffffff;
 }
+
+.menu-btn {
+  font-size: 24px;
+  background-color: #278259;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+
 
 .divider {
   height: 3px;
@@ -111,20 +131,6 @@ body {
   background-color: #3779cc;
 }
 
-/*Botón de menú burgis*/
-.menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  font-size: 24px;
-  background-color: #278259;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1001;
-}
 
 /* Sidebar */
 .sidebar {
@@ -180,9 +186,4 @@ body {
   border-radius: 6px;
 }
 
-/*Responsive*/
-@media (min-width: 768px) {
-  .menu-btn {
-    display: none;
-  }
-}
+
