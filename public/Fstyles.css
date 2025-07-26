@@ -78,7 +78,6 @@ body {
   color: #4aa3ff;
 }
 
-/* Lista de gastos */
 .gasto-lista {
   display: flex;
   flex-direction: column;
@@ -96,7 +95,6 @@ body {
   color: #fff;
 }
 
-/* Botón */
 .btn {
   padding: 12px 24px;
   font-size: 16px;
@@ -111,4 +109,80 @@ body {
 
 .btn:hover {
   background-color: #3779cc;
+}
+
+/*Botón de menú burgis*/
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  background-color: #278259;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background-color: #1a1a1a;
+  padding-top: 60px;
+  transition: 0.3s;
+  z-index: 1000;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 10px;
+  display: block;
+  transition: background 0.2s;
+}
+
+.nav-list a:hover {
+  background-color: #278259;
+  border-radius: 6px;
+}
+
+/*Responsive*/
+@media (min-width: 768px) {
+  .menu-btn {
+    display: none;
+  }
 }

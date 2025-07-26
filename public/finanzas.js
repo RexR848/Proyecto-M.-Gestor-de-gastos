@@ -36,3 +36,8 @@ function mostrarGastos(idContenedor, lista) {
     contenedor.appendChild(item);
   });
 }
+
+//navbar copiar abajo
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
+}
