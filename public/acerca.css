@@ -1,0 +1,71 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #000; /* fallback */
+  color: #f0f0f0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Canvas shader fullscreen detrás */
+#shader-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Para que el contenido esté encima */
+body > *:not(#shader-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header transparente */
+.header {
+  text-align: center;
+  padding: 20px;
+  background: transparent;
+  color: #f0f0f0;
+  font-weight: bold;
+  font-size: 2.5rem;
+  text-shadow: 0 0 8px rgba(0,0,0,0.7);
+  user-select: none;
+}
+
+/* Main container semitransparente */
+.main-content {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: rgba(30, 30, 30, 0.75); /* negro con opacidad */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+}
+
+.main-content section {
+  margin-bottom: 30px;
+}
+
+.main-content h2 {
+  color: #62a9ff;
+  margin-bottom: 12px;
+  font-size: 1.8rem;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #888;
+  user-select: none;
+}

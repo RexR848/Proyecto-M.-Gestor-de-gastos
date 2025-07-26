@@ -180,10 +180,3 @@ body {
   display: block;
   transition: background 0.2s;
 }
-
-.nav-list a:hover {
-  background-color: #278259;
-  border-radius: 6px;
-}
-
-
