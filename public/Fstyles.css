@@ -6,37 +6,43 @@ body {
   color: #f0f0f0;
 }
 
-/* Encabezado */
+/* Encabezado centrado con logo redondo */
 .header {
-  background-color: #222222;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border-bottom: 4px solid #1e1e1e;
-  border-radius: 0 0 12px 12px;
+  background-color: #1f1f1f;
+  padding: 20px;
+  text-align: center;
+  position: relative;
 }
 
 .logo-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 10px;
 }
 
 .logo {
-  width: 60px;
-  height: auto;
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #278259;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .site-title {
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: 26px;
   margin: 0;
+  color: #ffffff;
 }
 
+/* Botón de menú (preservado) */
 .menu-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   font-size: 24px;
   background-color: #4aa3ff;
   color: white;
@@ -46,8 +52,6 @@ body {
   cursor: pointer;
   z-index: 1001;
 }
-
-
 
 .divider {
   height: 3px;
@@ -130,7 +134,6 @@ body {
 .btn:hover {
   background-color: #3779cc;
 }
-
 
 /* Sidebar */
 .sidebar {
