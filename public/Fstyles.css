@@ -40,17 +40,17 @@ body {
 
 /* Botón de menú (preservado) */
 .menu-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   font-size: 24px;
-  background-color: #4aa3ff;
+  background-color: #278259;
   color: white;
   border: none;
   padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
   z-index: 1001;
+  position: fixed;
+  top: 20px;
+  left: 20px; /* Ya está a la izquierda */
 }
 
 .divider {
@@ -144,7 +144,7 @@ body {
   width: 250px;
   background-color: #1a1a1a;
   padding-top: 60px;
-  transition: 0.3s;
+  transition: left 0.3s ease;
   z-index: 1000;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -182,4 +182,9 @@ body {
   padding: 10px;
   display: block;
   transition: background 0.2s;
+}
+
+.nav-list a:hover {
+  background-color: #4aa3ff;
+  border-radius: 8px;
 }

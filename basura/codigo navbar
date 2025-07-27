@@ -81,7 +81,7 @@
 }
 
 .nav-list a:hover {
-  background-color: #278259;
+  background-color: #4aa3ff;
   border-radius: 8px;
 }
 
