@@ -13,11 +13,20 @@
 body, html {
   height: 100%;
   font-family: 'CardFont', sans-serif;
-  font-size: larger;
+  font-size: 18px;
   background-color: #000;
   color: #f0f0f0;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+  body{
+    font-size: 14px;
+  }
+  h1, h2, h3 {
+    font-size: 1.2em;
+  }
 }
 
 /*Shader*/
@@ -87,7 +96,7 @@ body > *:not(#shader-canvas) {
   max-width: 800px;
   margin: 30px auto;
   background-color: rgba(30, 30, 30, 0.75);
-  padding: 40px 20px;
+  padding: 1rem;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.7);
 }
