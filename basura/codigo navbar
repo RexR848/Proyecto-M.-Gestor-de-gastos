@@ -1,4 +1,4 @@
---------------html-----------
+ --------------html-----------
 <!-- Botón menú hamburguesa -->
 <button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
@@ -18,7 +18,7 @@
 /* Botón menú (☰) */
 .menu-btn {
   font-size: 24px;
-  background-color: #4aa3ff;
+  background-color: #278259;
   color: white;
   border: none;
   padding: 10px 14px;
@@ -80,13 +80,11 @@
 }
 
 .nav-list a:hover {
-  background-color: #4aa3ff;
+  background-color: #278259;
   border-radius: 8px;
 }
-
 
 ---------js-------------
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
-
