@@ -14,6 +14,7 @@
     <li><a href="#">🚪 Cerrar sesión</a></li>
   </ul>
 </nav>
+
 ------------------css---------------------
 /* Botón menú (☰) */
 .menu-btn {
@@ -27,7 +28,7 @@
   z-index: 1001;
   position: fixed;
   top: 20px;
-  left: 20px;
+  left: 20px; /* Ya está a la izquierda */
 }
 
 /* Sidebar lateral izquierda */
@@ -85,6 +86,20 @@
 }
 
 ---------js-------------
+<script>
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
+
+// Agregar evento a cada enlace para cerrar el menú
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("sidebar");
+  const links = sidebar.querySelectorAll("a");
+  links.forEach(link => {
+    link.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+    });
+  });
+});
+</script>
+
