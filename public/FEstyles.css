@@ -28,6 +28,15 @@ body {
   color: #ffffff;
 }
 
+/* Para centrar vertical y horizontal logo + título */
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Divisor */
 .divider {
   height: 3px;
   width: 100%;
@@ -184,42 +193,26 @@ input:focus {
 /* 📱 Responsive */
 @media (max-width: 600px) {
   .card {
-    padding: 20px 10px;
-    margin: 0 auto;
+    padding: 20px 15px;
+    margin: 20px auto;
+    width: 95%;
+    max-width: 700px;
+  }
+
+  .gasto-box {
+    width: 90%;
+    margin: 15px auto;
+  }
+
+  .form-field {
+    max-width: 100%;
+    width: 90%;
   }
 
   .gasto-item {
-    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
-  }
-
-  .gasto-datos {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    flex: 1;
-  }
-
-  .gasto-nombre {
-    font-size: 16px;
-  }
-
-  .gasto-monto {
-    font-size: 15px;
-  }
-
-  .btn-eliminar {
-    align-self: center;
-    margin-left: 10px;
-  }
-
-  .modal-contenido {
-    width: 90%;
-    padding: 15px;
   }
 }
 
@@ -305,12 +298,4 @@ input:focus {
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Centrado vertical de logo + título */
-.logo-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
