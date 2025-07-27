@@ -14,12 +14,11 @@
     <li><a href="#">🚪 Cerrar sesión</a></li>
   </ul>
 </nav>
-
 ------------------css---------------------
 /* Botón menú (☰) */
 .menu-btn {
   font-size: 24px;
-  background-color: #4aa3ff;
+  background-color: #278259;
   color: white;
   border: none;
   padding: 10px 14px;
@@ -28,7 +27,7 @@
   z-index: 1001;
   position: fixed;
   top: 20px;
-  left: 20px; /* Ya está a la izquierda */
+  left: 20px;
 }
 
 /* Sidebar lateral izquierda */
@@ -81,25 +80,11 @@
 }
 
 .nav-list a:hover {
-  background-color: #4aa3ff;
+  background-color: #278259;
   border-radius: 8px;
 }
 
 ---------js-------------
-<script>
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
-
-// Agregar evento a cada enlace para cerrar el menú
-document.addEventListener("DOMContentLoaded", () => {
-  const sidebar = document.getElementById("sidebar");
-  const links = sidebar.querySelectorAll("a");
-  links.forEach(link => {
-    link.addEventListener("click", () => {
-      sidebar.classList.remove("open");
-    });
-  });
-});
-</script>
-
