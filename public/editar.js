@@ -228,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+//navbar copiar abajo
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }

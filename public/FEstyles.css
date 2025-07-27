@@ -300,8 +300,11 @@ input:focus {
   margin-right: auto;
 }
 
-/* Botón menú (☰) */
+/* Botón de menú (preservado) */
 .menu-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   font-size: 24px;
   background-color: #4aa3ff;
   color: white;
@@ -310,12 +313,9 @@ input:focus {
   border-radius: 8px;
   cursor: pointer;
   z-index: 1001;
-  position: fixed;
-  top: 20px;
-  left: 20px;
 }
 
-/* Sidebar lateral izquierda */
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -324,7 +324,7 @@ input:focus {
   width: 250px;
   background-color: #1a1a1a;
   padding-top: 60px;
-  transition: left 0.3s ease;
+  transition: 0.3s;
   z-index: 1000;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -362,9 +362,4 @@ input:focus {
   padding: 10px;
   display: block;
   transition: background 0.2s;
-}
-
-.nav-list a:hover {
-  background-color: #4aa3ff;
-  border-radius: 8px;
 }
