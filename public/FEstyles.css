@@ -306,3 +306,11 @@ input:focus {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Centrado vertical de logo + título */
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
