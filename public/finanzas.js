@@ -38,18 +38,6 @@ function mostrarGastos(idContenedor, lista) {
 }
 
 //navbar copiar abajo
-
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
-
-// Agregar evento a cada enlace para cerrar el menú
-document.addEventListener("DOMContentLoaded", () => {
-  const sidebar = document.getElementById("sidebar");
-  const links = sidebar.querySelectorAll("a");
-  links.forEach(link => {
-    link.addEventListener("click", () => {
-      sidebar.classList.remove("open");
-    });
-  });
-});
