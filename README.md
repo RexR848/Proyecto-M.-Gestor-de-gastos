@@ -73,6 +73,9 @@ Si no funciona aun o necesitas entrar en una version funcional, visita nuestra p
 ## Creditos
 
 Hernández Posadas Jose Armando
+
+
+
 Peralta Uribe Alan
 
 
