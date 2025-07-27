@@ -1,4 +1,4 @@
-#Proyecto Gestor de datos
+##Proyecto Gestor de datos
 
 ## Descripción
 
@@ -80,13 +80,11 @@ Importante: Algunas funciones de la página requieren que el servidor esté corr
 
 ---------------------------------------------
 
-## Contribuciones
+## Creditos
 
-Si quieres aportar mejoras:
+Hernández Posadas Jose Armando
+Peralta Uribe Alan
 
-1. Haz un fork del proyecto
-2. Crea una nueva rama para tus cambios
-3. Abre un pull request explicando lo que hiciste
 
 -------------------------------------------
 
