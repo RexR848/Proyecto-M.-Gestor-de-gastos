@@ -19,7 +19,7 @@ la mayoria del proyecto fue extraido de los cursos de udemy
    cd Proyecto-M.-Gestor-de-gastos
 
 
-2. Instala las dependencias (si el proyecto tiene un archivo `package.json`):
+2. Instala las dependencias (de `package.json`):
 
 
    npm install
@@ -31,9 +31,10 @@ la mayoria del proyecto fue extraido de los cursos de udemy
    node server.js
 
 
-4. Abre tu navegador y entra a la dirección que aparezca en la terminal, por ejemplo: `http://localhost:3000`
+4. Abre tu navegador y entra a la pagina en el html o hosteada localmente, ejemplo: `http://localhost:3000`
 
 Importante: Algunas funciones de la página requieren que el servidor esté corriendo. Asegúrate de ejecutar `node server.js` antes de usar la aplicación.
+Si no funciona aun o necesitas entrar en una version funcional, visita nuestra pagina en: https://proyecto-m-gestor-de-gastos.onrender.com
 
 -------------------------------------------------------------
 
@@ -41,7 +42,11 @@ Importante: Algunas funciones de la página requieren que el servidor esté corr
 
 * Node.js para el backend
 * JavaScript, HTML y CSS para el frontend
-* Posiblemente Express u otros frameworks (según implementación)
+* Visual Studio
+* Git
+* Discord
+* Render
+* Mongo DB Atlas
 
 --------------------------------------------
 
@@ -65,21 +70,6 @@ Importante: Algunas funciones de la página requieren que el servidor esté corr
 
 -----------------------------------------------------------------------------------------------------------
 
-## Recomendaciones
-
-* Agrega un script en `package.json` para facilitar la ejecución:
-
-
-  "scripts": {
-    "start": "node server.js"
-  }
-
-* Crea un archivo `.gitignore` y asegúrate de ignorar la carpeta `node_modules`
-
-* Si el proyecto crece, considera usar variables de entorno para configuraciones como el puerto o claves privadas
-
----------------------------------------------
-
 ## Creditos
 
 Hernández Posadas Jose Armando
@@ -94,4 +84,4 @@ Peralta Uribe Alan
 * Ejecuta `npm install` si es necesario
 * Corre `node server.js` para iniciar el backend
 * Accede desde el navegador para comenzar a usar la app
-
+* Para mas facilidad solo entra en `https://proyecto-m-gestor-de-gastos.onrender.com`
