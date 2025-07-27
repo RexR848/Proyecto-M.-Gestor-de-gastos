@@ -87,7 +87,7 @@ body > *:not(#shader-canvas) {
   max-width: 800px;
   margin: 30px auto;
   background-color: rgba(30, 30, 30, 0.75);
-  padding: 30px;
+  padding: 40px 20px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.7);
 }
