@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestor de Gastos - Reportes</title>
+  <link rel="stylesheet" href="Rstyles.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-title">
+      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+      <h1 class="site-title">Reportes financieros</h1>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </header>
+
+  <div class="divider"></div>
+
+  <main class="container">
+    <div class="card">
+      <h2 class="title">📌 DATOS DESTACADOS</h2>
+      
+      <section class="info-block">
+        <p id="gasto-mas-alto" class="dato-numero">Cargando gasto más alto...</p>
+        <p id="ahorro-estimado" class="dato-numero">Cargando ahorro estimado...</p>
+      </section>
+
+      <div style="margin-top: 30px;">
+        <a href="Finanzas.html" class="btn">Volver a Finanzas</a>
+      </div>
+    </div>
+  </main>
+
+  <nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="Finanzas.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="Reportes.html">📊 Reportes</a></li>
+      <li><a href="#">⚙️ Ajustes</a></li>
+      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
+      <li><a href="#">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
+
+  <script src="Reporte.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+  </script>
+</body>
+</html>
