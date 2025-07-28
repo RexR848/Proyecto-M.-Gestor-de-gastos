@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Calcular ahorro estimado
     const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
     const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
+    const ahorroEstimado =(sumaGastosFijos + sumaGastosOpcionales) - ingreso;
 
     // Actualizar DOM
     const gastoMasAltoElem = document.getElementById("gasto-mas-alto");
