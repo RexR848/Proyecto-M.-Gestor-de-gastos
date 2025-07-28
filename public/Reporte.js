@@ -1,69 +1,126 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const res = await fetch("/datos");
-    if (!res.ok) throw new Error("No se pudieron obtener los datos");
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/datos')
+    .then(res => res.json())
+    .then(datos => {
+      mostrarDatosDestacados(datos);   // Fase 1
+      cargarGraficaPastel(datos);      // Fase 2
+      cargarGraficaBarras(datos);      // Fase 3
+    })
+    .catch(error => console.error('Error cargando datos:', error));
+});
 
-    const data = await res.json();
-    const datos = data.ok && data.datos ? data.datos : data;
+// FASE 1: Mostrar datos destacados (Gasto más alto y Ahorro estimado)
+function mostrarDatosDestacados(datos) {
+  const gastosTotales = datos.gastosFijos.concat(datos.gastosOpcionales);
+  
+  // Gasto más alto
+  let gastoMasAlto = gastosTotales.reduce((max, gasto) => 
+    gasto.monto > max.monto ? gasto : max, { monto: 0 });
 
-    const ingreso = parseFloat(datos.ingreso) || 0;
-    const gastosFijos = datos.gastosFijos || [];
-    const gastosOpcionales = datos.gastosOpcionales || [];
+  document.getElementById('gasto-mas-alto').textContent = 
+    `💸 Gasto más alto: ${gastoMasAlto.nombre} ($${gastoMasAlto.monto.toFixed(2)})`;
 
-    // Código que ya tienes para datos destacados ...
-    // (No lo modifiqué, solo lo dejo para contexto)
-    const todosGastos = [...gastosFijos, ...gastosOpcionales];
-    let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
-    todosGastos.forEach(g => {
-      const monto = parseFloat(g.monto) || 0;
-      if (monto > gastoMasAlto.monto) {
-        gastoMasAlto = g;
-      }
-    });
+  // Ahorro estimado
+  const totalGastos = gastosTotales.reduce((suma, gasto) => suma + gasto.monto, 0);
+  const ingreso = datos.ingresoMensual || 0;
+  const ahorro = ingreso - totalGastos;
 
-    const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-    const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
+  document.getElementById('ahorro-estimado').textContent = 
+    `💰 Ahorro estimado: $${ahorro.toFixed(2)}`;
+}
 
-    document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-    document.getElementById("ahorro-estimado").textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
+// FASE 2: Gráfica de pastel (distribución de gastos fijos vs opcionales)
+function cargarGraficaPastel(datos) {
+  const totalFijos = datos.gastosFijos.reduce((suma, g) => suma + g.monto, 0);
+  const totalOpcionales = datos.gastosOpcionales.reduce((suma, g) => suma + g.monto, 0);
 
-    // --- Aquí empieza la gráfica de pastel ---
-    const ctx = document.getElementById("grafica-pastel").getContext("2d");
-    const totalGastos = sumaGastosFijos + sumaGastosOpcionales;
-    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaGastosFijos / totalGastos) * 100;
-    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaGastosOpcionales / totalGastos) * 100;
-
-    new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Gastos fijos", "Gastos opcionales"],
-        datasets: [{
-          data: [porcentajeFijos.toFixed(2), porcentajeOpcionales.toFixed(2)],
-          backgroundColor: ["#4aa3ff", "#ff6f61"],
-          hoverOffset: 10,
-        }]
-      },
-      options: {
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.label + ": " + context.parsed + "%";
-              }
-            }
-          },
-          legend: {
-            position: "bottom",
-            labels: {
-              color: "#fff",
-              font: { size: 14 }
-            }
+  new Chart(document.getElementById('graficaPastel'), {
+    type: 'pie',
+    data: {
+      labels: ['Fijos', 'Opcionales'],
+      datasets: [{
+        data: [totalFijos, totalOpcionales],
+        backgroundColor: ['#3399ff', '#66cc99']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: '#fff'
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.label}: $${ctx.raw}`
           }
         }
       }
-    });
-  } catch (error) {
-    console.error("Error cargando datos destacados y gráfica:", error);
-  }
-});
+    }
+  });
+}
+
+// FASE 3: Gráfica de barras (comparación por categoría)
+function cargarGraficaBarras(datos) {
+  const categorias = {};
+  datos.gastosFijos.concat(datos.gastosOpcionales).forEach(gasto => {
+    if (!categorias[gasto.nombre]) {
+      categorias[gasto.nombre] = 0;
+    }
+    categorias[gasto.nombre] += gasto.monto;
+  });
+
+  const etiquetas = Object.keys(categorias);
+  const valores = Object.values(categorias);
+
+  new Chart(document.getElementById('graficaBarras'), {
+    type: 'bar',
+    data: {
+      labels: etiquetas,
+      datasets: [{
+        label: 'Monto por categoría ($)',
+        data: valores,
+        backgroundColor: '#3399ff',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `$${ctx.raw}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#fff'
+          },
+          title: {
+            display: true,
+            text: 'Monto ($)',
+            color: '#fff'
+          }
+        },
+        x: {
+          ticks: {
+            color: '#fff'
+          },
+          title: {
+            display: true,
+            text: 'Categorías',
+            color: '#fff'
+          }
+        }
+      }
+    }
+  });
+}
+

@@ -161,3 +161,7 @@ body {
   display: block;
   transition: background 0.2s;
 }
+
+.titulo-seccion.azul {
+  color: #3399ff;
+}
