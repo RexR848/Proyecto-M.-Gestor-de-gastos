@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gestor de Gastos - Reportes</title>
   <link rel="stylesheet" href="Rstyles.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -25,6 +27,12 @@
       <section class="info-block">
         <p id="gasto-mas-alto" class="dato-numero">Cargando gasto más alto...</p>
         <p id="ahorro-estimado" class="dato-numero">Cargando ahorro estimado...</p>
+      </section>
+
+      <!-- Nueva sección para gráfica de pastel -->
+      <h2 class="title">Distribución de Gastos</h2>
+      <section class="info-block">
+        <canvas id="grafica-pastel" style="max-width: 400px; margin: 0 auto;"></canvas>
       </section>
 
       <div style="margin-top: 30px;">
