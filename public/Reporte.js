@@ -34,6 +34,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (error) {
     console.error("Error cargando datos destacados:", error);
-    // Puedes mostrar un mensaje en la UI si quieres
   }
 });
