@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const gastoMasAltoElem = document.getElementById("gasto-mas-alto");
-  const ahorroEstimadoElem = document.getElementById("ahorro-estimado");
-
   try {
     const res = await fetch("/datos");
     if (!res.ok) throw new Error("No se pudieron obtener los datos");
@@ -9,30 +6,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
     const datos = data.ok && data.datos ? data.datos : data;
 
-    // Calcular gasto más alto
-    let gastoMasAlto = { nombre: "", monto: 0 };
-    const gastosTotales = [...(datos.gastosFijos || []), ...(datos.gastosOpcionales || [])];
-    gastosTotales.forEach(gasto => {
-      if (gasto.monto > gastoMasAlto.monto) {
-        gastoMasAlto = gasto;
+    const ingreso = parseFloat(datos.ingreso) || 0;
+    const gastosFijos = datos.gastosFijos || [];
+    const gastosOpcionales = datos.gastosOpcionales || [];
+
+    // Calcular gasto más alto (entre fijos y opcionales)
+    const todosGastos = [...gastosFijos, ...gastosOpcionales];
+    let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
+    todosGastos.forEach(g => {
+      const monto = parseFloat(g.monto) || 0;
+      if (monto > gastoMasAlto.monto) {
+        gastoMasAlto = g;
       }
     });
 
-    if (gastoMasAlto.nombre && gastoMasAlto.monto) {
-      gastoMasAltoElem.textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-    } else {
-      gastoMasAltoElem.textContent = "No hay gastos registrados.";
-    }
+    // Calcular ahorro estimado
+    const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
 
-    // Mostrar ahorro estimado (si existe)
-    if (datos.ahorroEstimado !== undefined) {
-      ahorroEstimadoElem.textContent = `AHORRO ESTIMADO: $${datos.ahorroEstimado.toFixed(2)}`;
-    } else {
-      ahorroEstimadoElem.textContent = "No hay datos de ahorro estimado.";
-    }
-  } catch (err) {
-    gastoMasAltoElem.textContent = "Error al cargar gasto más alto.";
-    ahorroEstimadoElem.textContent = "Error al cargar ahorro estimado.";
-    console.error(err);
+    // Actualizar DOM
+    const gastoMasAltoElem = document.getElementById("gasto-mas-alto");
+    const ahorroEstimadoElem = document.getElementById("ahorro-estimado");
+
+    gastoMasAltoElem.textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+    ahorroEstimadoElem.textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
+
+  } catch (error) {
+    console.error("Error cargando datos destacados:", error);
+    // Puedes mostrar un mensaje en la UI si quieres
   }
 });
