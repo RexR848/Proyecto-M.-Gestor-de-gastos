@@ -10,6 +10,7 @@ body {
   background-color: #1f1f1f;
   padding: 20px;
   text-align: center;
+  position: relative;
 }
 
 .logo {
@@ -28,7 +29,7 @@ body {
   color: #ffffff;
 }
 
-/* Para centrar vertical y horizontal logo + título */
+/* Centrar logo y título */
 .logo-title {
   display: flex;
   flex-direction: column;
@@ -47,6 +48,7 @@ body {
 /* Tarjeta principal */
 .card {
   max-width: 700px;
+  width: 90%;
   margin: 40px auto;
   padding: 30px 20px;
   background-color: #1e1e1e;
@@ -69,11 +71,11 @@ body {
   align-items: center;
 }
 
-/* Campos individuales */
+/* Campos del formulario */
 .form-field {
   margin: 20px 0;
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +87,9 @@ label {
   color: #ffffff;
 }
 
-input[type="number"] {
+input[type="number"],
+.gasto-item input[type="text"],
+.gasto-item input[type="number"] {
   width: 100%;
   padding: 12px 18px;
   font-size: 16px;
@@ -103,8 +107,8 @@ input:focus {
 
 /* Secciones de gastos */
 .gasto-box {
-  width: 100%;
-  max-width: 400px;
+  width: 90%;
+  max-width: 420px;
   margin: 20px auto;
   padding: 20px;
   background-color: #2b2b2b;
@@ -137,44 +141,26 @@ input:focus {
   background-color: #3779cc;
 }
 
-/* Botón final centrado */
 .form-field.full-width {
   display: flex;
   justify-content: center;
   margin-top: 30px;
 }
 
-/* 🎨 Estilo para cada etiqueta de gasto editable */
+/* Elemento de gasto */
 .gasto-item {
   display: flex;
-  align-items: center;
   gap: 10px;
   margin-bottom: 12px;
   background-color: #2b2b2b;
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-/* ✏️ Input de nombre y monto dentro de gasto */
-.gasto-item input[type="text"],
-.gasto-item input[type="number"] {
-  flex: 1;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #444;
-  background-color: #1a1a1a;
-  color: #fff;
-  font-size: 15px;
-  text-align: center;
-}
-
-.gasto-item input:focus {
-  border-color: #4aa3ff;
-  outline: none;
-}
-
-/* 🗑 Botón eliminar */
+/* Botón eliminar */
 .gasto-item button {
   background-color: #ff4a4a;
   border: none;
@@ -190,33 +176,7 @@ input:focus {
   background-color: #cc3a3a;
 }
 
-/* 📱 Responsive */
-@media (max-width: 600px) {
-  .card {
-    padding: 20px 15px;
-    margin: 20px auto;
-    width: 95%;
-    max-width: 700px;
-  }
-
-  .gasto-box {
-    width: 90%;
-    margin: 15px auto;
-  }
-
-  .form-field {
-    max-width: 100%;
-    width: 90%;
-  }
-
-  .gasto-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-/* Modal tipo NetBeans MessageBox para errores */
+/* Modal tipo NetBeans MessageBox */
 .modal-netbeans {
   display: none;
   position: fixed;
@@ -224,12 +184,11 @@ input:focus {
   left: 0; top: 0;
   width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  font-family: Arial, sans-serif;
 }
 
 .modal-netbeans .modal-contenido {
   background-color: #1e1e1e;
-  border: 3px solid #4aa3ff; /* borde azul fuerte */
+  border: 3px solid #4aa3ff;
   box-shadow: 0 0 20px #4aa3ff;
   border-radius: 12px;
   width: 90%;
@@ -238,8 +197,8 @@ input:focus {
   padding: 25px 30px;
   color: #e0e0e0;
   text-align: center;
-  position: relative;
   font-size: 17px;
+  position: relative;
 }
 
 .modal-netbeans .modal-contenido h3 {
@@ -271,7 +230,6 @@ input:focus {
   font-weight: bold;
   color: #4aa3ff;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
 .modal-netbeans .cerrar:hover {
@@ -293,14 +251,14 @@ input:focus {
 
 .errores-gastos {
   margin-top: 6px;
-  min-height: 18px; /* para evitar salto al aparecer */
+  min-height: 18px;
   text-align: left;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Botón de menú (preservado) */
+/* Botón de menú */
 .menu-btn {
   position: absolute;
   top: 20px;
