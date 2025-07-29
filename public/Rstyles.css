@@ -9,17 +9,30 @@ body {
   background-color: #1f1f1f;
   padding: 20px;
   text-align: center;
+  position: relative;
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .logo {
-  height: 50px;
-  vertical-align: middle;
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #278259;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .site-title {
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 24px;
+  font-size: 26px;
+  margin: 0;
   color: #ffffff;
 }
 
