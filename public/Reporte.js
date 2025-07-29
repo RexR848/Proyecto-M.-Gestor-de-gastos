@@ -19,20 +19,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-    const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
+    const sumaFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const sumaOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const ahorroEstimado = ingreso - (sumaFijos + sumaOpcionales);
 
-    document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-    document.getElementById("ahorro-estimado").textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
+    document.getElementById("gasto-mas-alto").textContent =
+      `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
 
-    // --- Gráfica de pastel ---
-    const ctx = document.getElementById("grafica-pastel").getContext("2d");
-    const totalGastos = sumaGastosFijos + sumaGastosOpcionales;
-    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaGastosFijos / totalGastos) * 100;
-    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaGastosOpcionales / totalGastos) * 100;
+    document.getElementById("ahorro-estimado").textContent =
+      `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
 
-    new Chart(ctx, {
+    const ctxPastel = document.getElementById("grafica-pastel").getContext("2d");
+    const totalGastos = sumaFijos + sumaOpcionales;
+    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaFijos / totalGastos) * 100;
+    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaOpcionales / totalGastos) * 100;
+
+    new Chart(ctxPastel, {
       type: "pie",
       data: {
         labels: ["Gastos fijos", "Gastos opcionales"],
@@ -46,9 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         plugins: {
           tooltip: {
             callbacks: {
-              label: function (context) {
-                return context.label + ": " + context.parsed + "%";
-              }
+              label: ctx => `${ctx.label}: ${ctx.parsed}%`
             }
           },
           legend: {
@@ -62,79 +62,114 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // --- Fase 3: Gráfica de barras horizontal por categoría ---
-    const fijosCtx = document.getElementById("grafica-barras-fijos").getContext("2d");
-    const opcCtx = document.getElementById("grafica-barras-opcionales").getContext("2d");
-    const combCtx = document.getElementById("grafica-barras-combinada").getContext("2d");
+    // ========== GRÁFICAS DE BARRAS ==========
+    const ctxFijos = document.getElementById("grafica-barras-fijos").getContext("2d");
+    const ctxOpcionales = document.getElementById("grafica-barras-opcionales").getContext("2d");
+    const ctxCombinada = document.getElementById("grafica-barras-combinada").getContext("2d");
 
-    const crearGraficaBarras = (ctx, labels, data, color) => {
-      return new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels,
-          datasets: [{
-            label: "Monto ($)",
-            data,
-            backgroundColor: color
-          }]
+    const labelsFijos = gastosFijos.map(g => g.nombre);
+    const dataFijos = gastosFijos.map(g => parseFloat(g.monto) || 0);
+
+    const labelsOpcionales = gastosOpcionales.map(g => g.nombre);
+    const dataOpcionales = gastosOpcionales.map(g => parseFloat(g.monto) || 0);
+
+    const graficaFijos = new Chart(ctxFijos, {
+      type: "bar",
+      data: {
+        labels: labelsFijos,
+        datasets: [{
+          label: "Gastos fijos",
+          data: dataFijos,
+          backgroundColor: "#4aa3ff"
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: {
+          legend: { display: false }
         },
-        options: {
-          indexAxis: "y",
-          responsive: true,
-          scales: {
-            x: {
-              ticks: { color: "#fff" },
-              grid: { color: "#444" }
-            },
-            y: {
-              ticks: { color: "#fff" },
-              grid: { color: "#444" }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: { color: "#fff" }
-            }
-          }
+        scales: {
+          x: { ticks: { color: "#fff" } },
+          y: { ticks: { color: "#fff" } }
         }
-      });
-    };
+      }
+    });
 
-    const graficaFijos = crearGraficaBarras(
-      fijosCtx,
-      gastosFijos.map(g => g.nombre),
-      gastosFijos.map(g => parseFloat(g.monto)),
-      "#4aa3ff"
-    );
+    const graficaOpcionales = new Chart(ctxOpcionales, {
+      type: "bar",
+      data: {
+        labels: labelsOpcionales,
+        datasets: [{
+          label: "Gastos opcionales",
+          data: dataOpcionales,
+          backgroundColor: "#ff6f61"
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { ticks: { color: "#fff" } },
+          y: { ticks: { color: "#fff" } }
+        }
+      }
+    });
 
-    const graficaOpcionales = crearGraficaBarras(
-      opcCtx,
-      gastosOpcionales.map(g => g.nombre),
-      gastosOpcionales.map(g => parseFloat(g.monto)),
-      "#ff6f61"
-    );
+    const labelsCombinada = [...labelsFijos, ...labelsOpcionales];
+    const dataCombinada = [...dataFijos, ...dataOpcionales];
+    const coloresCombinada = [...dataFijos.map(() => "#4aa3ff"), ...dataOpcionales.map(() => "#ff6f61")];
 
-    const graficaCombinada = crearGraficaBarras(
-      combCtx,
-      todosGastos.map(g => g.nombre),
-      todosGastos.map(g => parseFloat(g.monto)),
-      "#a278ff"
-    );
+    const graficaCombinada = new Chart(ctxCombinada, {
+      type: "bar",
+      data: {
+        labels: labelsCombinada,
+        datasets: [{
+          label: "Gastos combinados",
+          data: dataCombinada,
+          backgroundColor: coloresCombinada
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { ticks: { color: "#fff" } },
+          y: { ticks: { color: "#fff" } }
+        }
+      }
+    });
 
-    const btnToggle = document.getElementById("toggle-btn");
-    btnToggle.addEventListener("click", () => {
-      const fijos = document.getElementById("grafica-barras-fijos");
-      const opc = document.getElementById("grafica-barras-opcionales");
-      const comb = document.getElementById("grafica-barras-combinada");
+    const btnAlternar = document.getElementById("alternar-vista");
+    const canvasFijos = document.getElementById("grafica-barras-fijos");
+    const canvasOpcionales = document.getElementById("grafica-barras-opcionales");
+    const canvasCombinada = document.getElementById("grafica-barras-combinada");
 
-      const separadoActivo = fijos.style.display !== "none";
+    let vistaSeparada = true;
 
-      fijos.style.display = separadoActivo ? "none" : "block";
-      opc.style.display = separadoActivo ? "none" : "block";
-      comb.style.display = separadoActivo ? "block" : "none";
+    btnAlternar.addEventListener("click", () => {
+      vistaSeparada = !vistaSeparada;
+
+      if (vistaSeparada) {
+        canvasFijos.style.display = "block";
+        canvasOpcionales.style.display = "block";
+        canvasCombinada.style.display = "none";
+        btnAlternar.textContent = "Ver gráfica combinada";
+      } else {
+        canvasFijos.style.display = "none";
+        canvasOpcionales.style.display = "none";
+        canvasCombinada.style.display = "block";
+        btnAlternar.textContent = "Ver gráficas separadas";
+      }
     });
 
   } catch (error) {
-    console.error("Error cargando datos destacados y gráfica:", error);
+    console.error("Error cargando datos:", error);
   }
 });
