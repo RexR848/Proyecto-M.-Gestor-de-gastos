@@ -138,3 +138,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error cargando datos destacados y gráfica:", error);
   }
 });
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+const logoutLink = document.getElementById("logout-link");
+const overlay = document.getElementById("overlay");
+const popup = document.getElementById("logout-popup");
+const cancelBtn = document.querySelector(".cancel-btn");
+const confirmBtn = document.querySelector(".confirm-btn");
+
+logoutLink.addEventListener("click", function(e) {
+  e.preventDefault();
+  popup.classList.add("active");
+  overlay.classList.add("active");
+});
+
+cancelBtn.addEventListener("click", () => {
+  popup.classList.remove("active");
+  overlay.classList.remove("active");
+});
+
+confirmBtn.addEventListener("click", () => {
+  //cookies
+  document.cookie.split(";").forEach((cookie) => {
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+  });
+
+  //window.location.href = ".html";)
+  location.reload();
+});
