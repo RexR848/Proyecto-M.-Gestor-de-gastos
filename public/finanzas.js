@@ -7,14 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 👉 Mostrar ingreso mensual
       const ingreso = data.datos.ingreso || 0;
       document.getElementById("ingreso-mensual").textContent = `$${ingreso.toFixed(2)}`;
 
-      // 👉 Mostrar gastos fijos
       mostrarGastos("lista-fijos", data.datos.gastosFijos || []);
-
-      // 👉 Mostrar gastos opcionales
       mostrarGastos("lista-opcionales", data.datos.gastosOpcionales || []);
     })
     .catch(err => {
@@ -24,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function mostrarGastos(idContenedor, lista) {
   const contenedor = document.getElementById(idContenedor);
-  contenedor.innerHTML = ""; // Limpia antes de insertar
+  contenedor.innerHTML = "";
 
   lista.forEach(gasto => {
     const item = document.createElement("div");
@@ -35,11 +31,6 @@ function mostrarGastos(idContenedor, lista) {
     `;
     contenedor.appendChild(item);
   });
-}
-
-//navbar copiar abajo
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
 }
 
 function toggleSidebar() {
@@ -64,11 +55,17 @@ cancelBtn.addEventListener("click", () => {
 });
 
 confirmBtn.addEventListener("click", () => {
-  document.cookie.split(";").forEach((cookie) => {
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
-  });
-  location.reload();
+  fetch('/logout', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.ok) {
+      window.location.href = 'login.html';
+    } else {
+      alert('No se pudo cerrar sesión.');
+    }
+  })
+  .catch(() => alert('Error en la comunicación con el servidor.'));
 });
-
