@@ -1,121 +1,140 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const gastoMasAltoElem = document.getElementById("gasto-mas-alto");
-  const ahorroEstimadoElem = document.getElementById("ahorro-estimado");
-  const toggleBtn = document.getElementById("toggleVistaBtn");
-  const graficaFijos = document.getElementById("graficaFijos");
-  const graficaOpcionales = document.getElementById("graficaOpcionales");
-  const graficaCombinada = document.getElementById("graficaCombinadaCanvas");
+  try {
+    const res = await fetch("/datos");
+    if (!res.ok) throw new Error("No se pudieron obtener los datos");
 
-  let vistaCombinada = false;
-  let chartFijos, chartOpcionales, chartCombinado;
+    const data = await res.json();
+    const datos = data.ok && data.datos ? data.datos : data;
 
-  const response = await fetch("/datos");
-  const datos = await response.json();
+    const ingreso = parseFloat(datos.ingreso) || 0;
+    const gastosFijos = datos.gastosFijos || [];
+    const gastosOpcionales = datos.gastosOpcionales || [];
 
-  const ingreso = datos.ingreso || 0;
-  const gastosFijos = datos.gastosFijos || [];
-  const gastosOpcionales = datos.gastosOpcionales || [];
+    const todosGastos = [...gastosFijos, ...gastosOpcionales];
+    let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
+    todosGastos.forEach(g => {
+      const monto = parseFloat(g.monto) || 0;
+      if (monto > gastoMasAlto.monto) {
+        gastoMasAlto = g;
+      }
+    });
 
-  // Fase 1
-  const todosLosGastos = [...gastosFijos, ...gastosOpcionales];
-  const gastoMax = todosLosGastos.reduce((max, g) => g.monto > max ? g.monto : max, 0);
-  const totalGastos = todosLosGastos.reduce((acc, g) => acc + g.monto, 0);
-  const ahorroEstimado = ingreso - totalGastos;
+    const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
 
-  gastoMasAltoElem.textContent = `🔝 Gasto más alto: $${gastoMax.toFixed(2)}`;
-  ahorroEstimadoElem.textContent = `💸 Ahorro estimado: $${ahorroEstimado.toFixed(2)}`;
+    document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+    document.getElementById("ahorro-estimado").textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
 
-  // Fase 2 - pastel
-  const totalFijos = gastosFijos.reduce((acc, g) => acc + g.monto, 0);
-  const totalOpcionales = gastosOpcionales.reduce((acc, g) => acc + g.monto, 0);
+    // --- Gráfica de pastel ---
+    const ctx = document.getElementById("grafica-pastel").getContext("2d");
+    const totalGastos = sumaGastosFijos + sumaGastosOpcionales;
+    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaGastosFijos / totalGastos) * 100;
+    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaGastosOpcionales / totalGastos) * 100;
 
-  new Chart(document.getElementById("graficaPastel"), {
-    type: "pie",
-    data: {
-      labels: ["Gastos fijos", "Gastos opcionales"],
-      datasets: [{
-        data: [totalFijos, totalOpcionales],
-        backgroundColor: ["#3498db", "#e67e22"],
-      }],
-    },
-  });
-
-  // Fase 3 - gráficas de barras
-  function crearGraficaBarras(canvas, datos, color) {
-    return new Chart(canvas, {
-      type: "bar",
+    new Chart(ctx, {
+      type: "pie",
       data: {
-        labels: datos.map(g => g.nombre),
+        labels: ["Gastos fijos", "Gastos opcionales"],
         datasets: [{
-          label: "Monto",
-          data: datos.map(g => g.monto),
-          backgroundColor: color,
-        }],
+          data: [porcentajeFijos.toFixed(2), porcentajeOpcionales.toFixed(2)],
+          backgroundColor: ["#4aa3ff", "#ff6f61"],
+          hoverOffset: 10,
+        }]
       },
       options: {
-        indexAxis: 'y',
-        scales: {
-          x: {
-            beginAtZero: true,
-            ticks: {
-              color: '#fff'
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return context.label + ": " + context.parsed + "%";
+              }
             }
           },
-          y: {
-            ticks: {
-              color: '#fff'
-            }
-          }
-        },
-        plugins: {
           legend: {
+            position: "bottom",
             labels: {
-              color: '#fff'
+              color: "#fff",
+              font: { size: 14 }
             }
           }
         }
       }
     });
-  }
 
-  chartFijos = crearGraficaBarras(graficaFijos, gastosFijos, "#3498db");
-  chartOpcionales = crearGraficaBarras(graficaOpcionales, gastosOpcionales, "#e67e22");
+    // --- Fase 3: Gráfica de barras horizontal por categoría ---
+    const fijosCtx = document.getElementById("grafica-barras-fijos").getContext("2d");
+    const opcCtx = document.getElementById("grafica-barras-opcionales").getContext("2d");
+    const combCtx = document.getElementById("grafica-barras-combinada").getContext("2d");
 
-  function crearGraficaCombinada() {
-    return new Chart(graficaCombinada, {
-      type: "bar",
-      data: {
-        labels: todosLosGastos.map(g => g.nombre),
-        datasets: [{
-          label: "Monto",
-          data: todosLosGastos.map(g => g.monto),
-          backgroundColor: todosLosGastos.map(g =>
-            gastosFijos.includes(g) ? "#3498db" : "#e67e22"
-          ),
-        }],
-      },
-      options: {
-        indexAxis: 'y',
-        scales: {
-          x: { beginAtZero: true, ticks: { color: '#fff' } },
-          y: { ticks: { color: '#fff' } },
+    const crearGraficaBarras = (ctx, labels, data, color) => {
+      return new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Monto ($)",
+            data,
+            backgroundColor: color
+          }]
         },
-        plugins: {
-          legend: {
-            labels: { color: '#fff' }
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          scales: {
+            x: {
+              ticks: { color: "#fff" },
+              grid: { color: "#444" }
+            },
+            y: {
+              ticks: { color: "#fff" },
+              grid: { color: "#444" }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#fff" }
+            }
           }
         }
-      }
+      });
+    };
+
+    const graficaFijos = crearGraficaBarras(
+      fijosCtx,
+      gastosFijos.map(g => g.nombre),
+      gastosFijos.map(g => parseFloat(g.monto)),
+      "#4aa3ff"
+    );
+
+    const graficaOpcionales = crearGraficaBarras(
+      opcCtx,
+      gastosOpcionales.map(g => g.nombre),
+      gastosOpcionales.map(g => parseFloat(g.monto)),
+      "#ff6f61"
+    );
+
+    const graficaCombinada = crearGraficaBarras(
+      combCtx,
+      todosGastos.map(g => g.nombre),
+      todosGastos.map(g => parseFloat(g.monto)),
+      "#a278ff"
+    );
+
+    const btnToggle = document.getElementById("toggle-btn");
+    btnToggle.addEventListener("click", () => {
+      const fijos = document.getElementById("grafica-barras-fijos");
+      const opc = document.getElementById("grafica-barras-opcionales");
+      const comb = document.getElementById("grafica-barras-combinada");
+
+      const separadoActivo = fijos.style.display !== "none";
+
+      fijos.style.display = separadoActivo ? "none" : "block";
+      opc.style.display = separadoActivo ? "none" : "block";
+      comb.style.display = separadoActivo ? "block" : "none";
     });
+
+  } catch (error) {
+    console.error("Error cargando datos destacados y gráfica:", error);
   }
-
-  toggleBtn.addEventListener("click", () => {
-    vistaCombinada = !vistaCombinada;
-    document.getElementById("graficaIndividual").style.display = vistaCombinada ? "none" : "block";
-    document.getElementById("graficaCombinada").style.display = vistaCombinada ? "block" : "none";
-
-    if (vistaCombinada && !chartCombinado) {
-      chartCombinado = crearGraficaCombinada();
-    }
-  });
 });

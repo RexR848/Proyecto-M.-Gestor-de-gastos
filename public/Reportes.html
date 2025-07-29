@@ -3,44 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gestor de Gastos - Reportes</title>
+  <title>📊 Reportes - Gestor de Gastos</title>
   <link rel="stylesheet" href="Rstyles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header class="header">
-    <div class="logo-title">
-      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
-      <h1 class="site-title">📊 Reportes</h1>
-    </div>
+    <h1>📊 Reportes financieros</h1>
   </header>
 
   <main class="card">
-    <section>
-      <h2 class="section-title azul">📌 Datos destacados</h2>
-      <section class="info-block">
-        <p id="gasto-mas-alto" class="dato-numero">Cargando gasto más alto...</p>
-        <p id="ahorro-estimado" class="dato-numero">Cargando ahorro estimado...</p>
-      </section>
+    <section class="destacados">
+      <h2>📌 DATOS DESTACADOS</h2>
+      <p id="gasto-mas-alto">Cargando...</p>
+      <p id="ahorro-estimado">Cargando...</p>
     </section>
 
-    <section>
-      <h2 class="section-title azul">📊 Distribución porcentual</h2>
-      <canvas id="graficaPastel"></canvas>
+    <section class="grafico">
+      <h2>📊 Distribución de gastos</h2>
+      <canvas id="grafica-pastel" width="400" height="400"></canvas>
     </section>
 
-    <section>
-      <h2 class="section-title azul">📊 Comparación de gastos por categoría</h2>
-      <button id="toggleVistaBtn" class="btn">🔁 Alternar vista</button>
-      <div id="graficaIndividual">
-        <h3 class="grafica-subtitulo">Gastos fijos</h3>
-        <canvas id="graficaFijos"></canvas>
-        <h3 class="grafica-subtitulo">Gastos opcionales</h3>
-        <canvas id="graficaOpcionales"></canvas>
-      </div>
-      <div id="graficaCombinada" style="display: none;">
-        <h3 class="grafica-subtitulo">Gastos combinados</h3>
-        <canvas id="graficaCombinadaCanvas"></canvas>
+    <section class="grafico">
+      <h2>📊 Comparación por categoría</h2>
+      <button id="toggle-btn">🔁 Alternar vista combinada/separada</button>
+      <div id="grafica-contenedor">
+        <canvas id="grafica-barras-fijos"></canvas>
+        <canvas id="grafica-barras-opcionales"></canvas>
+        <canvas id="grafica-barras-combinada" style="display: none;"></canvas>
       </div>
     </section>
   </main>
