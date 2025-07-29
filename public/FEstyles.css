@@ -161,21 +161,18 @@ input:focus {
   flex-wrap: wrap;
 }
 
-/* Botón eliminar alineado a la izquierda, centrado verticalmente */
+/* Botón eliminar */
 .gasto-item button {
+  align-self: center; 
+  margin-top: 6px;
   background-color: #ff4a4a;
   border: none;
   color: white;
-  padding: 10px 14px;
+  padding: 6px 10px;
   border-radius: 50%;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
-  /* Aquí está la clave para alinearlo a la izquierda y centrar verticalmente */
-  order: -1; /* para que el botón aparezca primero (izquierda) */
-  align-self: center;
-  flex-shrink: 0;
 }
 
 .gasto-item button:hover {
