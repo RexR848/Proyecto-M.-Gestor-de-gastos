@@ -84,20 +84,20 @@ canvas {
 
 /* Botón menú (☰) */
 .menu-btn {
-  font-size: 24px;
-  background-color: #278259;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;  
+  background-color: #4aa3ff;
   color: white;
   border: none;
   padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
   z-index: 1001;
-  position: fixed;
-  top: 20px;
-  left: 20px;
 }
 
-/* Sidebar lateral izquierda */
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -106,7 +106,7 @@ canvas {
   width: 250px;
   background-color: #1a1a1a;
   padding-top: 60px;
-  transition: left 0.3s ease;
+  transition: 0.3s;
   z-index: 1000;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -145,12 +145,6 @@ canvas {
   display: block;
   transition: background 0.2s;
 }
-
-.nav-list a:hover {
-  background-color: #278259;
-  border-radius: 8px;
-}
-
 /* Fondo oscuro del popup */
 .overlay {
   position: fixed;
