@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const gastosFijos = datos.gastosFijos || [];
     const gastosOpcionales = datos.gastosOpcionales || [];
 
-    // Código que ya tienes para datos destacados ...
-    // (No lo modifiqué, solo lo dejo para contexto)
+    
     const todosGastos = [...gastosFijos, ...gastosOpcionales];
     let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
     todosGastos.forEach(g => {
