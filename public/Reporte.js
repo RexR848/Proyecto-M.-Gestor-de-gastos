@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
     const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
 
-      if (ingreso < 0) {
+      if (ahorroEstimado < 0) {
         document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
         document.getElementById("ahorro-estimado").textContent = "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado. \n Le recomendamos que considere reducir sus gastos opcionales.";
         document.getElementById("ahorro-estimado").style.color = "red";
