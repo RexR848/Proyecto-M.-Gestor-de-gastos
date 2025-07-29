@@ -5,59 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gestor de Gastos - Reportes</title>
   <link rel="stylesheet" href="Rstyles.css" />
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
   <header class="header">
     <div class="logo-title">
       <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
-      <h1 class="site-title">Reportes financieros</h1>
+      <h1 class="site-title">📊 Reportes</h1>
     </div>
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
   </header>
 
-  <div class="divider"></div>
-
-  <main class="container">
-    <div class="card">
-      <h2 class="title">📌 DATOS DESTACADOS</h2>
-      
+  <main class="card">
+    <section>
+      <h2 class="section-title azul">📌 Datos destacados</h2>
       <section class="info-block">
         <p id="gasto-mas-alto" class="dato-numero">Cargando gasto más alto...</p>
         <p id="ahorro-estimado" class="dato-numero">Cargando ahorro estimado...</p>
       </section>
+    </section>
 
-      <!-- gráfica de pastel -->
-      <h2 class="title">📊 Distribución de Gastos</h2>
-      <section class="info-block">
-        <canvas id="grafica-pastel" style="max-width: 400px; margin: 0 auto;"></canvas>
-      </section>
+    <section>
+      <h2 class="section-title azul">📊 Distribución porcentual</h2>
+      <canvas id="graficaPastel"></canvas>
+    </section>
 
-      <div style="margin-top: 30px;">
-        <a href="Finanzas.html" class="btn">Volver a Finanzas</a>
+    <section>
+      <h2 class="section-title azul">📊 Comparación de gastos por categoría</h2>
+      <button id="toggleVistaBtn" class="btn">🔁 Alternar vista</button>
+      <div id="graficaIndividual">
+        <h3 class="grafica-subtitulo">Gastos fijos</h3>
+        <canvas id="graficaFijos"></canvas>
+        <h3 class="grafica-subtitulo">Gastos opcionales</h3>
+        <canvas id="graficaOpcionales"></canvas>
       </div>
-    </div>
+      <div id="graficaCombinada" style="display: none;">
+        <h3 class="grafica-subtitulo">Gastos combinados</h3>
+        <canvas id="graficaCombinadaCanvas"></canvas>
+      </div>
+    </section>
   </main>
 
-  <nav id="sidebar" class="sidebar">
-    <button class="close-btn" onclick="toggleSidebar()">×</button>
-    <ul class="nav-list">
-      <li><a href="Finanzas.html">🏠 Inicio</a></li>
-      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
-      <li><a href="Reportes.html">📊 Reportes</a></li>
-      <li><a href="#">⚙️ Ajustes</a></li>
-      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
-      <li><a href="#">🚪 Cerrar sesión</a></li>
-    </ul>
-  </nav>
-
   <script src="Reporte.js"></script>
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-    }
-  </script>
 </body>
 </html>
