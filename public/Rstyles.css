@@ -44,21 +44,19 @@ body {
 .info-block {
   display: flex;
   justify-content: space-around;
-  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .dato-numero {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #ffffff;
-  margin: 5px 0;
 }
 
 canvas {
   background-color: #1c1c1c;
   border: 1px solid #444;
-  margin: 15px 0;
+  margin: 20px 0;
   border-radius: 6px;
 }
 
@@ -70,7 +68,7 @@ canvas {
   font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
-  margin: 10px 0;
+  margin-bottom: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -82,20 +80,4 @@ canvas {
   margin: 10px 0 5px;
   font-weight: bold;
   color: #ffffff;
-}
-
-/* Diseño más compacto solo en pantallas grandes */
-@media (min-width: 768px) {
-  .section-title {
-    font-size: 18px;
-  }
-
-  .dato-numero {
-    font-size: 14px;
-  }
-
-  .btn {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
 }

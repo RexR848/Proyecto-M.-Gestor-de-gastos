@@ -2,39 +2,38 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gestor de Gastos - Reportes</title>
-  <link rel="stylesheet" href="Rstyles.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📊 Reportes - Gestor de Gastos</title>
+  <link rel="stylesheet" href="Rstyles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header class="header">
-    <img src="logo.png" alt="Logo" class="logo"/>
-    <span class="site-title">Gestor de Gastos</span>
+    <h1>📊 Reportes financieros</h1>
   </header>
 
-  <div class="card">
-    <h2 class="section-title azul">📌 DATOS DESTACADOS</h2>
-    <div class="info-block">
-      <span class="dato-numero" id="gasto-mas-alto">GASTO MÁS ALTO: </span>
-      <span class="dato-numero" id="ahorro-estimado">AHORRO ESTIMADO: </span>
-    </div>
+  <main class="card">
+    <section class="destacados">
+      <h2>📌 DATOS DESTACADOS</h2>
+      <p id="gasto-mas-alto">Cargando...</p>
+      <p id="ahorro-estimado">Cargando...</p>
+    </section>
 
-    <h2 class="section-title azul">📊 DISTRIBUCIÓN DE GASTOS</h2>
-    <canvas id="grafica-pastel" width="300" height="300"></canvas>
+    <section class="grafico">
+      <h2>📊 Distribución de gastos</h2>
+      <canvas id="grafica-pastel" width="400" height="400"></canvas>
+    </section>
 
-    <h2 class="section-title azul">📊 GASTOS POR CATEGORÍA</h2>
-    <button id="alternar-vista" class="btn">Ver gráfica combinada</button>
-
-    <div class="grafica-subtitulo">Gastos fijos</div>
-    <canvas id="grafica-barras-fijos" height="300"></canvas>
-
-    <div class="grafica-subtitulo">Gastos opcionales</div>
-    <canvas id="grafica-barras-opcionales" height="300"></canvas>
-
-    <div class="grafica-subtitulo">Gastos combinados</div>
-    <canvas id="grafica-barras-combinada" height="300" style="display: none;"></canvas>
-  </div>
+    <section class="grafico">
+      <h2>📊 Comparación por categoría</h2>
+      <button id="toggle-btn">🔁 Alternar vista combinada/separada</button>
+      <div id="grafica-contenedor">
+        <canvas id="grafica-barras-fijos"></canvas>
+        <canvas id="grafica-barras-opcionales"></canvas>
+        <canvas id="grafica-barras-combinada" style="display: none;"></canvas>
+      </div>
+    </section>
+  </main>
 
   <script src="Reporte.js"></script>
 </body>
