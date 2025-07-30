@@ -1,136 +1,180 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const res = await fetch("/datos");
-  const data = await res.json();
-  const datos = data.ok && data.datos ? data.datos : data;
+  try {
+    const res = await fetch("/datos");
+    if (!res.ok) throw new Error("No se pudieron obtener los datos");
 
-  const ingreso = parseFloat(datos.ingreso) || 0;
-  const gastosFijos = datos.gastosFijos || [];
-  const gastosOpcionales = datos.gastosOpcionales || [];
+    const data = await res.json();
+    const datos = data.ok && data.datos ? data.datos : data;
 
-  const gastoMasAlto = [...gastosFijos, ...gastosOpcionales].reduce((max, g) =>
-    parseFloat(g.monto) > parseFloat(max.monto || 0) ? g : max,
-    { nombre: "Ninguno", monto: 0 }
-  );
+    const ingreso = parseFloat(datos.ingreso) || 0;
+    const gastosFijos = datos.gastosFijos || [];
+    const gastosOpcionales = datos.gastosOpcionales || [];
 
-  const sumaFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-  const sumaOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
-  const ahorroEstimado = ingreso - (sumaFijos + sumaOpcionales);
+    const todosGastos = [...gastosFijos, ...gastosOpcionales];
+    let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
+    todosGastos.forEach(g => {
+      const monto = parseFloat(g.monto) || 0;
+      if (monto > gastoMasAlto.monto) {
+        gastoMasAlto = g;
+      }
+    });
 
-  // DATOS DESTACADOS
-  document.getElementById("gasto-mas-alto").textContent =
-    `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${parseFloat(gastoMasAlto.monto).toFixed(2)})`;
+    const sumaGastosFijos = gastosFijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+    const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
 
-  if (ahorroEstimado < 0) {
-    document.getElementById("ahorro-estimado").textContent =
-      "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado.\nLe recomendamos que considere reducir sus gastos opcionales.";
-    document.getElementById("ahorro-estimado").style.color = "red";
-  } else {
-    document.getElementById("ahorro-estimado").textContent =
-      `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
-  }
+      if (ahorroEstimado < 0) {
+        document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+        document.getElementById("ahorro-estimado").textContent = "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado. \n Le recomendamos que considere reducir sus gastos opcionales.";
+        document.getElementById("ahorro-estimado").style.color = "red";
+      } else {
+        document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+        document.getElementById("ahorro-estimado").textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
+      }
+    
 
-  // GRÁFICA DE PASTEL
-  const pastelCanvas = document.getElementById("grafica-pastel");
-  new Chart(pastelCanvas, {
-    type: "pie",
-    data: {
-      labels: ["Gastos fijos", "Gastos opcionales"],
-      datasets: [{
-        data: [sumaFijos, sumaOpcionales],
-        backgroundColor: ["#3498db", "#9b59b6"],
-      }],
-    },
-    options: {
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (ctx) {
-              const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-              const value = ctx.parsed;
-              const percentage = ((value / total) * 100).toFixed(1);
-              return `${ctx.label}: $${value} (${percentage}%)`;
+    // --- Gráfica de pastel ---
+    const ctx = document.getElementById("grafica-pastel").getContext("2d");
+    const totalGastos = sumaGastosFijos + sumaGastosOpcionales;
+    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaGastosFijos / totalGastos) * 100;
+    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaGastosOpcionales / totalGastos) * 100;
+
+    new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Gastos fijos", "Gastos opcionales"],
+        datasets: [{
+          data: [porcentajeFijos.toFixed(2), porcentajeOpcionales.toFixed(2)],
+          backgroundColor: ["#4aa3ff", "#ff6f61"],
+          hoverOffset: 10,
+        }]
+      },
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return context.label + ": " + context.parsed + "%";
+              }
+            }
+          },
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#fff",
+              font: { size: 14 }
             }
           }
+        }
+      }
+    });
+
+    // --- Fase 3: Gráfica de barras horizontal por categoría ---
+    const fijosCtx = document.getElementById("grafica-barras-fijos").getContext("2d");
+    const opcCtx = document.getElementById("grafica-barras-opcionales").getContext("2d");
+    const combCtx = document.getElementById("grafica-barras-combinada").getContext("2d");
+
+    const crearGraficaBarras = (ctx, labels, data, color) => {
+      return new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Monto ($)",
+            data,
+            backgroundColor: color
+          }]
         },
-        legend: {
-          labels: {
-            color: "#ffffff"
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          scales: {
+            x: {
+              ticks: { color: "#fff" },
+              grid: { color: "#444" }
+            },
+            y: {
+              ticks: { color: "#fff" },
+              grid: { color: "#444" }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#fff" }
+            }
           }
         }
-      }
-    }
-  });
+      });
+    };
 
-  // GRÁFICAS DE BARRAS
-  const labelsFijos = gastosFijos.map(g => g.nombre);
-  const dataFijos = gastosFijos.map(g => parseFloat(g.monto));
-  const labelsOpcionales = gastosOpcionales.map(g => g.nombre);
-  const dataOpcionales = gastosOpcionales.map(g => parseFloat(g.monto));
+    const graficaFijos = crearGraficaBarras(
+      fijosCtx,
+      gastosFijos.map(g => g.nombre),
+      gastosFijos.map(g => parseFloat(g.monto)),
+      "#4aa3ff"
+    );
 
-  const barrasCanvas = document.getElementById("grafica-barras").getContext("2d");
-  const graficaBarras = new Chart(barrasCanvas, {
-    type: "bar",
-    data: {
-      labels: [],
-      datasets: []
-    },
-    options: {
-      responsive: true,
-      indexAxis: 'y',
-      plugins: {
-        legend: {
-          labels: { color: "#fff" }
-        }
-      },
-      scales: {
-        x: { ticks: { color: "#fff" }, grid: { color: "#555" } },
-        y: { ticks: { color: "#fff" }, grid: { color: "#555" } }
-      }
-    }
-  });
+    const graficaOpcionales = crearGraficaBarras(
+      opcCtx,
+      gastosOpcionales.map(g => g.nombre),
+      gastosOpcionales.map(g => parseFloat(g.monto)),
+      "#ff6f61"
+    );
 
-  let vistaSeparada = true;
+    const graficaCombinada = crearGraficaBarras(
+      combCtx,
+      todosGastos.map(g => g.nombre),
+      todosGastos.map(g => parseFloat(g.monto)),
+      "#a278ff"
+    );
 
-  function actualizarGrafica() {
-    if (vistaSeparada) {
-      graficaBarras.data.labels = [...labelsFijos, ...labelsOpcionales];
-      graficaBarras.data.datasets = [
-        {
-          label: "Gastos fijos",
-          data: [...dataFijos, ...new Array(labelsOpcionales.length).fill(0)],
-          backgroundColor: "#3498db"
-        },
-        {
-          label: "Gastos opcionales",
-          data: [...new Array(labelsFijos.length).fill(0), ...dataOpcionales],
-          backgroundColor: "#9b59b6"
-        }
-      ];
-    } else {
-      const labelsCombinadas = [...labelsFijos, ...labelsOpcionales];
-      const dataCombinada = [...dataFijos, ...dataOpcionales];
-      graficaBarras.data.labels = labelsCombinadas;
-      graficaBarras.data.datasets = [
-        {
-          label: "Gastos combinados",
-          data: dataCombinada,
-          backgroundColor: labelsCombinadas.map((_, i) => i < dataFijos.length ? "#3498db" : "#9b59b6")
-        }
-      ];
-    }
+    const btnToggle = document.getElementById("toggle-btn");
+    btnToggle.addEventListener("click", () => {
+      const fijos = document.getElementById("grafica-barras-fijos");
+      const opc = document.getElementById("grafica-barras-opcionales");
+      const comb = document.getElementById("grafica-barras-combinada");
 
-    graficaBarras.update();
+      const separadoActivo = fijos.style.display !== "none";
+
+      fijos.style.display = separadoActivo ? "none" : "block";
+      opc.style.display = separadoActivo ? "none" : "block";
+      comb.style.display = separadoActivo ? "block" : "none";
+    });
+
+  } catch (error) {
+    console.error("Error cargando datos destacados y gráfica:", error);
   }
+});
 
-  actualizarGrafica();
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
+}
 
-  // BOTÓN DE TOGGLE
-  const toggleBtn = document.getElementById("toggle-btn");
-  toggleBtn.addEventListener("click", () => {
-    vistaSeparada = !vistaSeparada;
-    toggleBtn.textContent = vistaSeparada
-      ? "🔁 Ver gráfica combinada"
-      : "🔁 Ver gráficas separadas";
-    actualizarGrafica();
+const logoutLink = document.getElementById("logout-link");
+const overlay = document.getElementById("overlay");
+const popup = document.getElementById("logout-popup");
+const cancelBtn = document.querySelector(".cancel-btn");
+const confirmBtn = document.querySelector(".confirm-btn");
+
+logoutLink.addEventListener("click", function(e) {
+  e.preventDefault();
+  popup.classList.add("active");
+  overlay.classList.add("active");
+});
+
+cancelBtn.addEventListener("click", () => {
+  popup.classList.remove("active");
+  overlay.classList.remove("active");
+});
+
+confirmBtn.addEventListener("click", () => {
+  //cookies
+  document.cookie.split(";").forEach((cookie) => {
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
   });
+
+  //window.location.href = ".html";)
+  location.reload();
 });
