@@ -23,158 +23,120 @@ document.addEventListener("DOMContentLoaded", async () => {
     const sumaGastosOpcionales = gastosOpcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
     const ahorroEstimado = ingreso - (sumaGastosFijos + sumaGastosOpcionales);
 
-      if (ahorroEstimado < 0) {
-        document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-        document.getElementById("ahorro-estimado").textContent = "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado. \n Le recomendamos que considere reducir sus gastos opcionales.";
-        document.getElementById("ahorro-estimado").style.color = "red";
-      } else {
-        document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-        document.getElementById("ahorro-estimado").textContent = `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
-      }
-    
+    if (ahorroEstimado < 0) {
+      document.getElementById("gasto-mas-alto").textContent =
+        `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+      document.getElementById("ahorro-estimado").innerHTML =
+        "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado.<br>Le recomendamos que considere reducir sus gastos opcionales.";
+      document.getElementById("ahorro-estimado").style.color = "red";
+    } else {
+      document.getElementById("gasto-mas-alto").textContent =
+        `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
+      document.getElementById("ahorro-estimado").textContent =
+        `AHORRO ESTIMADO: $${ahorroEstimado.toFixed(2)}`;
+      document.getElementById("ahorro-estimado").style.color = "#ffffff";
+    }
 
-    // --- Gráfica de pastel ---
-    const ctx = document.getElementById("grafica-pastel").getContext("2d");
-    const totalGastos = sumaGastosFijos + sumaGastosOpcionales;
-    const porcentajeFijos = totalGastos === 0 ? 0 : (sumaGastosFijos / totalGastos) * 100;
-    const porcentajeOpcionales = totalGastos === 0 ? 0 : (sumaGastosOpcionales / totalGastos) * 100;
-
-    new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Gastos fijos", "Gastos opcionales"],
-        datasets: [{
-          data: [porcentajeFijos.toFixed(2), porcentajeOpcionales.toFixed(2)],
-          backgroundColor: ["#4aa3ff", "#ff6f61"],
-          hoverOffset: 10,
-        }]
-      },
-      options: {
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                return context.label + ": " + context.parsed + "%";
-              }
-            }
-          },
-          legend: {
-            position: "bottom",
-            labels: {
-              color: "#fff",
-              font: { size: 14 }
-            }
-          }
-        }
-      }
-    });
-
-    // --- Fase 3: Gráfica de barras horizontal por categoría ---
-    const fijosCtx = document.getElementById("grafica-barras-fijos").getContext("2d");
-    const opcCtx = document.getElementById("grafica-barras-opcionales").getContext("2d");
-    const combCtx = document.getElementById("grafica-barras-combinada").getContext("2d");
-
-    const crearGraficaBarras = (ctx, labels, data, color) => {
-      return new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels,
-          datasets: [{
-            label: "Monto ($)",
-            data,
-            backgroundColor: color
-          }]
-        },
-        options: {
-          indexAxis: "y",
-          responsive: true,
-          scales: {
-            x: {
-              ticks: { color: "#fff" },
-              grid: { color: "#444" }
-            },
-            y: {
-              ticks: { color: "#fff" },
-              grid: { color: "#444" }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: { color: "#fff" }
-            }
-          }
-        }
-      });
-    };
-
-    const graficaFijos = crearGraficaBarras(
-      fijosCtx,
-      gastosFijos.map(g => g.nombre),
-      gastosFijos.map(g => parseFloat(g.monto)),
-      "#4aa3ff"
-    );
-
-    const graficaOpcionales = crearGraficaBarras(
-      opcCtx,
-      gastosOpcionales.map(g => g.nombre),
-      gastosOpcionales.map(g => parseFloat(g.monto)),
-      "#ff6f61"
-    );
-
-    const graficaCombinada = crearGraficaBarras(
-      combCtx,
-      todosGastos.map(g => g.nombre),
-      todosGastos.map(g => parseFloat(g.monto)),
-      "#a278ff"
-    );
-
-    const btnToggle = document.getElementById("toggle-btn");
-    btnToggle.addEventListener("click", () => {
-      const fijos = document.getElementById("grafica-barras-fijos");
-      const opc = document.getElementById("grafica-barras-opcionales");
-      const comb = document.getElementById("grafica-barras-combinada");
-
-      const separadoActivo = fijos.style.display !== "none";
-
-      fijos.style.display = separadoActivo ? "none" : "block";
-      opc.style.display = separadoActivo ? "none" : "block";
-      comb.style.display = separadoActivo ? "block" : "none";
-    });
-
+    generarGraficaPastel(gastosFijos, gastosOpcionales);
+    generarGraficaBarras(gastosFijos, gastosOpcionales);
+    generarGraficaLineas(); // Solo llamada. Implementa si deseas la funcionalidad.
   } catch (error) {
-    console.error("Error cargando datos destacados y gráfica:", error);
+    console.error("Error al cargar reportes:", error);
   }
 });
 
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
+function generarGraficaPastel(fijos, opcionales) {
+  const totalFijos = fijos.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+  const totalOpcionales = opcionales.reduce((acc, g) => acc + (parseFloat(g.monto) || 0), 0);
+
+  new Chart(document.getElementById("grafica-pastel"), {
+    type: "pie",
+    data: {
+      labels: ["Fijos", "Opcionales"],
+      datasets: [{
+        data: [totalFijos, totalOpcionales],
+        backgroundColor: ["#3498db", "#e67e22"]
+      }]
+    }
+  });
 }
 
-const logoutLink = document.getElementById("logout-link");
-const overlay = document.getElementById("overlay");
-const popup = document.getElementById("logout-popup");
-const cancelBtn = document.querySelector(".cancel-btn");
-const confirmBtn = document.querySelector(".confirm-btn");
+function generarGraficaBarras(fijos, opcionales) {
+  const labelsFijos = fijos.map(g => g.nombre);
+  const dataFijos = fijos.map(g => parseFloat(g.monto) || 0);
 
-logoutLink.addEventListener("click", function(e) {
-  e.preventDefault();
-  popup.classList.add("active");
-  overlay.classList.add("active");
-});
+  const labelsOpc = opcionales.map(g => g.nombre);
+  const dataOpc = opcionales.map(g => parseFloat(g.monto) || 0);
 
-cancelBtn.addEventListener("click", () => {
-  popup.classList.remove("active");
-  overlay.classList.remove("active");
-});
-
-confirmBtn.addEventListener("click", () => {
-  //cookies
-  document.cookie.split(";").forEach((cookie) => {
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+  new Chart(document.getElementById("grafica-barras-fijos"), {
+    type: "bar",
+    data: {
+      labels: labelsFijos,
+      datasets: [{
+        label: "Fijos",
+        data: dataFijos,
+        backgroundColor: "#3498db"
+      }]
+    },
+    options: { indexAxis: "y" }
   });
 
-  //window.location.href = ".html";)
-  location.reload();
+  new Chart(document.getElementById("grafica-barras-opcionales"), {
+    type: "bar",
+    data: {
+      labels: labelsOpc,
+      datasets: [{
+        label: "Opcionales",
+        data: dataOpc,
+        backgroundColor: "#e67e22"
+      }]
+    },
+    options: { indexAxis: "y" }
+  });
+
+  const allLabels = [...labelsFijos, ...labelsOpc];
+  const allData = [...dataFijos, ...dataOpc];
+  const backgroundColors = [
+    ...Array(dataFijos.length).fill("#3498db"),
+    ...Array(dataOpc.length).fill("#e67e22")
+  ];
+
+  new Chart(document.getElementById("grafica-barras-combinada"), {
+    type: "bar",
+    data: {
+      labels: allLabels,
+      datasets: [{
+        label: "Gastos",
+        data: allData,
+        backgroundColor: backgroundColors
+      }]
+    },
+    options: { indexAxis: "y" }
+  });
+
+  document.getElementById("leyenda-barras").innerHTML = `
+    <span style="color:#3498db">■ Fijos</span> &nbsp;
+    <span style="color:#e67e22">■ Opcionales</span>
+  `;
+}
+
+function generarGraficaLineas() {
+  // Puedes implementarla después
+}
+
+const btnToggle = document.getElementById("toggle-btn");
+btnToggle.addEventListener("click", () => {
+  const fijos = document.getElementById("grafica-barras-fijos-container");
+  const opc = document.getElementById("grafica-barras-opcionales-container");
+  const comb = document.getElementById("grafica-barras-combinada-container");
+
+  const separadoActivo = fijos.style.display !== "none";
+
+  fijos.style.display = separadoActivo ? "none" : "block";
+  opc.style.display = separadoActivo ? "none" : "block";
+  comb.style.display = separadoActivo ? "block" : "none";
+
+  btnToggle.textContent = separadoActivo
+    ? "🔁 Vista combinada activa (clic para vista separada)"
+    : "🔁 Vista separada activa (clic para vista combinada)";
 });
