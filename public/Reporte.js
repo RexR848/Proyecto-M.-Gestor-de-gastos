@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const ingreso = parseFloat(datos.ingreso) || 0;
     const gastosFijos = datos.gastosFijos || [];
     const gastosOpcionales = datos.gastosOpcionales || [];
-
     const todosGastos = [...gastosFijos, ...gastosOpcionales];
+
     let gastoMasAlto = { nombre: "Ninguno", monto: 0 };
     todosGastos.forEach(g => {
       const monto = parseFloat(g.monto) || 0;
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         datasets: [{
           data: [porcentajeFijos.toFixed(2), porcentajeOpcionales.toFixed(2)],
           backgroundColor: ["#4aa3ff", "#ff6f61"],
-          hoverOffset: 10,
+          hoverOffset: 10
         }]
       },
       options: {
@@ -98,14 +98,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
           },
           plugins: {
-            legend: {
-              labels: { color: "#fff" }
-            }
+            legend: { labels: { color: "#fff" } }
           }
         }
       });
     };
 
+    // Gráficas separadas
     const graficaFijos = crearGraficaBarras(
       fijosCtx,
       gastosFijos.map(g => g.nombre),
@@ -122,18 +121,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       "opcionales"
     );
 
-    const coloresFijos = gastosFijos.map(() => "#4aa3ff");
-    const coloresOpcionales = gastosOpcionales.map(() => "#ff6f61");
-    const todosColores = [...coloresFijos, ...coloresOpcionales];
+    // Ordenar combinada por monto descendente
+    const todosGastosOrdenados = [...todosGastos].sort((a, b) => parseFloat(b.monto) - parseFloat(a.monto));
+    const coloresOrdenados = todosGastosOrdenados.map(g =>
+      gastosFijos.some(f => f.nombre === g.nombre) ? "#4aa3ff" : "#ff6f61"
+    );
 
     const graficaCombinada = new Chart(combCtx, {
       type: "bar",
       data: {
-        labels: todosGastos.map(g => g.nombre),
+        labels: todosGastosOrdenados.map(g => g.nombre),
         datasets: [{
           label: "Gastos combinados",
-          data: todosGastos.map(g => parseFloat(g.monto)),
-          backgroundColor: todosColores
+          data: todosGastosOrdenados.map(g => parseFloat(g.monto)),
+          backgroundColor: coloresOrdenados
         }]
       },
       options: {
@@ -150,9 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         },
         plugins: {
-          legend: {
-            labels: { color: "#fff" }
-          },
+          legend: { labels: { color: "#fff" } },
           tooltip: {
             callbacks: {
               label: function(context) {
