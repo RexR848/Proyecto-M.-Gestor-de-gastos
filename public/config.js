@@ -1,13 +1,20 @@
 function setTheme(theme) {
-  localStorage.setItem('selectedTheme', theme)
-  applyTheme()
+  document.body.classList.remove('light-theme', 'custom-theme');
+  document.getElementById('color-picker-section').style.display = 'none';
+
+  if (theme === 'light') {
+    document.body.classList.add('light-theme');
+  } else if (theme === 'custom') {
+    document.body.classList.add('custom-theme');
+    document.getElementById('color-picker-section').style.display = 'block';
+  }
 }
 
-function applyTheme() {
-  const theme = localStorage.getItem('selectedTheme') || 'dark'
-  document.body.classList.remove('light-theme', 'custom-theme')
-  if (theme === 'light') document.body.classList.add('light-theme')
-  if (theme === 'custom') document.body.classList.add('custom-theme')
+function toggleCustomPicker() {
+  setTheme('custom');
 }
 
-document.addEventListener('DOMContentLoaded', applyTheme)
+document.getElementById('color').addEventListener('input', function () {
+  const color = this.value;
+  document.documentElement.style.setProperty('--accent-color', color);
+});
