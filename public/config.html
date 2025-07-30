@@ -11,15 +11,15 @@
     <div class="theme-options">
       <button onclick="setTheme('dark')">Tema Oscuro</button>
       <button onclick="setTheme('light')">Tema Claro</button>
-      <button onclick="setTheme('custom')">Tema Custom</button>
+      <button onclick="toggleCustomPicker()">Tema Custom</button>
+    </div>
+
+    <div id="color-picker-section" class="color-picker-container">
+      <label for="color">Color principal:</label>
+      <input type="color" id="color" name="color">
     </div>
   </div>
-  <div class="color-picker-container">  
-    <label for="color">
-    Pick a Color:</label>
-    <input type="color" id="color"
-    name="color">
-  </div>
+
   <script src="config.js"></script>
 </body>
 </html>
