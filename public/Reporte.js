@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // --- Fase 3: Gráficas de barras ---
+    // --- Gráficas de barras ---
     const fijosCtx = document.getElementById("grafica-barras-fijos").getContext("2d");
     const opcCtx = document.getElementById("grafica-barras-opcionales").getContext("2d");
     const combCtx = document.getElementById("grafica-barras-combinada").getContext("2d");
@@ -159,7 +159,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const tipo = gastosFijos.some(g => g.nombre === context.label)
                   ? "Fijo"
                   : "Opcional";
-                return `${tipo} - ${context.label}: $${context.parsed}`;
+                const monto = context.raw;
+                return `${tipo} - ${context.label}: $${monto.toFixed(2)}`;
               }
             }
           }
