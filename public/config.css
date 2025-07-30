@@ -43,3 +43,49 @@ body.custom-theme {
   --text-color: #e6f0ff;
   --accent-color: #2980b9;
 }
+
+body {
+  background-color: #111;
+  color: #oofoff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.color-picker-container{
+  text-align: center;
+  background: #lalala;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 15px #00feffss;
+  border: 2px solid #00f0ff;
+}
+
+label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+input[type="color") {
+  appearance:
+  none;
+  width: 100px;
+  height: 100px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00feff66;
+}
+
+input[type="color"]::-webkit-color-swatch-wrap {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch
+{
+  border: none;
+  border-radius: 10px;
+}
