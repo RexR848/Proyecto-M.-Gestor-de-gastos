@@ -21,6 +21,7 @@ body.light-theme {
 body.custom-theme {
   --bg-color:#0e1a2b;
   --text-color:#e6f0ff;
+  --accent-color:#ff4a4a;
 }
 
 .config-container {
@@ -53,6 +54,7 @@ body.custom-theme {
   border-radius:12px;
   box-shadow:0 4px 8px rgba(0,0,0,0.3);
   border:2px solid var(--accent-color);
+  color:var(--text-color);
 }
 
 .color-picker-container label {
