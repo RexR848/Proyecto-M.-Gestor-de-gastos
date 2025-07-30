@@ -143,3 +143,24 @@ function render() {
   requestAnimationFrame(render);
 }
 render();
+
+cancelBtn.addEventListener("click", () => {
+  popup.classList.remove("active");
+  overlay.classList.remove("active");
+});
+
+confirmBtn.addEventListener("click", () => {
+  fetch('/logout', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.ok) {
+      window.location.href = '../index.html';
+    } else {
+      alert('No se pudo cerrar sesión.');
+    }
+  })
+  .catch(() => alert('Error en la comunicación con el servidor.'));
+});
