@@ -186,10 +186,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+//navbar
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
 
+//Logica para cerrar sesión
 const logoutLink = document.getElementById("logout-link");
 const overlay = document.getElementById("overlay");
 const popup = document.getElementById("logout-popup");
