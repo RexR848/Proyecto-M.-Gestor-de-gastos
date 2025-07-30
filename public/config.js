@@ -30,7 +30,7 @@ function resize() {
 }
 resize();
 window.addEventListener("resize", resize);
-
+//reparar
 const fragmentShaderSrc = `#version 300 es
 precision highp float;
 uniform vec2 iResolution;
