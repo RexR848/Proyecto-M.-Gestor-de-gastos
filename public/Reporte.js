@@ -208,11 +208,18 @@ cancelBtn.addEventListener("click", () => {
 });
 
 confirmBtn.addEventListener("click", () => {
-  document.cookie.split(";").forEach((cookie) => {
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
-  });
-
-  location.reload();
+  fetch('/logout', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.ok) {
+      window.location.href = '../index.html';
+    } else {
+      alert('No se pudo cerrar sesión.');
+    }
+  })
+  .catch(() => alert('Error en la comunicación con el servidor.'));
 });
+
