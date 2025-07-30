@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Configuración</title>
-  <link rel="stylesheet" href="config.css">
+  <link rel="stylesheet" href="config.css" />
 </head>
-<body>
-  <div class="config-container">
-    <h1>Configuración de Tema</h1>
-    <div class="theme-options">
-      <button onclick="setTheme('dark')">Tema Oscuro</button>
-      <button onclick="setTheme('light')">Tema Claro</button>
-      <button onclick="toggleCustomPicker()">Tema Custom</button>
-    </div>
+<body class="dark-theme">
+  <canvas id="shader-bg"></canvas>
 
-    <div id="color-picker-section" class="color-picker-container">
-      <label for="color">Color principal:</label>
-      <input type="color" id="color" name="color">
-    </div>
-  </div>
+  <main class="config-panel">
+    <h1>Opciones de Tema</h1>
+
+    <section class="theme-section">
+      <h2>Selecciona un tema</h2>
+      <div class="theme-options">
+        <button onclick="setTheme('dark')">Tema Oscuro</button>
+        <button onclick="setTheme('light')">Tema Claro</button>
+        <button onclick="setTheme('custom')">Personalizado</button>
+      </div>
+    </section>
+
+    <section id="color-picker-container" class="color-picker-container hidden">
+      <h2>Color personalizado</h2>
+      <label for="colorPicker">Selecciona un color:</label>
+      <input type="color" id="colorPicker" />
+    </section>
+  </main>
 
   <script src="config.js"></script>
 </body>
