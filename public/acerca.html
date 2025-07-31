@@ -16,27 +16,6 @@
     <button class="menu-btn" onclick="toggleSidebar()">☰</button>
   </header>
 
-  <nav id="sidebar" class="sidebar">
-    <button class="close-btn" onclick="toggleSidebar()">×</button>
-    <ul class="nav-list">
-      <li><a href="Finanzas.html">🏠 Inicio</a></li>
-      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
-      <li><a href="Reportes.html">📊 Reportes</a></li>
-      <li><a href="config.html">⚙️ Ajustes</a></li>
-      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
-      <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
-    </ul>
-  </nav>
-
-  <div id="overlay" class="overlay"></div>
-  <div id="logout-popup" class="popup">
-    <p>¿Seguro que quieres cerrar sesión?</p>
-    <div class="popup-buttons">
-      <button class="cancel-btn">Cancelar</button>
-      <button class="confirm-btn">Cerrar sesión</button>
-    </div>
-  </div>
-
   <main class="main-content">
     <section>
       <h2>¿Para qué sirve esta página?</h2>
@@ -52,11 +31,31 @@
       <p>Creado por Alan Peralta Uribe y Jose Armando Hernández Posadas</p>
     </section>
   </main>
+<nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="Finanzas.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="Reportes.html">📊 Reportes</a></li>
+      <li><a href="config.html">⚙️ Ajustes</a></li>
+      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
+      <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
+  <div id="overlay" class="overlay"></div>
+  <div id="logout-popup" class="popup">
+    <p>¿Seguro que quieres cerrar sesión?</p>
+    <div class="popup-buttons">
+      <button class="cancel-btn">Cancelar</button>
+      <button class="confirm-btn">Cerrar sesión</button>
+    </div>
+  </div>
+
   
   <footer class="footer">
     <p>&copy; 2025 Gestor de Gastos. Todos los derechos reservados.</p>
   </footer>
-
+  
   <script src="shader-balatro.js"></script>
   <script src="acerca.js"></script>
 </body>
