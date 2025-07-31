@@ -2,9 +2,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
   const ingresoInput = document.getElementById("ingreso");
 
+  // navbar toggle
+  window.toggleSidebar = function () {
+    document.getElementById("sidebar").classList.toggle("open");
+  };
+
+  // Lógica para cerrar sesión (debe estar dentro del DOMContentLoaded)
+  const logoutLink = document.getElementById("logout-link");
+  const overlay = document.getElementById("overlay");
+  const popup = document.getElementById("logout-popup");
+  const cancelBtn = document.querySelector(".cancel-btn");
+  const confirmBtn = document.querySelector(".confirm-btn");
+
+  logoutLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    popup.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+
+  confirmBtn.addEventListener("click", () => {
+    fetch("/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok) {
+          window.location.href = "../index.html";
+        } else {
+          alert("No se pudo cerrar sesión.");
+        }
+      })
+      .catch(() => alert("Error en la comunicación con el servidor."));
+  });
+
   // Función para agregar gasto (fijo u opcional)
-  window.agregarGasto = function(tipo, nombre = "", monto = "") {
-    const contenedorId = tipo === "fijo" ? "gastos-fijos-container" : "gastos-opcionales-container";
+  window.agregarGasto = function (tipo, nombre = "", monto = "") {
+    const contenedorId =
+      tipo === "fijo" ? "gastos-fijos-container" : "gastos-opcionales-container";
     const contenedor = document.getElementById(contenedorId);
 
     const gastoDiv = document.createElement("div");
@@ -31,30 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("No se pudieron obtener los datos");
 
       const data = await res.json();
-
       const datos = data.ok && data.datos ? data.datos : data;
 
-      // INGRESO
       if (datos.ingreso !== undefined && datos.ingreso !== null) {
         ingresoInput.value = datos.ingreso;
       }
 
-      // Limpiar contenedores antes de agregar para evitar duplicados
       const contFijos = document.getElementById("gastos-fijos-container");
       const contOpcionales = document.getElementById("gastos-opcionales-container");
       contFijos.innerHTML = "";
       contOpcionales.innerHTML = "";
 
-      // Gastos fijos
-      (datos.gastosFijos || []).forEach(g => {
+      (datos.gastosFijos || []).forEach((g) => {
         agregarGasto("fijo", g.nombre, g.monto);
       });
 
-      // Gastos opcionales
-      (datos.gastosOpcionales || []).forEach(g => {
+      (datos.gastosOpcionales || []).forEach((g) => {
         agregarGasto("opcional", g.nombre, g.monto);
       });
-
     } catch (err) {
       console.error("Error cargando datos:", err);
     }
@@ -62,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarDatos();
 
-  // Función para mostrar error debajo del input (solo ingreso mensual)
+  // Funciones para validación y errores
   function mostrarErrorIngreso(input, mensaje) {
     quitarErrorIngreso(input);
     if (!mensaje) return;
@@ -74,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     error.textContent = mensaje;
     input.insertAdjacentElement("afterend", error);
   }
+
   function quitarErrorIngreso(input) {
     const next = input.nextElementSibling;
     if (next && next.classList.contains("error-msg")) {
@@ -81,22 +116,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Mostrar errores agrupados en un contenedor de errores (para gastos)
   function mostrarErroresAgrupados(contenedorId, errores) {
     const contenedor = document.getElementById(contenedorId);
-    if (errores.length === 0) {
-      contenedor.innerHTML = "";
-    } else {
-      contenedor.innerHTML =
-        errores.map(err => `<div style="color:#ff4a4a; font-size:13px; margin-top:4px;">${err}</div>`).join("");
-    }
+    contenedor.innerHTML = errores.length
+      ? errores
+          .map(
+            (err) =>
+              `<div style="color:#ff4a4a; font-size:13px; margin-top:4px;">${err}</div>`
+          )
+          .join("")
+      : "";
   }
 
-  // Validar formulario completo
   function validarTodo() {
     let esValido = true;
 
-    // Validar ingreso mensual (mensaje debajo input)
     const ingresoVal = ingresoInput.value.trim();
     quitarErrorIngreso(ingresoInput);
     if (!ingresoVal) {
@@ -113,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
       esValido = false;
     }
 
-    // Validar gastos fijos y opcionales, errores agrupados
     function validarGastosAgrupados(contenedorId, tipo, contErroresId) {
       const nombres = [];
       const errores = [];
@@ -159,10 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return esValido;
   }
 
-  // Obtener datos del formulario para enviar
   function obtenerGastos(contenedorId) {
     const gastos = [];
-    document.querySelectorAll(`#${contenedorId} .gasto-item`).forEach(item => {
+    document.querySelectorAll(`#${contenedorId} .gasto-item`).forEach((item) => {
       const nombre = item.querySelector('input[type="text"]').value.trim();
       const monto = parseFloat(item.querySelector('input[type="number"]').value.trim());
       gastos.push({ nombre, monto });
@@ -173,14 +205,11 @@ document.addEventListener("DOMContentLoaded", () => {
   formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Limpiar errores previos
     quitarErrorIngreso(ingresoInput);
     document.getElementById("errores-fijos").innerHTML = "";
     document.getElementById("errores-opcionales").innerHTML = "";
 
-    if (!validarTodo()) {
-      return; // no enviar si hay errores
-    }
+    if (!validarTodo()) return;
 
     const data = {
       ingreso: parseFloat(ingresoInput.value.trim()),
@@ -192,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/guardar-datos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       const result = await res.json();
@@ -206,12 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Listener para que el cursor en el input de ingreso funcione bien al escribir puntos
   ingresoInput.addEventListener("input", (e) => {
     let value = e.target.value;
     const cursorPos = e.target.selectionStart;
 
-    // Permitir solo números y un solo punto decimal
     let cleanValue = value.replace(/[^0-9.]/g, "");
     const parts = cleanValue.split(".");
     if (parts.length > 2) {
@@ -220,49 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cleanValue !== value) {
       e.target.value = cleanValue;
-      // Restaurar cursor al lugar correcto
       const newPos = Math.min(cursorPos, cleanValue.length);
       e.target.setSelectionRange(newPos, newPos);
     }
   });
-
-});
-
-//navbar 
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
-}
-
-//Logica para cerrar sesión
-const logoutLink = document.getElementById("logout-link");
-const overlay = document.getElementById("overlay");
-const popup = document.getElementById("logout-popup");
-const cancelBtn = document.querySelector(".cancel-btn");
-const confirmBtn = document.querySelector(".confirm-btn");
-
-logoutLink.addEventListener("click", function(e) {
-  e.preventDefault();
-  popup.classList.add("active");
-  overlay.classList.add("active");
-});
-
-cancelBtn.addEventListener("click", () => {
-  popup.classList.remove("active");
-  overlay.classList.remove("active");
-});
-
-confirmBtn.addEventListener("click", () => {
-  fetch('/logout', {
-    method: 'POST',
-    credentials: 'include'
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.ok) {
-      window.location.href = '../index.html';
-    } else {
-      alert('No se pudo cerrar sesión.');
-    }
-  })
-  .catch(() => alert('Error en la comunicación con el servidor.'));
 });
