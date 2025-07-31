@@ -100,7 +100,7 @@ body > *:not(#shader-canvas) {
 /* Contenido principal */
 .main-content {
   max-width: 800px;
-  margin: 30px auto;
+  margin: 130px auto 30px; /* margen superior aumentado para navbar fija */
   background-color: rgba(30, 30, 30, 0.75);
   padding: 1rem;
   border-radius: 15px;
