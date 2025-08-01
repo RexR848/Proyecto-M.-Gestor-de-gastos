@@ -45,19 +45,18 @@ body > *:not(#shader-canvas) {
   z-index: 1;
 }
 
-/* Navbar */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+/* Botón de menú */
+.menu-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  background-color: #4aa3ff;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
   z-index: 1001;
 }
 
