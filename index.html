@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<style>:root { --section-overlay-color: rgba(0,0,0,0.8); }</style>
-<div class="section-overlay" style="--section-overlay-color:orange;"></div>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gestor de Gastos - Registro</title>
+  <style>:root { --section-overlay-color: rgba(0, 0, 0, 0.8); }</style>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -39,10 +38,16 @@
     <p class="paragraph">
       ¿Ya estás registrado?<br />
       <a href="public/IniciarSesion.html">👉 Iniciar sesión.</a>
-
     </p>
   </main>
-  <div class="section-overlay" style="--section-overlay-color:orange;"></div>
+
+  <!-- Fondo animado en capas -->
+  <div class="section-overlay" style="--section-overlay-color: orange;">
+    <div class="overlay-part left"></div>
+    <div class="overlay-part center"></div>
+    <div class="overlay-part right"></div>
+  </div>
+
   <script src="registro.js"></script>
 </body>
 </html>
