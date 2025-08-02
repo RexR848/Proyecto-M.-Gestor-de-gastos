@@ -9,11 +9,36 @@
 <body>
   <!-- Encabezado -->
   <header class="header">
-    <button id="menuBtn" class="menu-button">☰</button>
-    <img src="logo.png" alt="Logo" class="logo" />
-    <h1>Gestor de Gastos - Configuración</h1>
-  </header>
+  <div class="logo-title">
+    <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+    <h1 class="site-title">Gestor de gastos</h1>
+  </div>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+</header>
+ 
 
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <section class="config-section" id="cambiar-contrasena">
+      <h2>🔒 Cambiar contraseña</h2>
+      <a href="/Recuperar.html" class="btn">Cambiar contraseña</a>
+    </section>
+
+    <section class="config-section" id="tutorial">
+      <h2>📖 Tutorial</h2>
+      <!-- Aquí puedes poner imágenes/texto -->
+    </section>
+
+    <section class="config-section" id="borrar-datos">
+      <h2>🗑️ Borrar todos los datos</h2>
+      <!-- Aquí colocarás el botón para borrar -->
+    </section>
+
+    <section class="config-section" id="terminos-condiciones">
+      <h2>📜 Términos y condiciones</h2>
+      <!-- Aquí colocarás el contenido -->
+    </section>
+  </main>
   <nav id="sidebar" class="sidebar">
     <button class="close-btn" onclick="toggleSidebar()">×</button>
     <ul class="nav-list">
@@ -33,29 +58,6 @@
       <button class="confirm-btn">Cerrar sesión</button>
     </div>
   </div>
-
-  <!-- Contenido principal -->
-  <main class="main-content">
-    <section class="config-section" id="cambiar-contrasena">
-      <h2>🔒 Cambiar contraseña</h2>
-      <!-- Aquí colocarás tu formulario -->
-    </section>
-
-    <section class="config-section" id="tutorial">
-      <h2>📖 Tutorial</h2>
-      <!-- Aquí puedes poner imágenes/texto -->
-    </section>
-
-    <section class="config-section" id="borrar-datos">
-      <h2>🗑️ Borrar todos los datos</h2>
-      <!-- Aquí colocarás el botón para borrar -->
-    </section>
-
-    <section class="config-section" id="terminos-condiciones">
-      <h2>📜 Términos y condiciones</h2>
-      <!-- Aquí colocarás el contenido -->
-    </section>
-  </main>
   <script src="finanzas.js"></script>
 </body>
 </html>
