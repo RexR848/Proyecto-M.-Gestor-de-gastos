@@ -104,24 +104,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     };
 
+    // 🔽 Ordenar fijos y opcionales de mayor a menor antes de graficar
+    const gastosFijosOrdenados = [...gastosFijos].sort((a, b) => parseFloat(b.monto) - parseFloat(a.monto));
+    const gastosOpcionalesOrdenados = [...gastosOpcionales].sort((a, b) => parseFloat(b.monto) - parseFloat(a.monto));
+
     // Gráficas separadas
     const graficaFijos = crearGraficaBarras(
       fijosCtx,
-      gastosFijos.map(g => g.nombre),
-      gastosFijos.map(g => parseFloat(g.monto)),
+      gastosFijosOrdenados.map(g => g.nombre),
+      gastosFijosOrdenados.map(g => parseFloat(g.monto)),
       "#4aa3ff",
       "fijos"
     );
 
     const graficaOpcionales = crearGraficaBarras(
       opcCtx,
-      gastosOpcionales.map(g => g.nombre),
-      gastosOpcionales.map(g => parseFloat(g.monto)),
+      gastosOpcionalesOrdenados.map(g => g.nombre),
+      gastosOpcionalesOrdenados.map(g => parseFloat(g.monto)),
       "#ff6f61",
       "opcionales"
     );
 
-    // Ordenar combinada por monto descendente
+    // Gráfica combinada 
     const todosGastosOrdenados = [...todosGastos].sort((a, b) => parseFloat(b.monto) - parseFloat(a.monto));
     const coloresOrdenados = todosGastosOrdenados.map(g =>
       gastosFijos.some(f => f.nombre === g.nombre) ? "#4aa3ff" : "#ff6f61"
@@ -179,49 +183,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       fijos.style.display = separadoActivo ? "none" : "block";
       opc.style.display = separadoActivo ? "none" : "block";
       comb.style.display = separadoActivo ? "block" : "none";
+
+      btnToggle.textContent = separadoActivo
+        ? "Ver gráficas separadas"
+        : "Ver gráfica combinada";
     });
 
   } catch (error) {
     console.error("Error cargando datos destacados y gráfica:", error);
   }
 });
-
-//navbar
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
-}
-
-//Logica para cerrar sesión
-const logoutLink = document.getElementById("logout-link");
-const overlay = document.getElementById("overlay");
-const popup = document.getElementById("logout-popup");
-const cancelBtn = document.querySelector(".cancel-btn");
-const confirmBtn = document.querySelector(".confirm-btn");
-
-logoutLink.addEventListener("click", function(e) {
-  e.preventDefault();
-  popup.classList.add("active");
-  overlay.classList.add("active");
-});
-
-cancelBtn.addEventListener("click", () => {
-  popup.classList.remove("active");
-  overlay.classList.remove("active");
-});
-
-confirmBtn.addEventListener("click", () => {
-  fetch('/logout', {
-    method: 'POST',
-    credentials: 'include'
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.ok) {
-      window.location.href = '../index.html';
-    } else {
-      alert('No se pudo cerrar sesión.');
-    }
-  })
-  .catch(() => alert('Error en la comunicación con el servidor.'));
-});
-
