@@ -1,37 +1,47 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('loginForm');
-    // Verificar si ya hay sesión activa
-  fetch('/verificar-sesion', {
-    credentials: 'include'
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        window.location.href = 'public/Finanzas.html';
-      }
+document.addEventListener("DOMContentLoaded", () => {
+  const parts = document.querySelectorAll(".overlay-part");
+
+  function animateOverlay(anim) {
+    parts.forEach(part => {
+      part.classList.remove("slideUp", "slideDown");
+      void part.offsetWidth; // Reinicia animación
+      part.classList.add(anim);
     });
+  }
+
+  // Animación entrada/salida para PC
+  document.body.addEventListener("mouseenter", () => animateOverlay("slideUp"));
+  document.body.addEventListener("mouseleave", () => animateOverlay("slideDown"));
+
+  // Para móviles
+  document.body.addEventListener("touchstart", () => animateOverlay("slideUp"));
+  document.body.addEventListener("touchend", () => animateOverlay("slideDown"));
+
+  // Lógica del formulario
+  const form = document.getElementById('formRegistro');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const nombre = document.getElementById("nombre").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     try {
-      const respuesta = await fetch('https://proyecto-m-gestor-de-gastos.onrender.com/login', {
+      const respuesta = await fetch('https://proyecto-m-gestor-de-gastos.onrender.com/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ nombre, email, password })
       });
 
       const datos = await respuesta.json();
 
       if (datos.ok) {
-        alert('✅ Inicio de sesión exitoso');
-        window.location.href = "Finanzas.html";
+        alert('✅ Registro exitoso');
+        window.location.href = "public/IniciarSesion.html";
       } else {
         alert('❌ ' + datos.mensaje);
       }
