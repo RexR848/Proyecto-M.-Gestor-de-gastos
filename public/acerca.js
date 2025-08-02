@@ -39,11 +39,4 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(() => alert("Error en la comunicación con el servidor."));
   });
-
-  // También cerrar sidebar haciendo clic en el fondo oscuro
-  overlay.addEventListener("click", () => {
-    document.getElementById("sidebar").classList.remove("open");
-    popup.classList.remove("active");
-    overlay.classList.remove("active");
-  });
 });
