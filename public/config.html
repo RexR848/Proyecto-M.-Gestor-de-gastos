@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configuración - Gestor de Gastos</title>
+  <link rel="stylesheet" href="config.css" />
+</head>
+<body>
+  <!-- Encabezado -->
+  <header class="header">
+    <button id="menuBtn" class="menu-button">☰</button>
+    <img src="logo.png" alt="Logo" class="logo" />
+    <h1>Gestor de Gastos - Configuración</h1>
+  </header>
+
+  <nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="Finanzas.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="Reportes.html">📊 Reportes</a></li>
+      <li><a href="config.html">⚙️ Ajustes</a></li>
+      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
+      <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
+  <div id="overlay" class="overlay"></div>
+  <div id="logout-popup" class="popup">
+    <p>¿Seguro que quieres cerrar sesión?</p>
+    <div class="popup-buttons">
+      <button class="cancel-btn">Cancelar</button>
+      <button class="confirm-btn">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <section class="config-section" id="cambiar-contrasena">
+      <h2>🔒 Cambiar contraseña</h2>
+      <!-- Aquí colocarás tu formulario -->
+    </section>
+
+    <section class="config-section" id="tutorial">
+      <h2>📖 Tutorial</h2>
+      <!-- Aquí puedes poner imágenes/texto -->
+    </section>
+
+    <section class="config-section" id="borrar-datos">
+      <h2>🗑️ Borrar todos los datos</h2>
+      <!-- Aquí colocarás el botón para borrar -->
+    </section>
+
+    <section class="config-section" id="terminos-condiciones">
+      <h2>📜 Términos y condiciones</h2>
+      <!-- Aquí colocarás el contenido -->
+    </section>
+  </main>
+  <script src="finanzas.js"></script>
+</body>
+</html>
