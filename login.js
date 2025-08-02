@@ -4,20 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
   function animateOverlay(anim) {
     parts.forEach(part => {
       part.classList.remove("slideUp", "slideDown");
-      void part.offsetWidth; // Reinicia animación
+      void part.offsetWidth;
       part.classList.add(anim);
     });
   }
 
-  // Animación entrada/salida para PC
+  //▶
+  animateOverlay("slideUp");
+
+  //🖱️
   document.body.addEventListener("mouseenter", () => animateOverlay("slideUp"));
   document.body.addEventListener("mouseleave", () => animateOverlay("slideDown"));
 
-  // Para móviles
+  //📱
   document.body.addEventListener("touchstart", () => animateOverlay("slideUp"));
   document.body.addEventListener("touchend", () => animateOverlay("slideDown"));
 
-  // Lógica del formulario
+  // Formulario (denuevo lol)
   const form = document.getElementById('formRegistro');
 
   form.addEventListener('submit', async (e) => {
