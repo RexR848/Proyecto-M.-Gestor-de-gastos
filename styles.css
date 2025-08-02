@@ -1,161 +1,102 @@
-* {
-  box-sizing: border-box;
+:root {
+  --section-overlay-color: rgba(0, 0, 0, 0.8);
 }
 
 body {
   margin: 0;
-  background-color: #121212;
-  color: #f0f0f0;
-  font-family: 'Poppins', sans-serif;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
 }
 
 .header {
-  background-color: #1f1f1f;
-  padding: 20px;
-  text-align: center;
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  padding: 1rem;
+  background-color: #222;
 }
 
 .logo {
-  width: 100px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #278259;
-  display: block;
+  width: 50px;
+  height: auto;
+  margin-right: 1rem;
 }
 
 .site-title {
-  font-size: 26px;
-  color: #ffffff;
-  margin: 0;
-  text-align: center;
+  font-size: 1.5rem;
 }
 
 .divider {
-  height: 3px;
-  width: 100%;
-  margin: 10px 0;
-  background-color: rgba(255, 255, 255, 0.1);
+  height: 2px;
+  background: limegreen;
+  margin: 0 1rem;
 }
 
 .card {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 40px 20px;
-  background-color: #1e1e1e;
-  border-radius: 15px;
-  color: #f0f0f0;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  text-align: center;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  box-shadow: 0 0 10px rgba(0,255,0,0.3);
 }
 
 .title {
-  color: #62a9ff;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.paragraph {
-  line-height: 1.5;
-}
-
-.paragraph a {
-  color: #4aa3ff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.paragraph a:hover {
-  text-decoration: underline;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .form-registro-horizontal {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  align-items: center;
+  gap: 1rem;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
-  min-width: 150px;
-  width: 100%;
 }
 
-.form-field input {
-  padding: 12px 20px;
-  border: 1px solid #555;
-  border-radius: 25px;
-  font-size: 15px;
-  background-color: #2b2b2b;
-  color: #ffffff;
-  transition: border-color 0.3s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.form-field input:focus {
-  border-color: #4aa3ff;
-  outline: none;
-}
-
-.btn {
-  width: 100%;
-  background-color: #4aa3ff;
-  color: white;
-  font-weight: bold;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 0.75rem;
   border: none;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 25px;
-  border-radius: 25px;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: white;
+}
+
+button.btn {
+  background-color: limegreen;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
   cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
 }
 
-.btn:hover {
-  background-color: #3779cc;
+button.btn:hover {
+  background-color: #00ff00;
 }
 
-@media (max-width: 600px) {
-  .header {
-    padding: 15px;
-  }
-
-  .site-title {
-    font-size: 22px;
-  }
-
-  .card {
-    margin: 20px 10px;
-    padding: 30px 15px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .logo {
-    width: 60px;
-    aspect-ratio: 1 / 1;
-  }
-
-  .form-field input {
-    font-size: 14px;
-  }
-
-  .btn {
-    font-size: 15px;
-  }
+.paragraph {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-/* Fondo visual animado */
+a {
+  color: limegreen;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/*----------------anim-----------------*/
 .section-overlay {
   position: fixed;
   top: 0;
@@ -178,27 +119,19 @@ body {
 }
 
 .slideUp {
-  animation: slideUp 0.3s ease-in-out forwards;
+  animation: slideUp 0.4s ease-in-out forwards;
 }
 
 .slideDown {
-  animation: slideDown 0.3s ease-in-out forwards;
+  animation: slideDown 0.4s ease-in-out forwards;
 }
 
 @keyframes slideUp {
-  from {
-    height: 100%;
-  }
-  to {
-    height: 0%;
-  }
+  from { height: 100%; }
+  to { height: 0%; }
 }
 
 @keyframes slideDown {
-  from {
-    height: 0%;
-  }
-  to {
-    height: 100%;
-  }
+  from { height: 0%; }
+  to { height: 100%; }
 }
