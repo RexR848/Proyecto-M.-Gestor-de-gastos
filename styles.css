@@ -14,6 +14,8 @@ body {
   align-items: center;
   padding: 1rem;
   background-color: #222;
+  position: relative;
+  z-index: 1000;
 }
 
 .logo {
@@ -24,6 +26,7 @@ body {
 
 .site-title {
   font-size: 1.5rem;
+  color: white;
 }
 
 .divider {
@@ -38,7 +41,7 @@ body {
   padding: 2rem;
   max-width: 500px;
   margin: 2rem auto;
-  box-shadow: 0 0 10px rgba(0,255,0,0.3);
+  box-shadow: 0 0 10px rgba(0, 150, 255, 0.3); /* azul */
 }
 
 .title {
@@ -96,7 +99,7 @@ a:hover {
   text-decoration: underline;
 }
 
-//----------------anim
+/*----------------anim-----------------*/
 .section-overlay,
 .section-overlay::before,
 .section-overlay::after {
@@ -108,6 +111,7 @@ a:hover {
   height: 100%;
   background: var(--section-overlay-color);
   z-index: 999;
+  pointer-events: none;
 }
 
 .section-overlay::before {
