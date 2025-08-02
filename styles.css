@@ -1,104 +1,162 @@
-:root {
-  --section-overlay-color: rgba(0, 0, 0, 0.8);
+* {
+  box-sizing: border-box;
+  /* Prueba para ver si ya todo quedo bien tras mi problema tecnico*/
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #eee;
+  background-color: #121212;
+  color: #f0f0f0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: #222;
+  background-color: #1f1f1f;
+  padding: 20px;
+  text-align: center;
   position: relative;
-  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo {
-  width: 50px;
-  height: auto;
-  margin-right: 1rem;
+  width: 100px;
+  aspect-ratio: 1 / 1; 
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #278259;
+  display: block;
 }
 
 .site-title {
-  font-size: 1.5rem;
-  color: white;
+  font-size: 26px;
+  color: #ffffff;
+  margin: 0;
+  text-align: center;
 }
 
 .divider {
-  height: 2px;
-  background: limegreen;
-  margin: 0 1rem;
+  height: 3px;
+  width: 100%;
+  margin: 10px 0;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card {
-  background: #1a1a1a;
-  border-radius: 12px;
-  padding: 2rem;
-  max-width: 500px;
-  margin: 2rem auto;
-  box-shadow: 0 0 10px rgba(0, 150, 255, 0.3); /* azul */
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px 20px;
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  color: #f0f0f0;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
 }
 
 .title {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  color: #62a9ff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
+.paragraph {
+  line-height: 1.5;
+}
+
+.paragraph a {
+  color: #4aa3ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.paragraph a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para el formulario */
 .form-registro-horizontal {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-direction: column; /* Vertical, nada de filas */
+  gap: 15px;
+  align-items: center;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
+  min-width: 150px;
+  width: 100%; /* Ocupa todo el ancho disponible */
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  background: #2a2a2a;
+.form-field input {
+  padding: 12px 20px;
+  border: 1px solid #555;
+  border-radius: 25px; /* Ovalado */
+  font-size: 15px;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-field input:focus {
+  border-color: #4aa3ff;
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  background-color: #4aa3ff;
   color: white;
-}
-
-button.btn {
-  background-color: limegreen;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem;
-  cursor: pointer;
   font-weight: bold;
-  transition: background 0.3s;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 25px;
+  border-radius: 25px; /* Ovalado */
+  cursor: pointer;
 }
 
-button.btn:hover {
-  background-color: #00ff00;
+.btn:hover {
+  background-color: #3779cc;
 }
 
-.paragraph {
-  text-align: center;
-  margin-top: 1rem;
-}
+@media (max-width: 600px) {
+  .header {
+    padding: 15px;
+  }
 
-a {
-  color: limegreen;
-  text-decoration: none;
-}
+  .site-title {
+    font-size: 22px;
+  }
 
-a:hover {
-  text-decoration: underline;
-}
+  .card {
+    margin: 20px 10px;
+    padding: 30px 15px;
+  }
 
+  .title {
+    font-size: 20px;
+  }
+
+  .logo {
+    width: 60px;
+    aspect-ratio: 1 / 1;
+  }
+
+  .form-field input {
+    font-size: 14px;
+  }
+
+  .btn {
+    font-size: 15px;
+  }
+}
 /*----------------anim-----------------*/
 .section-overlay,
 .section-overlay::before,
