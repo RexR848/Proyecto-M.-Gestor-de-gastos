@@ -1,51 +1,40 @@
-/*font*/
-@font-face {
-  font-family: 'CardFont';
-  src: url('/base/fonts/card.ttf') format('opentype');
-}
-
-* {
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  height: 100%;
-  font-family: 'CardFont', sans-serif;
-  font-size: 18px;
-  background-color: #000;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
   color: #f0f0f0;
-  line-height: 1.6;
-  overflow-x: hidden;
 }
 
-@media (max-width: 600px) {
-  body{
-    font-size: 14px;
-  }
-  h1, h2, h3 {
-    font-size: 1.2em;
-  }
-}
-
-/*Shader*/
-#shader-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Todo lo demás encima */
-body > *:not(#shader-canvas) {
+/* Header */
+.header {
+  background-color: #1f1f1f;
+  padding: 20px;
+  text-align: center;
   position: relative;
-  z-index: 1;
 }
 
-/* Botón de menú */
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #278259;
+}
+
+.site-title {
+  font-size: 26px;
+  margin: 0;
+  color: #ffffff;
+}
+
 .menu-btn {
   position: absolute;
   top: 20px;
@@ -60,73 +49,41 @@ body > *:not(#shader-canvas) {
   z-index: 1001;
 }
 
-
-.nav-logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #f0f0f0;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #ddd;
-  font-weight: bold;
-  transition: color 0.2s;
-}
-
-.nav-links li a:hover,
-.nav-links li a.active {
-  color: #62a9ff;
-}
-
-/* Header */
-.header {
-  text-align: center;
-  padding: 20px;
-  background: transparent;
-  color: #f0f0f0;
-  font-size: 2.5rem;
-  text-shadow: 0 0 8px rgba(0,0,0,0.7);
-  user-select: none;
-}
-
 /* Contenido principal */
-.main-content {
-  max-width: 800px;
-  margin: 130px auto 30px; /* margen superior aumentado para navbar fija */
-  background-color: rgba(30, 30, 30, 0.75);
-  padding: 1rem;
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card {
+  max-width: 700px;
+  width: 100%;
+  padding: 30px 20px;
+  background-color: #1e1e1e;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  text-align: center;
 }
 
-.main-content section {
-  margin-bottom: 30px;
-}
-
-.main-content h2 {
+.title {
+  font-size: 24px;
   color: #62a9ff;
-  margin-bottom: 12px;
-  font-size: 1.8rem;
+  margin-bottom: 16px;
 }
 
-/* Footer */
+.info-block {
+  margin: 30px 0;
+}
+
 .footer {
   text-align: center;
-  margin-top: 40px;
   font-size: 0.9rem;
   color: #888;
-  user-select: none;
+  margin-top: 40px;
 }
 
-
-/* Sidebar */
+/* Sidebar y popup reutilizados del estilo global */
 .sidebar {
   position: fixed;
   top: 0;
@@ -174,6 +131,7 @@ body > *:not(#shader-canvas) {
   display: block;
   transition: background 0.2s;
 }
+
 /* Fondo oscuro del popup */
 .overlay {
   position: fixed;

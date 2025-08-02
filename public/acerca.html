@@ -7,31 +7,34 @@
   <link rel="stylesheet" href="acerca.css" />
 </head>
 <body>
-  <canvas id="shader-canvas"></canvas>
 
   <header class="header">
-  <h1 class="nav-logo">Gestor de Gastos</h1>
-  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-</header>
+    <div class="logo-title">
+      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+      <h1 class="site-title">Gestor de Gastos</h1>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </header>
 
+  <main class="container">
+    <div class="card">
+      <section class="info-block">
+        <h2 class="title">¿Para qué sirve esta página?</h2>
+        <p>
+          Esta página sirve para explicar la funcionalidad principal del Gestor de Gastos, 
+          una aplicación diseñada para ayudarte a organizar y controlar tus finanzas personales 
+          de forma fácil y eficiente.
+        </p>
+      </section>
 
-
-  <main class="main-content">
-    <section>
-      <h2>¿Para qué sirve esta página?</h2>
-      <p>
-        Esta página sirve para explicar la funcionalidad principal del Gestor de Gastos, 
-        una aplicación diseñada para ayudarte a organizar y controlar tus finanzas personales 
-        de forma fácil y eficiente.
-      </p>
-    </section>
-
-    <section>
-      <h2>Creadores</h2>
-      <p>Creado por Alan Peralta Uribe y Jose Armando Hernández Posadas</p>
-    </section>
+      <section class="info-block">
+        <h2 class="title">Creadores</h2>
+        <p>Creado por Alan Peralta Uribe y Jose Armando Hernández Posadas</p>
+      </section>
+    </div>
   </main>
-<nav id="sidebar" class="sidebar">
+
+  <nav id="sidebar" class="sidebar">
     <button class="close-btn" onclick="toggleSidebar()">×</button>
     <ul class="nav-list">
       <li><a href="Finanzas.html">🏠 Inicio</a></li>
@@ -42,6 +45,7 @@
       <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
+
   <div id="overlay" class="overlay"></div>
   <div id="logout-popup" class="popup">
     <p>¿Seguro que quieres cerrar sesión?</p>
@@ -51,12 +55,10 @@
     </div>
   </div>
 
-  
   <footer class="footer">
     <p>&copy; 2025 Gestor de Gastos. Todos los derechos reservados.</p>
   </footer>
-  
-  <script src="shader-balatro.js"></script>
+
   <script src="acerca.js"></script>
 </body>
 </html>
