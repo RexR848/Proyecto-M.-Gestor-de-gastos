@@ -21,7 +21,7 @@ body {
 
 .logo {
   width: 100px;
-  aspect-ratio: 1 / 1; 
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #278259;
@@ -75,7 +75,6 @@ body {
   text-decoration: underline;
 }
 
-/* Estilos para el formulario */
 .form-registro-horizontal {
   display: flex;
   flex-direction: column;
