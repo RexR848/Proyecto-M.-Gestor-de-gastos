@@ -225,3 +225,28 @@ app.post('/restablecer', async (req, res) => {
 
   res.json({ ok: true, mensaje: 'Contraseña actualizada correctamente' });
 });
+
+//------------------Borrar datos financieros------------------//
+app.post('/borrar-datos', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) return res.status(401).json({ ok: false, mensaje: 'No autenticado' });
+
+  try {
+    await db.collection('datos').updateOne(
+      { email },
+      {
+        $set: {
+          ingreso: null,
+          gastosFijos: [],
+          gastosOpcionales: []
+        }
+      },
+      { upsert: true }
+    );
+
+    res.json({ ok: true, mensaje: 'Datos borrados con éxito' });
+  } catch (err) {
+    console.error('Error al borrar datos:', err);
+    res.status(500).json({ ok: false, mensaje: 'Error interno del servidor' });
+  }
+});
