@@ -243,3 +243,7 @@ body {
   background-color: #e74c3c;
   color: white;
 }
+
+.info-block .btn {
+  margin-top: 12px;
+}
