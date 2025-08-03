@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Términos y Condiciones - Gestor de Gastos</title>
-  <link rel="stylesheet" href="config.css" />
+  <link rel="stylesheet" href="Fstyles.css" />
 </head>
 <body>
   <header class="header">
@@ -13,50 +13,57 @@
       <h1 class="site-title">Gestor de gastos</h1>
     </div>
     <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-  </header> 
+  </header>
 
-  <main class="contenido">
-    <section class="tarjeta">
-      <h2>Uso de la aplicación</h2>
-      <p>Esta aplicación fue diseñada con el objetivo de ayudarte a organizar y controlar tus finanzas personales de forma fácil y eficiente.</p>
-    </section>
+  <div class="divider"></div>
 
-    <section class="tarjeta">
-      <h2>1. Aceptación de los términos</h2>
-      <p>Al acceder y utilizar el Gestor de Gastos, aceptas los presentes términos y condiciones. Si no estás de acuerdo, te recomendamos no utilizar la aplicación.</p>
-    </section>
+  <main class="container">
+    <div class="card">
+      <h2 class="title">Términos y Condiciones</h2>
 
-    <section class="tarjeta">
-      <h2>2. Uso personal</h2>
-      <p>Esta aplicación está pensada exclusivamente para uso personal. No está destinada para uso comercial ni para compartir cuentas entre múltiples personas.</p>
-    </section>
+      <section class="info-block">
+        <h3>Uso de la aplicación</h3>
+        <p>Esta aplicación fue diseñada con el objetivo de ayudarte a organizar y controlar tus finanzas personales de forma fácil y eficiente.</p>
+      </section>
 
-    <section class="tarjeta">
-      <h2>3. Contenido del usuario</h2>
-      <p>Los datos que ingresas en la aplicación (como tus ingresos y gastos) son almacenados con el único propósito de ayudarte a llevar un control financiero personal.</p>
-    </section>
+      <section class="info-block">
+        <h3>1. Aceptación de los términos</h3>
+        <p>Al acceder y utilizar el Gestor de Gastos, aceptas los presentes términos y condiciones. Si no estás de acuerdo, te recomendamos no utilizar la aplicación.</p>
+      </section>
 
-    <section class="tarjeta">
-      <h2>4. Privacidad y protección de datos</h2>
-      <p>Esta aplicación solicita un correo electrónico y una contraseña para permitir el acceso a una cuenta personal dentro del Gestor de Gastos.</p>
-      <p><strong>La contraseña ingresada no tiene que ser la misma que la de tu correo real</strong>, ya que solo se utiliza para iniciar sesión en esta aplicación.</p>
-      <p>Los datos proporcionados (correo y contraseña) se almacenan de forma segura en nuestra base de datos y <strong>no se comparten con terceros</strong>.</p>
-    </section>
+      <section class="info-block">
+        <h3>2. Uso personal</h3>
+        <p>Esta aplicación está pensada exclusivamente para uso personal. No está destinada para uso comercial ni para compartir cuentas entre múltiples personas.</p>
+      </section>
 
-    <section class="tarjeta">
-      <h2>5. Responsabilidad del usuario</h2>
-      <p>El usuario es responsable de la información que ingresa y del uso adecuado de su cuenta. No nos hacemos responsables por pérdida de datos ocasionada por mal uso o accesos no autorizados.</p>
-    </section>
+      <section class="info-block">
+        <h3>3. Contenido del usuario</h3>
+        <p>Los datos que ingresas en la aplicación (como tus ingresos y gastos) son almacenados con el único propósito de ayudarte a llevar un control financiero personal.</p>
+      </section>
 
-    <section class="tarjeta">
-      <h2>6. Cambios en los términos</h2>
-      <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Se notificará a los usuarios si ocurre un cambio importante.</p>
-    </section>
+      <section class="info-block">
+        <h3>4. Privacidad y protección de datos</h3>
+        <p>Esta aplicación solicita un correo electrónico y una contraseña para permitir el acceso a una cuenta personal dentro del Gestor de Gastos.</p>
+        <p><strong>La contraseña ingresada no tiene que ser la misma que la de tu correo real</strong>, ya que solo se utiliza para iniciar sesión en esta aplicación.</p>
+        <p>Los datos proporcionados (correo y contraseña) se almacenan de forma segura en nuestra base de datos y <strong>no se comparten con terceros</strong>.</p>
+      </section>
+
+      <section class="info-block">
+        <h3>5. Responsabilidad del usuario</h3>
+        <p>El usuario es responsable de la información que ingresa y del uso adecuado de su cuenta. No nos hacemos responsables por pérdida de datos ocasionada por mal uso o accesos no autorizados.</p>
+      </section>
+
+      <section class="info-block">
+        <h3>6. Cambios en los términos</h3>
+        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Se notificará a los usuarios si ocurre un cambio importante.</p>
+      </section>
+    </div>
   </main>
 
   <footer>
     <p>©2025 Gestor de Gastos. Todos los derechos reservados.</p>
   </footer>
+
   <nav id="sidebar" class="sidebar">
     <button class="close-btn" onclick="toggleSidebar()">×</button>
     <ul class="nav-list">
