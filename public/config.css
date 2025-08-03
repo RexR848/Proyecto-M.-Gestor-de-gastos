@@ -247,3 +247,15 @@ body {
 .info-block .btn {
   margin-top: 12px;
 }
+
+/* Estilo para que los botones tengan un respectivo espacion con su texto*/
+.btn-description {
+  font-size: 14px;
+  color: #bbb;
+  margin: 10px 0 0 0;
+  line-height: 1.4;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
