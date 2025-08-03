@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Términos y Condiciones - Gestor de Gastos</title>
+  <link rel="stylesheet" href="config.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo-title">
+      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+      <h1 class="site-title">Gestor de gastos</h1>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </header> 
+
+  <main class="contenido">
+    <section class="tarjeta">
+      <h2>Uso de la aplicación</h2>
+      <p>Esta aplicación fue diseñada con el objetivo de ayudarte a organizar y controlar tus finanzas personales de forma fácil y eficiente.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>1. Aceptación de los términos</h2>
+      <p>Al acceder y utilizar el Gestor de Gastos, aceptas los presentes términos y condiciones. Si no estás de acuerdo, te recomendamos no utilizar la aplicación.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>2. Uso personal</h2>
+      <p>Esta aplicación está pensada exclusivamente para uso personal. No está destinada para uso comercial ni para compartir cuentas entre múltiples personas.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>3. Contenido del usuario</h2>
+      <p>Los datos que ingresas en la aplicación (como tus ingresos y gastos) son almacenados con el único propósito de ayudarte a llevar un control financiero personal.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>4. Privacidad y protección de datos</h2>
+      <p>Esta aplicación solicita un correo electrónico y una contraseña para permitir el acceso a una cuenta personal dentro del Gestor de Gastos.</p>
+      <p><strong>La contraseña ingresada no tiene que ser la misma que la de tu correo real</strong>, ya que solo se utiliza para iniciar sesión en esta aplicación.</p>
+      <p>Los datos proporcionados (correo y contraseña) se almacenan de forma segura en nuestra base de datos y <strong>no se comparten con terceros</strong>.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>5. Responsabilidad del usuario</h2>
+      <p>El usuario es responsable de la información que ingresa y del uso adecuado de su cuenta. No nos hacemos responsables por pérdida de datos ocasionada por mal uso o accesos no autorizados.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>6. Cambios en los términos</h2>
+      <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Se notificará a los usuarios si ocurre un cambio importante.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>©2025 Gestor de Gastos. Todos los derechos reservados.</p>
+  </footer>
+  <nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="Finanzas.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="Reportes.html">📊 Reportes</a></li>
+      <li><a href="config.html">⚙️ Ajustes</a></li>
+      <li><a href="acerca.html">🗣️ Acerca De..</a></li>
+      <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
+
+  <div id="overlay" class="overlay"></div>
+
+  <div id="logout-popup" class="popup">
+    <p>¿Seguro que quieres cerrar sesión?</p>
+    <div class="popup-buttons">
+      <button class="cancel-btn">Cancelar</button>
+      <button class="confirm-btn">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+</body>
+</html>
