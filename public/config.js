@@ -24,3 +24,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Manejo de eliminar la cuenta
+document.addEventListener("DOMContentLoaded", () => {
+  const btnBorrarCuenta = document.getElementById("btn-borrar-cuenta");
+
+  btnBorrarCuenta.addEventListener("click", () => {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.");
+    
+    if (confirmacion) {
+      fetch('/eliminar-cuenta', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Cuenta eliminada exitosamente.");
+          
+          window.location.href = '/index.html'; // Redirige a la página de inicio
+        } else {
+          mostrarErrorModal(data.message || "No se pudo eliminar la cuenta.");
+        }
+      })
+      .catch(err => {
+        mostrarErrorModal("Error al conectar con el servidor.");
+        console.error(err);
+      });
+    }
+  });
+});
+
+function mostrarErrorModal(mensaje) {
+  const modal = document.getElementById("error-modal");
+  const mensajeElem = document.getElementById("error-message");
+  mensajeElem.textContent = mensaje;
+  modal.style.display = "block";
+}

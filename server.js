@@ -250,3 +250,28 @@ app.post('/borrar-datos', async (req, res) => {
     res.status(500).json({ ok: false, mensaje: 'Error interno del servidor' });
   }
 });
+
+//------------------Borrar cuenta------------------//
+app.delete('/eliminar-cuenta', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) {
+    return res.status(400).json({ success: false, message: "No hay sesión activa." });
+  }
+
+  try {
+    // Eliminar usuario de la colección de usuarios
+    await db.collection('usuarios').deleteOne({ email });
+
+    // Eliminar también los datos financieros si existen
+    await db.collection('datos').deleteOne({ email });
+
+    // Borrar la cookie
+    res.clearCookie('sesion');
+
+    res.json({ success: true, message: "Cuenta eliminada con éxito." });
+  } catch (err) {
+    console.error('❌ Error al eliminar cuenta:', err);
+    res.status(500).json({ success: false, message: "Error interno del servidor." });
+  }
+});
+
