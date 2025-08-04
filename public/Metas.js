@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmBtn = document.querySelector(".confirm-btn");
   const popupTitle = document.getElementById("popup-title");
 
+  const nuevaBtn = document.getElementById("nueva-meta-btn"); //boton nuevo
   let metas = [];
   let metaActual = null;
   let modoEdicion = false;
@@ -125,4 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
       metas = data.metas;
       mostrarMetas();
     });
+
+  //nv meta btn
+  nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
