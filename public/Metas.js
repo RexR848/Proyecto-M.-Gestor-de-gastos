@@ -1,19 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   const metasContainer = document.getElementById("metas-container");
 
-  const popup = document.getElementById("popup");
+  const popupMeta = document.getElementById("popup-meta");
+  const popupMovimiento = document.getElementById("popup-movimiento");
   const overlay = document.getElementById("overlay");
+
   const inputNombre = document.getElementById("popup-nombre");
   const inputActual = document.getElementById("popup-actual");
-  const inputMeta = document.getElementById("popup-meta");
-  const cancelBtn = document.querySelector(".cancel-btn");
+  const inputMeta = document.getElementById("popup-meta-monto");
   const confirmBtn = document.querySelector(".confirm-btn");
-  const popupTitle = document.getElementById("popup-title");
+  const cancelBtn = document.querySelector(".cancel-btn");
+  const deleteBtn = document.querySelector(".delete-btn");
+  const popupTitle = document.getElementById("popup-meta-title");
 
-  const nuevaBtn = document.getElementById("nueva-meta-btn"); //boton nuevo
+  const inputCantidad = document.getElementById("popup-cantidad");
+  const confirmMovBtn = document.querySelector(".confirm-mov-btn");
+  const cancelMovBtn = document.querySelector(".cancel-mov-btn");
+  const popupMovTitle = document.getElementById("popup-movimiento-title");
+
   let metas = [];
   let metaActual = null;
+  let indexActual = null;
   let modoEdicion = false;
+  let modoMovimiento = "";
 
   window.toggleSidebar = function () {
     document.getElementById("sidebar").classList.toggle("open");
@@ -36,7 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div style="margin-top:10px; display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn" onclick="abrirPopupEditarMeta(${i})">✏️ Editar</button>
-          <button class="btn" onclick="eliminarMeta(${i})">🗑 Eliminar</button>
+          <button class="btn" onclick="abrirPopupMovimiento(${i}, 'ingreso')">➕ Ingreso</button>
+          <button class="btn" onclick="abrirPopupMovimiento(${i}, 'retiro')">➖ Retiro</button>
         </div>
       `;
       metasContainer.appendChild(div);
@@ -45,39 +55,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.abrirPopupNuevaMeta = function () {
     modoEdicion = false;
-    metaActual = null;
+    indexActual = null;
     popupTitle.textContent = "Agregar nueva meta";
     inputNombre.value = "";
     inputActual.value = "";
     inputMeta.value = "";
-    popup.classList.add("active");
+    deleteBtn.style.display = "none";
+    popupMeta.classList.add("active");
     overlay.classList.add("active");
   };
 
   window.abrirPopupEditarMeta = function (index) {
     modoEdicion = true;
-    metaActual = index;
+    indexActual = index;
     popupTitle.textContent = "Editar meta";
     const meta = metas[index];
     inputNombre.value = meta.nombre;
     inputActual.value = meta.actual;
     inputMeta.value = meta.meta;
-    popup.classList.add("active");
+    deleteBtn.style.display = "inline-block";
+    popupMeta.classList.add("active");
     overlay.classList.add("active");
   };
 
-  window.eliminarMeta = async function (index) {
-    const confirmacion = confirm("¿Estás seguro de eliminar esta meta?");
-    if (!confirmacion) return;
-
-    metas.splice(index, 1);
-    await guardarMetas();
-    mostrarMetas();
+  window.abrirPopupMovimiento = function (index, tipo) {
+    indexActual = index;
+    modoMovimiento = tipo;
+    popupMovTitle.textContent = tipo === "ingreso" ? "Agregar dinero" : "Retirar dinero";
+    inputCantidad.value = "";
+    popupMovimiento.classList.add("active");
+    overlay.classList.add("active");
   };
 
   cancelBtn.onclick = () => {
-    popup.classList.remove("active");
+    popupMeta.classList.remove("active");
     overlay.classList.remove("active");
+  };
+
+  deleteBtn.onclick = async () => {
+    if (confirm("¿Eliminar esta meta?")) {
+      metas.splice(indexActual, 1);
+      await guardarMetas();
+      popupMeta.classList.remove("active");
+      overlay.classList.remove("active");
+      mostrarMetas();
+    }
   };
 
   confirmBtn.onclick = async () => {
@@ -89,16 +111,41 @@ document.addEventListener("DOMContentLoaded", () => {
       return alert("Completa todos los campos correctamente");
     }
 
-    const nuevaMeta = { nombre, actual, meta };
-
     if (modoEdicion) {
-      metas[metaActual] = nuevaMeta;
+      metas[indexActual].nombre = nombre;
+      metas[indexActual].meta = meta;
     } else {
-      metas.push(nuevaMeta);
+      metas.push({ nombre, actual, meta });
     }
 
     await guardarMetas();
-    popup.classList.remove("active");
+    popupMeta.classList.remove("active");
+    overlay.classList.remove("active");
+    mostrarMetas();
+  };
+
+  cancelMovBtn.onclick = () => {
+    popupMovimiento.classList.remove("active");
+    overlay.classList.remove("active");
+  };
+
+  confirmMovBtn.onclick = async () => {
+    const cantidad = parseFloat(inputCantidad.value);
+    if (isNaN(cantidad) || cantidad <= 0) {
+      return alert("Ingresa un monto válido");
+    }
+
+    if (modoMovimiento === "ingreso") {
+      metas[indexActual].actual += cantidad;
+    } else {
+      if (cantidad > metas[indexActual].actual) {
+        return alert("No puedes retirar más de lo que tienes ahorrado.");
+      }
+      metas[indexActual].actual -= cantidad;
+    }
+
+    await guardarMetas();
+    popupMovimiento.classList.remove("active");
     overlay.classList.remove("active");
     mostrarMetas();
   };
@@ -123,10 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("/metas")
     .then(res => res.json())
     .then(data => {
-      metas = data.metas;
+      metas = data.metas || [];
       mostrarMetas();
     });
-
-  //nv meta btn
-  nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
