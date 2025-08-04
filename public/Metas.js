@@ -39,5 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  window.abrirPopup = function (index, tipo) {
+    metaActual = index;
+    operacion = tipo;
+    popupTitle.textContent = tipo === "ingreso" ? "Ingresar dinero" : "Retirar dinero";
+    cantidadInput.value = "";
+    popup.classList.add("active");
+    overlay.classList.add("active");
+  };
 
+  cancelBtn.onclick = () => {
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
+  };
+
+  
 });
