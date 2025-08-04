@@ -1,174 +1,68 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const metasContainer = document.getElementById("metas-container");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestor de Gastos - Metas</title>
+  <link rel="stylesheet" href="FEstyles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
 
-  const overlay = document.getElementById("overlay");
+<header class="header">
+  <div class="logo-title">
+    <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+    <h1 class="site-title">Gestor de gastos</h1>
+    <h1 class="animate__animated animate__bounce">An animated element</h1>
+  </div>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+</header>
 
-  const metaPopup = document.getElementById("meta-popup");
-  const movimientoPopup = document.getElementById("movimiento-popup");
+<div class="divider"></div>
 
-  const inputNombre = document.getElementById("popup-nombre");
-  const inputActual = document.getElementById("popup-actual");
-  const inputMeta = document.getElementById("popup-meta");
-  const metaPopupTitle = document.getElementById("meta-popup-title");
+<main class="card">
+  <h2 class="title">Mis Metas Financieras</h2>
+  <button class="btn" onclick="abrirPopupNuevaMeta()" style="margin-bottom: 15px;">+ Nueva meta</button>
+  <div id="metas-container"></div>
+</main>
 
-  const movimientoTitle = document.getElementById("movimiento-title");
-  const inputCantidad = document.getElementById("popup-cantidad");
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <ul class="nav-list">
+    <li><a href="Finanzas.html">🏠 Inicio</a></li>
+    <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+    <li><a href="Reportes.html">📊 Reportes</a></li>
+    <li><a href="Metas.html">🐷 Metas</a></li>
+    <li><a href="Metas_editar.html">⚙️ Editar metas</a></li>
+    <li><a href="config.html">🧪 Ajustes</a></li>
+    <li><a href="acerca.html">🗣️ Acerca de</a></li>
+    <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
+  </ul>
+</nav>
 
-  const cancelBtn = document.querySelector(".cancel-btn");
-  const confirmBtn = document.querySelector(".confirm-btn");
-  const cancelMovBtn = document.querySelector(".cancel-mov-btn");
-  const confirmMovBtn = document.querySelector(".confirm-mov-btn");
+<!--ingreso/retiro-->
+<div id="popup" class="popup">
+  <h3 id="popup-title">Movimiento</h3>
+  <input type="number" id="popup-cantidad" placeholder="$0.00" />
+  <div class="popup-buttons">
+    <button class="cancel-btn">Cancelar</button>
+    <button class="confirm-btn">Aceptar</button>
+  </div>
+</div>
 
-  let metas = [];
-  let metaActual = null;
-  let modoEdicion = false;
-  let tipoMovimiento = null; //"ingreso" "retiro"
+<!--nueva/editar-->
+<div id="popup" class="popup">
+  <h3 id="popup-title">Meta</h3>
+  <input type="text" id="popup-nombre" placeholder="Nombre de la meta" />
+  <input type="number" id="popup-actual" placeholder="Cantidad actual" />
+  <input type="number" id="popup-meta" placeholder="Monto meta" />
+  <div class="popup-buttons">
+    <button class="cancel-btn">Cancelar</button>
+    <button class="confirm-btn">Guardar</button>
+  </div>
+</div>
 
-  window.toggleSidebar = function () {
-    document.getElementById("sidebar").classList.toggle("open");
-  };
-
-  function mostrarMetas() {
-    metasContainer.innerHTML = "";
-
-    metas.forEach((m, i) => {
-      const porcentaje = Math.min((m.actual / m.meta) * 100, 100).toFixed(1);
-
-      const div = document.createElement("div");
-      div.className = "gasto-box";
-      div.innerHTML = `
-        <div class="gasto-header">${m.nombre}</div>
-        <p style="margin:8px 0;">💵 ${m.actual.toFixed(2)} / ${m.meta.toFixed(2)}</p>
-        <div style="background:#444; border-radius:8px; overflow:hidden; margin: 8px 0;">
-          <div style="width:${porcentaje}%; height:12px; background:#4aa3ff;"></div>
-        </div>
-        <div style="margin-top:10px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
-          <button class="btn" onclick="abrirMovimiento(${i}, 'ingreso')">➕ Ingreso</button>
-          <button class="btn" onclick="abrirMovimiento(${i}, 'retiro')">➖ Retiro</button>
-          <button class="btn" onclick="abrirPopupEditarMeta(${i})">✏️ Editar</button>
-        </div>
-      `;
-      metasContainer.appendChild(div);
-    });
-  }
-
-  window.abrirPopupNuevaMeta = function () {
-    modoEdicion = false;
-    metaActual = null;
-    metaPopupTitle.textContent = "Nueva meta";
-    inputNombre.value = "";
-    inputActual.value = "";
-    inputMeta.value = "";
-    metaPopup.classList.add("active");
-    overlay.classList.add("active");
-  };
-
-  window.abrirPopupEditarMeta = function (index) {
-    modoEdicion = true;
-    metaActual = index;
-    metaPopupTitle.textContent = "Editar meta";
-    const meta = metas[index];
-    inputNombre.value = meta.nombre;
-    inputActual.value = meta.actual;
-    inputMeta.value = meta.meta;
-    metaPopup.classList.add("active");
-    overlay.classList.add("active");
-
-    //------------elimibnar
-    if (!document.getElementById("delete-btn")) {
-      const btn = document.createElement("button");
-      btn.id = "delete-btn";
-      btn.className = "btn";
-      btn.textContent = "🗑 Eliminar";
-      btn.onclick = () => eliminarMeta(index);
-      metaPopup.querySelector(".popup-buttons").appendChild(btn);
-    }
-  };
-
-  window.abrirMovimiento = function (index, tipo) {
-    metaActual = index;
-    tipoMovimiento = tipo;
-    movimientoTitle.textContent = tipo === "ingreso" ? "Agregar dinero" : "Retirar dinero";
-    inputCantidad.value = "";
-    movimientoPopup.classList.add("active");
-    overlay.classList.add("active");
-  };
-
-  function cerrarPopups() {
-    metaPopup.classList.remove("active");
-    movimientoPopup.classList.remove("active");
-    overlay.classList.remove("active");
-    const btn = document.getElementById("delete-btn");
-    if (btn) btn.remove();
-  }
-
-  cancelBtn.onclick = cerrarPopups;
-  cancelMovBtn.onclick = cerrarPopups;
-
-  confirmBtn.onclick = async () => {
-    const nombre = inputNombre.value.trim();
-    const actual = parseFloat(inputActual.value);
-    const meta = parseFloat(inputMeta.value);
-
-    if (!nombre || isNaN(actual) || isNaN(meta) || actual < 0 || meta <= 0) {
-      return alert("Completa todos los campos correctamente");
-    }
-
-    const nuevaMeta = { nombre, actual, meta };
-
-    if (modoEdicion) {
-      metas[metaActual] = nuevaMeta;
-    } else {
-      metas.push(nuevaMeta);
-    }
-
-    await guardarMetas();
-    cerrarPopups();
-    mostrarMetas();
-  };
-
-  confirmMovBtn.onclick = async () => {
-    const cantidad = parseFloat(inputCantidad.value);
-    if (isNaN(cantidad) || cantidad <= 0) return alert("Ingresa un monto válido");
-
-    if (tipoMovimiento === "ingreso") {
-      metas[metaActual].actual += cantidad;
-    } else if (tipoMovimiento === "retiro") {
-      metas[metaActual].actual -= cantidad;
-      if (metas[metaActual].actual < 0) metas[metaActual].actual = 0;
-    }
-
-    await guardarMetas();
-    cerrarPopups();
-    mostrarMetas();
-  };
-
-  window.eliminarMeta = async function (index) {
-    if (!confirm("¿Estás seguro de eliminar esta meta?")) return;
-    metas.splice(index, 1);
-    await guardarMetas();
-    cerrarPopups();
-    mostrarMetas();
-  };
-
-  async function guardarMetas() {
-    try {
-      const res = await fetch("/guardar-metas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ metas }),
-      });
-      const result = await res.json();
-      if (!res.ok || !result.ok) throw new Error(result.error || "Error");
-    } catch (err) {
-      alert("Error al guardar");
-    }
-  }
-
-  fetch("/metas")
-    .then(res => res.json())
-    .then(data => {
-      metas = data.metas;
-      mostrarMetas();
-    });
-});
+<script src="Metas.js"></script>
+</body>
+</html>
