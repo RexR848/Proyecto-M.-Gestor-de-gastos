@@ -120,6 +120,7 @@ body {
 }
 
 .btn {
+  display: inline-block;
   padding: 12px 24px;
   font-size: 16px;
   background-color: #4aa3ff;
@@ -130,6 +131,7 @@ body {
   transition: background-color 0.3s;
   margin-top: 15px;
 }
+
 
 .btn:hover {
   background-color: #3779cc;
