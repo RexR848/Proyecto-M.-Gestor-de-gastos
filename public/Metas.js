@@ -1,28 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   const metasContainer = document.getElementById("metas-container");
 
-  const popupMeta = document.getElementById("popup-meta");
-  const popupMovimiento = document.getElementById("popup-movimiento");
   const overlay = document.getElementById("overlay");
+
+  const metaPopup = document.getElementById("meta-popup");
+  const movimientoPopup = document.getElementById("movimiento-popup");
 
   const inputNombre = document.getElementById("popup-nombre");
   const inputActual = document.getElementById("popup-actual");
-  const inputMeta = document.getElementById("popup-meta-monto");
-  const confirmBtn = document.querySelector(".confirm-btn");
-  const cancelBtn = document.querySelector(".cancel-btn");
-  const deleteBtn = document.querySelector(".delete-btn");
-  const popupTitle = document.getElementById("popup-meta-title");
+  const inputMeta = document.getElementById("popup-meta");
+  const metaPopupTitle = document.getElementById("meta-popup-title");
 
+  const movimientoTitle = document.getElementById("movimiento-title");
   const inputCantidad = document.getElementById("popup-cantidad");
-  const confirmMovBtn = document.querySelector(".confirm-mov-btn");
+
+  const cancelBtn = document.querySelector(".cancel-btn");
+  const confirmBtn = document.querySelector(".confirm-btn");
   const cancelMovBtn = document.querySelector(".cancel-mov-btn");
-  const popupMovTitle = document.getElementById("popup-movimiento-title");
+  const confirmMovBtn = document.querySelector(".confirm-mov-btn");
 
   let metas = [];
   let metaActual = null;
-  let indexActual = null;
   let modoEdicion = false;
-  let modoMovimiento = "";
+  let tipoMovimiento = null; //"ingreso" "retiro"
 
   window.toggleSidebar = function () {
     document.getElementById("sidebar").classList.toggle("open");
@@ -32,21 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
     metasContainer.innerHTML = "";
 
     metas.forEach((m, i) => {
-      const div = document.createElement("div");
-      div.className = "gasto-box";
-
       const porcentaje = Math.min((m.actual / m.meta) * 100, 100).toFixed(1);
 
+      const div = document.createElement("div");
+      div.className = "gasto-box";
       div.innerHTML = `
         <div class="gasto-header">${m.nombre}</div>
         <p style="margin:8px 0;">💵 ${m.actual.toFixed(2)} / ${m.meta.toFixed(2)}</p>
         <div style="background:#444; border-radius:8px; overflow:hidden; margin: 8px 0;">
           <div style="width:${porcentaje}%; height:12px; background:#4aa3ff;"></div>
         </div>
-        <div style="margin-top:10px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <div style="margin-top:10px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <button class="btn" onclick="abrirMovimiento(${i}, 'ingreso')">➕ Ingreso</button>
+          <button class="btn" onclick="abrirMovimiento(${i}, 'retiro')">➖ Retiro</button>
           <button class="btn" onclick="abrirPopupEditarMeta(${i})">✏️ Editar</button>
-          <button class="btn" onclick="abrirPopupMovimiento(${i}, 'ingreso')">➕ Ingreso</button>
-          <button class="btn" onclick="abrirPopupMovimiento(${i}, 'retiro')">➖ Retiro</button>
         </div>
       `;
       metasContainer.appendChild(div);
@@ -55,52 +54,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.abrirPopupNuevaMeta = function () {
     modoEdicion = false;
-    indexActual = null;
-    popupTitle.textContent = "Agregar nueva meta";
+    metaActual = null;
+    metaPopupTitle.textContent = "Nueva meta";
     inputNombre.value = "";
     inputActual.value = "";
     inputMeta.value = "";
-    deleteBtn.style.display = "none";
-    popupMeta.classList.add("active");
+    metaPopup.classList.add("active");
     overlay.classList.add("active");
   };
 
   window.abrirPopupEditarMeta = function (index) {
     modoEdicion = true;
-    indexActual = index;
-    popupTitle.textContent = "Editar meta";
+    metaActual = index;
+    metaPopupTitle.textContent = "Editar meta";
     const meta = metas[index];
     inputNombre.value = meta.nombre;
     inputActual.value = meta.actual;
     inputMeta.value = meta.meta;
-    deleteBtn.style.display = "inline-block";
-    popupMeta.classList.add("active");
+    metaPopup.classList.add("active");
     overlay.classList.add("active");
-  };
 
-  window.abrirPopupMovimiento = function (index, tipo) {
-    indexActual = index;
-    modoMovimiento = tipo;
-    popupMovTitle.textContent = tipo === "ingreso" ? "Agregar dinero" : "Retirar dinero";
-    inputCantidad.value = "";
-    popupMovimiento.classList.add("active");
-    overlay.classList.add("active");
-  };
-
-  cancelBtn.onclick = () => {
-    popupMeta.classList.remove("active");
-    overlay.classList.remove("active");
-  };
-
-  deleteBtn.onclick = async () => {
-    if (confirm("¿Eliminar esta meta?")) {
-      metas.splice(indexActual, 1);
-      await guardarMetas();
-      popupMeta.classList.remove("active");
-      overlay.classList.remove("active");
-      mostrarMetas();
+    //------------elimibnar
+    if (!document.getElementById("delete-btn")) {
+      const btn = document.createElement("button");
+      btn.id = "delete-btn";
+      btn.className = "btn";
+      btn.textContent = "🗑 Eliminar";
+      btn.onclick = () => eliminarMeta(index);
+      metaPopup.querySelector(".popup-buttons").appendChild(btn);
     }
   };
+
+  window.abrirMovimiento = function (index, tipo) {
+    metaActual = index;
+    tipoMovimiento = tipo;
+    movimientoTitle.textContent = tipo === "ingreso" ? "Agregar dinero" : "Retirar dinero";
+    inputCantidad.value = "";
+    movimientoPopup.classList.add("active");
+    overlay.classList.add("active");
+  };
+
+  function cerrarPopups() {
+    metaPopup.classList.remove("active");
+    movimientoPopup.classList.remove("active");
+    overlay.classList.remove("active");
+    const btn = document.getElementById("delete-btn");
+    if (btn) btn.remove();
+  }
+
+  cancelBtn.onclick = cerrarPopups;
+  cancelMovBtn.onclick = cerrarPopups;
 
   confirmBtn.onclick = async () => {
     const nombre = inputNombre.value.trim();
@@ -111,42 +114,40 @@ document.addEventListener("DOMContentLoaded", () => {
       return alert("Completa todos los campos correctamente");
     }
 
+    const nuevaMeta = { nombre, actual, meta };
+
     if (modoEdicion) {
-      metas[indexActual].nombre = nombre;
-      metas[indexActual].meta = meta;
+      metas[metaActual] = nuevaMeta;
     } else {
-      metas.push({ nombre, actual, meta });
+      metas.push(nuevaMeta);
     }
 
     await guardarMetas();
-    popupMeta.classList.remove("active");
-    overlay.classList.remove("active");
+    cerrarPopups();
     mostrarMetas();
-  };
-
-  cancelMovBtn.onclick = () => {
-    popupMovimiento.classList.remove("active");
-    overlay.classList.remove("active");
   };
 
   confirmMovBtn.onclick = async () => {
     const cantidad = parseFloat(inputCantidad.value);
-    if (isNaN(cantidad) || cantidad <= 0) {
-      return alert("Ingresa un monto válido");
-    }
+    if (isNaN(cantidad) || cantidad <= 0) return alert("Ingresa un monto válido");
 
-    if (modoMovimiento === "ingreso") {
-      metas[indexActual].actual += cantidad;
-    } else {
-      if (cantidad > metas[indexActual].actual) {
-        return alert("No puedes retirar más de lo que tienes ahorrado.");
-      }
-      metas[indexActual].actual -= cantidad;
+    if (tipoMovimiento === "ingreso") {
+      metas[metaActual].actual += cantidad;
+    } else if (tipoMovimiento === "retiro") {
+      metas[metaActual].actual -= cantidad;
+      if (metas[metaActual].actual < 0) metas[metaActual].actual = 0;
     }
 
     await guardarMetas();
-    popupMovimiento.classList.remove("active");
-    overlay.classList.remove("active");
+    cerrarPopups();
+    mostrarMetas();
+  };
+
+  window.eliminarMeta = async function (index) {
+    if (!confirm("¿Estás seguro de eliminar esta meta?")) return;
+    metas.splice(index, 1);
+    await guardarMetas();
+    cerrarPopups();
     mostrarMetas();
   };
 
@@ -157,20 +158,17 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ metas }),
       });
-
       const result = await res.json();
-      if (!res.ok || !result.ok) {
-        alert(result.error || "Error al guardar metas");
-      }
+      if (!res.ok || !result.ok) throw new Error(result.error || "Error");
     } catch (err) {
-      alert("Error de red");
+      alert("Error al guardar");
     }
   }
 
   fetch("/metas")
     .then(res => res.json())
     .then(data => {
-      metas = data.metas || [];
+      metas = data.metas;
       mostrarMetas();
     });
 });
