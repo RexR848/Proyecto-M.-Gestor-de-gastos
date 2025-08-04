@@ -53,5 +53,40 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.classList.remove("active");
   };
 
-  
+  confirmBtn.onclick = async () => {
+    const valor = parseFloat(cantidadInput.value.trim());
+    if (isNaN(valor) || valor <= 0) return alert("Cantidad inválida");
+
+    if (operacion === "ingreso") {
+      metas[metaActual].actual += valor;
+    } else if (operacion === "retiro") {
+      metas[metaActual].actual = Math.max(metas[metaActual].actual - valor, 0);
+    }
+
+    try {
+      const res = await fetch("/guardar-metas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ metas }),
+      });
+
+      const result = await res.json();
+      if (res.ok && result.ok) {
+        popup.classList.remove("active");
+        overlay.classList.remove("active");
+        mostrarMetas();
+      } else {
+        alert(result.error || "Error al guardar.");
+      }
+    } catch (err) {
+      alert("Error de red");
+    }
+  };
+
+  fetch("/metas")
+    .then(res => res.json())
+    .then(data => {
+      metas = data.metas;
+      mostrarMetas();
+    });
 });
