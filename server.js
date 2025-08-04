@@ -275,3 +275,27 @@ app.delete('/eliminar-cuenta', async (req, res) => {
   }
 });
 
+//---------------- Obtener metas ------------------//
+app.get('/metas', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) return res.status(401).json({ ok: false, mensaje: 'No autenticado' });
+
+  const datos = await db.collection('datos').findOne({ email });
+  res.json({ ok: true, metas: datos?.metas || [] });
+});
+
+//-------------------- Guardar metas ----------------------------------------------//
+app.post('/guardar-metas', async (req, res) => {
+  const email = req.cookies?.sesion;
+  if (!email) return res.status(401).json({ ok: false, mensaje: "No autenticado" });
+
+  const { metas } = req.body;
+
+  await db.collection('datos').updateOne(
+    { email },
+    { $set: { metas } },
+    { upsert: true }
+  );
+
+  res.json({ ok: true, mensaje: 'Metas guardadas con éxito' });
+});
