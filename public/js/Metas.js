@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await guardarMetas();
     popup.classList.remove("active");
     overlay.classList.remove("active");
-    location.reload();
+    mostrarMetas();
   };
 
   async function guardarMetas() {
