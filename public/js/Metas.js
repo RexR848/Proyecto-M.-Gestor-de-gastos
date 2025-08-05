@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.classList.remove("active");
     overlay.classList.remove("active");
     mostrarMetas();
-    location.reload();
   };
 
   async function guardarMetas() {
@@ -131,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //nv meta btn
   nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
+<<<<<<< HEAD
 
 // Manejo de cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
@@ -168,3 +168,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+=======
+>>>>>>> a5483d9a44a444346630db6d5c433d01ff1985b3
