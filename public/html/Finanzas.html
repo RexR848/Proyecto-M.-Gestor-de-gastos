@@ -3,41 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>📊 Reportes - Gestor de Gastos</title>
-  <link rel="stylesheet" href="Rstyles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Gestor de Gastos - Vista</title>
+  <link rel="stylesheet" href="../css/Fstyles.css" />
 </head>
 <body>
+
   <header class="header">
-    <div class="logo-title">
+  <div class="logo-title">
     <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
-    <h1>📊 Reportes financieros</h1>
-    </div>
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-  </header>
+    <h1 class="site-title">Gestor de gastos</h1>
+  </div>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+</header>
 
-  <main class="card">
-    <section class="destacados">
-      <h2>📌 DATOS DESTACADOS</h2>
-      <p id="gasto-mas-alto">Cargando...</p>
-      <p id="ahorro-estimado">Cargando...</p>
-    </section>
 
-    <section class="grafico">
-      <h2>📊 Distribución de gastos</h2>
-      <canvas id="grafica-pastel" width="400" height="400"></canvas>
-    </section>
+  <div class="divider"></div>
 
-    <section class="grafico">
-      <h2>📊 Comparación por categoría</h2>
-      <button id="toggle-btn" class="btn">🔁 Alternar vista separada/combinada</button>
-      <div id="grafica-contenedor">
-        <canvas id="grafica-barras-fijos"></canvas>
-        <canvas id="grafica-barras-opcionales"></canvas>
-        <canvas id="grafica-barras-combinada" style="display: none;"></canvas>
+  <main class="container">
+    <div class="card">
+      <h2 class="title">Tu información financiera</h2>
+
+      <section class="info-block">
+        <h3>💰 Ingreso mensual</h3>
+        <p id="ingreso-mensual" class="dato-numero"></p>
+      </section>
+
+      <section class="info-block">
+        <h3>📌 Gastos fijos prioritarios</h3>
+        <div class="gasto-lista" id="lista-fijos"></div>
+      </section>
+
+      <section class="info-block">
+        <h3>💸 Gastos opcionales</h3>
+        <div class="gasto-lista" id="lista-opcionales"></div>
+      </section>
+
+      <div>
+        <a href="Finanzas_editar.html" class="btn">Editar información</a>
       </div>
-    </section>
+    </div>
   </main>
+
   <nav id="sidebar" class="sidebar">
     <button class="close-btn" onclick="toggleSidebar()">×</button>
     <ul class="nav-list">
@@ -58,6 +64,7 @@
       <button class="confirm-btn">Cerrar sesión</button>
     </div>
   </div>
-  <script src="Reporte.js"></script>
+
+  <script src="../js/finanzas.js"></script>
 </body>
 </html>
