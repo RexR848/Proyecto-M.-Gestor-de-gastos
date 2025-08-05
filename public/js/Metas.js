@@ -1,16 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
   const metasContainer = document.getElementById("metas-container");
-
   const popup = document.getElementById("popup");
   const overlay = document.getElementById("overlay");
+
   const inputNombre = document.getElementById("popup-nombre");
   const inputActual = document.getElementById("popup-actual");
   const inputMeta = document.getElementById("popup-meta");
-  const cancelBtn = document.querySelector(".cancel-btn");
-  const confirmBtn = document.querySelector(".confirm-btn");
+
+  const guardarMetaBtn = document.getElementById("guardar-meta-btn");
+  const cancelarMetaBtn = document.getElementById("cancelar-meta-btn");
+
+  const nuevaBtn = document.getElementById("nueva-meta-btn");
   const popupTitle = document.getElementById("popup-title");
 
-  const nuevaBtn = document.getElementById("nueva-meta-btn"); //boton nuevo
   let metas = [];
   let metaActual = null;
   let modoEdicion = false;
@@ -75,18 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarMetas();
   };
 
-  cancelBtn.onclick = () => {
-    popup.classList.remove("active");
-    overlay.classList.remove("active");
-  };
-
-  confirmBtn.onclick = async () => {
+  guardarMetaBtn.onclick = async () => {
     const nombre = inputNombre.value.trim();
     const actual = parseFloat(inputActual.value);
     const meta = parseFloat(inputMeta.value);
 
-    if (!nombre || isNaN(actual) || isNaN(meta) || actual < 0 || meta <= 0) {
-      return alert("Completa todos los campos correctamente");
+    if (!nombre || isNaN(actual) || isNaN(meta) || actual < 0 || meta <= 0 || actual >= meta) {
+      return alert("Completa todos los campos correctamente. El monto actual debe ser menor al monto meta.");
     }
 
     const nuevaMeta = { nombre, actual, meta };
@@ -101,6 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.classList.remove("active");
     overlay.classList.remove("active");
     mostrarMetas();
+  };
+
+  cancelarMetaBtn.onclick = () => {
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
   };
 
   async function guardarMetas() {
@@ -121,23 +123,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   fetch("/metas")
-    .then(res => res.json())
-    .then(data => {
-      metas = data.metas;
+    .then((res) => res.json())
+    .then((data) => {
+      metas = data.metas || [];
       mostrarMetas();
     });
 
-  //nv meta btn
   nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
-
+  
 // Manejo de cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.getElementById("logout-link");
   const overlay = document.getElementById("overlay");
   const popup = document.getElementById("logout-popup");
-  const cancelBtn = document.querySelector(".cancel-btn");
-  const confirmBtn = document.querySelector(".confirm-btn");
+
+  const cancelarSesionBtn = document.getElementById("cancelar-sesion-btn");
+  const confirmarSesionBtn = document.getElementById("confirmar-sesion-btn");
 
   logoutLink.addEventListener("click", function (e) {
     e.preventDefault();
@@ -145,12 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.classList.add("active");
   });
 
-  cancelBtn.addEventListener("click", () => {
+  cancelarSesionBtn.addEventListener("click", () => {
     popup.classList.remove("active");
     overlay.classList.remove("active");
   });
 
-  confirmBtn.addEventListener("click", () => {
+  confirmarSesionBtn.addEventListener("click", () => {
     fetch("/logout", {
       method: "POST",
       credentials: "include",
@@ -158,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.ok) {
-          window.location.href = '../../index.html';
+          window.location.href = "../../index.html";
         } else {
           alert("No se pudo cerrar sesión.");
         }
@@ -166,4 +168,3 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => alert("Error en la comunicación con el servidor."));
   });
 });
-
