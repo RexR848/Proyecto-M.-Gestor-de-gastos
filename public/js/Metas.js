@@ -29,13 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
       div.className = "gasto-box";
 
       const porcentaje = Math.min((m.actual / m.meta) * 100, 100).toFixed(1);
+      const metaCumplida = m.actual >= m.meta;
 
       div.innerHTML = `
         <div class="gasto-header">${m.nombre}</div>
         <p style="margin:8px 0;">💵 ${m.actual.toFixed(2)} / ${m.meta.toFixed(2)}</p>
         <div style="background:#444; border-radius:8px; overflow:hidden; margin: 8px 0;">
-          <div style="width:${porcentaje}%; height:12px; background:#4aa3ff;"></div>
+          <div style="width:${porcentaje}%; height:12px; background:${metaCumplida ? '#27ae60' : '#4aa3ff'};"></div>
         </div>
+        ${metaCumplida ? '<p style="color:#27ae60; margin-top:8px;">🎉 ¡Meta cumplida! ¡Felicidades!</p>' : ''}
         <div style="margin-top:10px; display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn" onclick="abrirPopupEditarMeta(${i})">✏️ Editar</button>
           <button class="btn" onclick="eliminarMeta(${i})">🗑 Eliminar</button>
@@ -82,24 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const actual = parseFloat(inputActual.value);
     const meta = parseFloat(inputMeta.value);
 
-    if (!nombre) {
-      return alert("Por favor, ingresa un nombre para la meta.");
-    }
+    if (!nombre) return alert("Por favor, ingresa un nombre para la meta.");
+    if (isNaN(actual) || isNaN(meta)) return alert("Los montos deben ser números válidos.");
+    if (actual < 0) return alert("La cantidad actual no puede ser negativa.");
+    if (meta <= 0) return alert("El monto meta debe ser mayor que cero.");
 
-    if (isNaN(actual) || isNaN(meta)) {
-      return alert("Los montos deben ser números válidos.");
-    }
-
-    if (actual < 0) {
-      return alert("La cantidad actual no puede ser negativa.");
-    }
-
-    if (meta <= 0) {
-      return alert("El monto meta debe ser mayor que cero.");
-    }
-
-    if (actual >= meta) {
-      return alert("El monto actual no puede ser igual o mayor al monto meta.");
+    // Validación SOLO al crear (no editar)
+    if (!modoEdicion && actual >= meta) {
+      return alert("Al crear una meta, el monto actual debe ser menor al monto meta.");
     }
 
     const nuevaMeta = { nombre, actual, meta };
