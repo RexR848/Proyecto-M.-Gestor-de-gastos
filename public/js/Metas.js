@@ -82,8 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const actual = parseFloat(inputActual.value);
     const meta = parseFloat(inputMeta.value);
 
-    if (!nombre || isNaN(actual) || isNaN(meta) || actual < 0 || meta <= 0 || actual >= meta) {
-      return alert("Completa todos los campos correctamente. El monto actual debe ser menor al monto meta.");
+    if (!nombre) {
+      return alert("Por favor, ingresa un nombre para la meta.");
+    }
+
+    if (isNaN(actual) || isNaN(meta)) {
+      return alert("Los montos deben ser números válidos.");
+    }
+
+    if (actual < 0) {
+      return alert("La cantidad actual no puede ser negativa.");
+    }
+
+    if (meta <= 0) {
+      return alert("El monto meta debe ser mayor que cero.");
+    }
+
+    if (actual >= meta) {
+      return alert("El monto actual no puede ser igual o mayor al monto meta.");
     }
 
     const nuevaMeta = { nombre, actual, meta };
@@ -131,8 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
-  
-// Manejo de cierre de sesión
+
+
+// Cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.getElementById("logout-link");
   const overlay = document.getElementById("overlay");
