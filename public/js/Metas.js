@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.classList.remove("active");
     overlay.classList.remove("active");
     mostrarMetas();
+    location.reload();
   };
 
   async function guardarMetas() {
