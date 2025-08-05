@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       metasContainer.appendChild(div);
     });
+    location.reload();
   }
 
   window.abrirPopupNuevaMeta = function () {
