@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.success) {
           alert("Cuenta eliminada exitosamente.");
           
-          window.location.href = '/index.html'; // Redirige a la página de inicio
+          window.location.href = '../../index.html';
         } else {
           mostrarErrorModal(data.message || "No se pudo eliminar la cuenta.");
         }

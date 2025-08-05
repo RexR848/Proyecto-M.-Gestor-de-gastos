@@ -62,7 +62,7 @@ confirmBtn.addEventListener("click", () => {
   .then(res => res.json())
   .then(data => {
     if (data.ok) {
-      window.location.href = '../index.html';
+      window.location.href = '../../index.html';
     } else {
       alert('No se pudo cerrar sesión.');
     }
