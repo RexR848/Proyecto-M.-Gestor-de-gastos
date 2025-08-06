@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.ok) {
         alert("Cuenta creada correctamente: " + data.mensaje);
-        window.location.href = "public/IniciarSesion.html";
+        window.location.href = "public/html/IniciarSesion.html";
       } else {
         alert("✖️✖️✖️Error: " + (data.error || data.mensaje));
       }
