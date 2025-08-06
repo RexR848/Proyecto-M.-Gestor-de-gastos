@@ -183,19 +183,19 @@ app.post('/recuperar', async (req, res) => {
       to: email,
       subject: 'Recuperar contraseña – Gestor de Gastos',
       html: `
-        <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
-          <h2 style="color: #4aa3ff;">Recuperar tu contraseña</h2>
-          <p>Hola,</p>
-          <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong>Gestor de Gastos</strong>.</p>
-          <p>Haz clic en el siguiente botón para establecer una nueva contraseña. Este enlace expirará en 15 minutos.</p>
-          <p style="text-align: center; margin: 30px 0;">
-            <a href="${resetURL}" style="background-color: #4aa3ff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Cambiar contraseña</a>
-          </p>
-          <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
-          <hr style="margin: 30px 0;">
-          <p style="font-size: 0.9em;">Este correo fue enviado automáticamente. No respondas a este mensaje.</p>
-        </div>
-      `
+        <div style="font-family: Arial, sans-serif; background-color: #1e1e1e; color: #f0f0f0; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.6);">
+        <h2 style="color: #4aa3ff;">🔐 Recuperar tu contraseña</h2>
+        <p>Hola,</p>
+        <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong style="color:#ffffff;">Gestor de Gastos</strong>.</p>
+        <p>Haz clic en el siguiente botón para establecer una nueva contraseña. Este enlace expirará en <strong>15 minutos</strong>.</p>
+        <p style="text-align: center; margin: 30px 0;">
+          <a href="${resetURL}" style="background-color: #4aa3ff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Cambiar contraseña</a>
+        </p>
+        <p style="color: #cccccc;">Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
+        <hr style="border-color: #333; margin: 30px 0;">
+        <p style="font-size: 0.85em; color: #999;">Este correo fue enviado automáticamente. No respondas a este mensaje.</p>
+      </div>
+      `  
     });
 
 
