@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
-        window.location.href = 'public/Finanzas.html';
+        window.location.href = 'public/html/Finanzas.html';
       }
     });
 
