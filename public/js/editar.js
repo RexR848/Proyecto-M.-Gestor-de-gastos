@@ -2,10 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("#formFinanzas");
   const ingresoInput = document.getElementById("ingreso");
 
-  // navbar toggle
-  window.toggleSidebar = function () {
-    document.getElementById("sidebar").classList.toggle("open");
-  };
+  function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("active");
+}
+
+// Cerrar sidebar si se hace clic en el overlay
+document.getElementById("overlay").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("active");
+});
+
 
   // Función para agregar gasto (fijo u opcional)
   window.agregarGasto = function (tipo, nombre = "", monto = "") {
