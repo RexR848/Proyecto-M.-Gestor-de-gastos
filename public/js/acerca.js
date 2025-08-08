@@ -1,8 +1,20 @@
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
+
   sidebar.classList.toggle("open");
+  overlay.classList.toggle("active");
 }
+
+// Cuando el usuario haga clic en el overlay, se cierra la sidebar
+document.getElementById("overlay").addEventListener("click", () => {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+});
+
 
 // Manejo de cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
