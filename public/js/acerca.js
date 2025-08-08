@@ -1,17 +1,32 @@
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
-  sidebar.classList.toggle("open");
+
+  const isOpen = sidebar.classList.toggle("open");
+  overlay.classList.toggle("active", isOpen);
 }
 
-// Manejo de cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.getElementById("logout-link");
   const overlay = document.getElementById("overlay");
   const popup = document.getElementById("logout-popup");
   const cancelBtn = document.querySelector(".cancel-btn");
   const confirmBtn = document.querySelector(".confirm-btn");
+  const sidebar = document.getElementById("sidebar");
 
+  // Cerrar sidebar si se hace clic en overlay
+  overlay.addEventListener("click", () => {
+    if (sidebar.classList.contains("open")) {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("active");
+    }
+    if (popup.classList.contains("active")) {
+      popup.classList.remove("active");
+      overlay.classList.remove("active");
+    }
+  });
+
+  // Manejo de cierre de sesión
   logoutLink.addEventListener("click", function (e) {
     e.preventDefault();
     popup.classList.add("active");
@@ -31,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.ok) {
-          window.location.href = '../../index.html';
+          window.location.href = "../../index.html";
         } else {
           alert("No se pudo cerrar sesión.");
         }
