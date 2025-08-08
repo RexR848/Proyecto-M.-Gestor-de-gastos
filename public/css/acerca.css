@@ -83,7 +83,7 @@ body {
   margin-top: 40px;
 }
 
-/* Sidebar y popup reutilizados del estilo global */
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -93,7 +93,7 @@ body {
   background-color: #1a1a1a;
   padding-top: 60px;
   transition: 0.3s;
-  z-index: 1000;
+  z-index: 1001; /* Aumentado para que esté sobre el overlay */
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -111,6 +111,26 @@ body {
   color: #fff;
   cursor: pointer;
 }
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none; /* No recibe clics si no está activo */
+  transition: opacity 0.3s ease;
+  z-index: 1000; /* Debajo de la sidebar */
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto; /* Solo recibe clics cuando está activo */
+}
+
 
 .nav-list {
   list-style: none;
