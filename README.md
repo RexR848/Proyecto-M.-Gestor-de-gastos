@@ -47,6 +47,7 @@ Si no funciona aun o necesitas entrar en una version funcional, visita nuestra p
 * Discord
 * Render
 * Mongo DB Atlas
+* Librerias de estilo como magic css
 
 --------------------------------------------
 
@@ -56,10 +57,12 @@ Si no funciona aun o necesitas entrar en una version funcional, visita nuestra p
 * Editar y eliminar transacciones
 * Ver resumen de ingresos y egresos
 * Visualización mensual del historial financiero
+* Visualizacion por graficas de los gastos mensuales
+* Creacion de Metas o Objetivos de ahorro
 
 ------------------------------------------------------
 
-## Pruebas básicas
+## Pruebas básicas (para verificar funcionamiento de servidor)
 
 | Escenario            | Acción                    | Resultado esperado                        |
 | -------------------- | ------------------------- | ----------------------------------------- |
@@ -87,4 +90,4 @@ Peralta Uribe Alan
 * Ejecuta `npm install` si es necesario
 * Corre `node server.js` para iniciar el backend
 * Accede desde el navegador para comenzar a usar la app
-* Para mas facilidad solo entra en `https://proyecto-m-gestor-de-gastos.onrender.com`
+* Para mas facilidad solo entra en `https://proyecto-m-gestor-de-gastos.onrender.com` y espera a que cargue la página.
