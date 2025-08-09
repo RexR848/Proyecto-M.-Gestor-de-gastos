@@ -10,12 +10,12 @@
 <body>
 
   <header class="header">
-  <div class="logo-title">
-    <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
-    <h1 class="magictime puffIn">Gestor de gastos</h1>
-  </div>
-  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-</header>
+    <div class="logo-title">
+      <img src="../resources/Logo_Gestor_de_datos.png" alt="Logo" class="logo" />
+      <h1 class="magictime puffIn">Gestor de gastos</h1>
+    </div>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </header>
 
   <div class="divider"></div>
 
@@ -31,6 +31,11 @@
 
       <section class="gasto-box">
         <div class="gasto-header">📌 Gastos fijos prioritarios</div>
+        <!-- Nombres de campos para gastos fijos -->
+        <div style="display:flex; justify-content:center; gap: 30px; margin-bottom: 10px; color:#ccc; font-weight: bold;">
+          <div>Nombre del gasto fijo</div>
+          <div>Monto del gasto fijo</div>
+        </div>
         <div id="errores-fijos" class="errores-gastos"></div>
         <div id="gastos-fijos-container"></div>
         <button type="button" class="btn" onclick="agregarGasto('fijo')">+ Agregar gasto fijo</button>
@@ -38,6 +43,11 @@
 
       <section class="gasto-box">
         <div class="gasto-header">💸 Gastos opcionales</div>
+        <!-- Nombres de campos para gastos opcionales -->
+        <div style="display:flex; justify-content:center; gap: 30px; margin-bottom: 10px; color:#ccc; font-weight: bold;">
+          <div>Nombre del gasto opcional</div>
+          <div>Monto del gasto opcional</div>
+        </div>
         <div id="errores-opcionales" class="errores-gastos"></div>
         <div id="gastos-opcionales-container"></div>
         <button type="button" class="btn" onclick="agregarGasto('opcional')">+ Agregar gasto opcional</button>
@@ -49,28 +59,28 @@
     </form>
   </main>
 
-<!-- Sidebar lateral -->
-<nav id="sidebar" class="sidebar">
-  <button class="close-btn" onclick="toggleSidebar()">×</button>
-  <ul class="nav-list">
-    <li><a href="Finanzas.html">🏠 Inicio</a></li>
-    <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
-    <li><a href="Reportes.html">📊 Reportes</a></li>
-    <li><a href="Metas.html">🏁 Metas</a></li>
-    <li><a href="config.html">⚙️ Ajustes</a></li>
-    <li><a href="acerca.html">🗣️ Acerca de</a></li>
-    <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
-  </ul>
-</nav>
-<!-- Popup de confirmación para cerrar sesión -->
-<div id="overlay" class="overlay"></div>
-  <div id="logout-popup" class="popup">
-    <p>¿Seguro que quieres cerrar sesión?</p>
-    <div class="popup-buttons">
-      <button class="cancel-btn">Cancelar</button>
-      <button class="confirm-btn">Cerrar sesión</button>
+  <!-- Sidebar lateral -->
+  <nav id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <ul class="nav-list">
+      <li><a href="Finanzas.html">🏠 Inicio</a></li>
+      <li><a href="Finanzas_editar.html">✏️ Editar</a></li>
+      <li><a href="Reportes.html">📊 Reportes</a></li>
+      <li><a href="Metas.html">🏁 Metas</a></li>
+      <li><a href="config.html">⚙️ Ajustes</a></li>
+      <li><a href="acerca.html">🗣️ Acerca de</a></li>
+      <li><a href="#" id="logout-link">🚪 Cerrar sesión</a></li>
+    </ul>
+  </nav>
+  <!-- Popup de confirmación para cerrar sesión -->
+  <div id="overlay" class="overlay"></div>
+    <div id="logout-popup" class="popup">
+      <p>¿Seguro que quieres cerrar sesión?</p>
+      <div class="popup-buttons">
+        <button class="cancel-btn">Cancelar</button>
+        <button class="confirm-btn">Cerrar sesión</button>
+      </div>
     </div>
-  </div>
 
   <script src="../js/editar.js"></script>
 </body>
