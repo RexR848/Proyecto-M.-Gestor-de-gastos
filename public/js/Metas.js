@@ -17,9 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let metaActual = null;
   let modoEdicion = false;
 
-  window.toggleSidebar = function () {
-    document.getElementById("sidebar").classList.toggle("open");
-  };
+  function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("active");
+}
+
+// Cerrar sidebar si se hace clic en el overlay
+document.getElementById("overlay").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("active");
+});
 
   function mostrarMetas() {
     metasContainer.innerHTML = "";
