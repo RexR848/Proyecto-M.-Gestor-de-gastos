@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (ahorroEstimado < 0) {
       document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
-      document.getElementById("ahorro-estimado").textContent = "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado. \n Le recomendamos que considere reducir sus gastos opcionales.";
+      document.getElementById("ahorro-estimado").textContent = "⚠️ Debido a que usted tiene gastos que superan su ingreso, no se puede calcular el ahorro estimado. \n Le recomendamos que considere reducir sus gastos.";
       document.getElementById("ahorro-estimado").style.color = "red";
     } else {
       document.getElementById("gasto-mas-alto").textContent = `GASTO MÁS ALTO: ${gastoMasAlto.nombre.toUpperCase()} ($${gastoMasAlto.monto.toFixed(2)})`;
