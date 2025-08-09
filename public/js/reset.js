@@ -13,5 +13,5 @@ document.getElementById("formRestablecer").addEventListener("submit", async (e) 
 
   const data = await res.json();
   alert(data.mensaje);
-  if (data.ok) window.location.href = '..public/html/IniciarSesion.html';
+  if (data.ok) window.location.href = 'IniciarSesion.html';
 });
