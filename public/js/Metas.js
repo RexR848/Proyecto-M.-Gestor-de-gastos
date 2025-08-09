@@ -26,9 +26,23 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.classList.toggle("active");
   };
 
-  // Cerrar sidebar si se hace clic en el overlay
+  // Cerrar sidebar, popup meta o popup cerrar sesión si se hace clic en el overlay
   overlay.addEventListener("click", () => {
+    // Cerrar sidebar
     document.getElementById("sidebar").classList.remove("open");
+
+    // Cerrar popup meta si está abierto
+    if (popup.classList.contains("active")) {
+      popup.classList.remove("active");
+    }
+
+    // Cerrar popup cerrar sesión si está abierto
+    const logoutPopup = document.getElementById("logout-popup");
+    if (logoutPopup.classList.contains("active")) {
+      logoutPopup.classList.remove("active");
+    }
+
+    // Quitar overlay
     overlay.classList.remove("active");
   });
 
