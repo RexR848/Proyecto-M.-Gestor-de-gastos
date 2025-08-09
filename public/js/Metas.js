@@ -17,19 +17,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let metaActual = null;
   let modoEdicion = false;
 
-  function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
+  // Hacer toggleSidebar global para que el onclick del botón lo pueda llamar
+  window.toggleSidebar = function () {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-  sidebar.classList.toggle("open");
-  overlay.classList.toggle("active");
-}
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("active");
+  };
 
-// Cerrar sidebar si se hace clic en el overlay
-document.getElementById("overlay").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("overlay").classList.remove("active");
-});
+  // Cerrar sidebar si se hace clic en el overlay
+  overlay.addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("open");
+    overlay.classList.remove("active");
+  });
 
   function mostrarMetas() {
     metasContainer.innerHTML = "";
@@ -99,7 +100,6 @@ document.getElementById("overlay").addEventListener("click", () => {
     if (actual < 0) return alert("La cantidad actual no puede ser negativa.");
     if (meta <= 0) return alert("El monto meta debe ser mayor que cero.");
 
-    // Validación SOLO al crear (no editar)
     if (!modoEdicion && actual >= meta) {
       return alert("Al crear una meta, el monto actual debe ser menor al monto meta.");
     }
@@ -149,7 +149,6 @@ document.getElementById("overlay").addEventListener("click", () => {
 
   nuevaBtn.addEventListener("click", abrirPopupNuevaMeta);
 });
-
 
 // Cierre de sesión
 document.addEventListener("DOMContentLoaded", () => {
