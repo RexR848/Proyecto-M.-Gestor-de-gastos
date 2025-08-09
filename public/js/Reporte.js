@@ -196,8 +196,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 //navbar
 function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("active");
 }
+
+// Cerrar sidebar si se hace clic en el overlay
+document.getElementById("overlay").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("active");
+});
 
 //Logica para cerrar sesión
 const logoutLink = document.getElementById("logout-link");
