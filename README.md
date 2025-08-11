@@ -6,7 +6,7 @@ Proyecto Gestor de datos es una aplicación web diseñada para llevar un control
 
 Incluye una interfaz web y un servidor backend que se encarga de ciertas funcionalidades de la pagina.
 
-la mayoria del proyecto fue extraido de los cursos de udemy
+La mayoria del proyecto fue extraido de los cursos de udemy
 
 -----------------------------------------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ Si no funciona aun o necesitas entrar en una version funcional, visita nuestra p
 * Ver resumen de ingresos y egresos
 * Visualización mensual del historial financiero
 * Visualizacion por graficas de los gastos mensuales
-* Creacion de Metas o Objetivos de ahorro
+* Creacion de Metas u Objetivos de ahorro
 
 ------------------------------------------------------
 
@@ -75,7 +75,7 @@ Si no funciona aun o necesitas entrar en una version funcional, visita nuestra p
 
 ## Creditos
 
-Hernández Posadas Jose Armando
+Hernández Posadas José Armando
 
 
 
@@ -86,8 +86,8 @@ Peralta Uribe Alan
 
 ## Resumen
 
-* Clona el repositorio
-* Ejecuta `npm install` si es necesario
-* Corre `node server.js` para iniciar el backend
-* Accede desde el navegador para comenzar a usar la app
+* Clona el repositorio.
+* Ejecuta `npm install` si es necesario.
+* Corre `node server.js` para iniciar el backend.
+* Accede desde el navegador para comenzar a usar la app.
 * Para mas facilidad solo entra en `https://proyecto-m-gestor-de-gastos.onrender.com` y espera a que cargue la página.
